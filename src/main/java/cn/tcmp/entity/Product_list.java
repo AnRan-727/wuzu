@@ -3,7 +3,7 @@ package cn.tcmp.entity;
 import lombok.Data;
 
 /**
- * product_list  generated at 2019-06-26 13:37:47 by: eric
+ * product_list  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
 public class Product_list{
@@ -13,7 +13,7 @@ public class Product_list{
 	private int Item_ID;
 	private String Product_Code;
 	private String Product_Name;
-	private String Product_orientation;
+	private int Products_To_Id;
 	private String Investment_Consultant;
 	private String Distribution_channel;
 	private String structure_type;
@@ -84,12 +84,12 @@ public class Product_list{
 		return Product_Name;
 	}
 
-	public void setProduct_orientation(String Product_orientation){
-		this.Product_orientation=Product_orientation;
+	public void setProducts_To_Id(int Products_To_Id){
+		this.Products_To_Id=Products_To_Id;
 	}
 
-	public String getProduct_orientation(){
-		return Product_orientation;
+	public int getProducts_To_Id(){
+		return Products_To_Id;
 	}
 
 	public void setInvestment_Consultant(String Investment_Consultant){

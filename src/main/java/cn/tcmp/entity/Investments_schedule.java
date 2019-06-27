@@ -3,7 +3,7 @@ package cn.tcmp.entity;
 import lombok.Data;
 
 /**
- * investments_schedule  generated at 2019-06-26 13:37:47 by: eric
+ * investments_schedule  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
 public class Investments_schedule{

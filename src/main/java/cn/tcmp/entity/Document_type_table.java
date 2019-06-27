@@ -4,7 +4,7 @@ import lombok.Data;
 import java.sql.*;
 
 /**
- * document_type_table  generated at 2019-06-26 13:37:47 by: eric
+ * document_type_table  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
 public class Document_type_table{

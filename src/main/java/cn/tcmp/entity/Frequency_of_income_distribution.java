@@ -3,7 +3,7 @@ package cn.tcmp.entity;
 import lombok.Data;
 
 /**
- * frequency_of_income_distribution  generated at 2019-06-26 13:37:47 by: eric
+ * frequency_of_income_distribution  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
 public class Frequency_of_income_distribution{

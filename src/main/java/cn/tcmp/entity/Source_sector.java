@@ -3,11 +3,10 @@ package cn.tcmp.entity;
 import lombok.Data;
 
 /**
- * source_sector  generated at 2019-06-26 13:37:47 by: eric
+ * source_sector  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
 public class Source_sector{
-
 	private int Source_ID;
 	private String Source_Name;
 

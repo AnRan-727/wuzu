@@ -1,10 +1,9 @@
 package cn.tcmp.entity;
 
 import lombok.Data;
-import org.springframework.stereotype.Repository;
 
 /**
- * investment_direction_table  generated at 2019-06-26 13:37:47 by: eric
+ * investment_direction_table  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
 public class Investment_direction_table{
