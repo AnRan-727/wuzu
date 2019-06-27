@@ -6,24 +6,14 @@ import lombok.Data;
  * frequency_of_income_distribution  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
+/**
+ * 收益分配频度
+ * */
 public class Frequency_of_income_distribution{
+
 	private int Income_Distribution_FrequencyID;
 	private String Frequency_Of_IncomeDistribution_Name;
 
-	public void setIncome_Distribution_FrequencyID(int Income_Distribution_FrequencyID){
-		this.Income_Distribution_FrequencyID=Income_Distribution_FrequencyID;
-	}
 
-	public int getIncome_Distribution_FrequencyID(){
-		return Income_Distribution_FrequencyID;
-	}
-
-	public void setFrequency_Of_IncomeDistribution_Name(String Frequency_Of_IncomeDistribution_Name){
-		this.Frequency_Of_IncomeDistribution_Name=Frequency_Of_IncomeDistribution_Name;
-	}
-
-	public String getFrequency_Of_IncomeDistribution_Name(){
-		return Frequency_Of_IncomeDistribution_Name;
-	}
 
 }
