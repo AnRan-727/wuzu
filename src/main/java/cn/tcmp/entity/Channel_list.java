@@ -12,7 +12,7 @@ import lombok.Data;
  * 公司表 & 渠道表
  * */
 public class Channel_list{
-	private int ID;
+	private int channel_ID;
 	private Channel_type Channel_type_ID;//渠道类型ID
 	private String Corporate_name;
 	private String introduce;

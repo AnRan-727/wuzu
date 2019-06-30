@@ -1,12 +1,14 @@
 package cn.tcmp.entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.Date;
+import lombok.NoArgsConstructor;
 
 /**
  * item_sheet  generated at 2019-06-27 15:55:25 by: eric
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 /**
  * 项目表
  * */
@@ -20,8 +22,8 @@ public class Item_sheet{
 	private String Project_size_capitalization;
 	private int Project_duration;
 	private String Term_Unit;
-	private Date Date_of_establishment;
-	private Date Maturity_Date;
+	private String Date_of_establishment;
+	private String Maturity_Date;
 	private String Financers;
 	private Product_classification_table Product_classification_ID;//产品分类ID
 	private Channel_list Channel_table_ID;//渠道表ID
