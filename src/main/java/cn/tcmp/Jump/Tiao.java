@@ -66,7 +66,11 @@ public class Tiao {
     public  String toQuDaoXinJian(){
         return "QuDaoGuanLi/XinJian/QuDaoXinJian";
     }
-
+    /*//项目查询
+    @RequestMapping(value = "XiangMuChaXun")
+    public  String toXiangMuChaXun(){
+        return "XiangMuGuanLi/ChaXun";
+    }*/
 
 
 
