@@ -99,7 +99,7 @@
                 <td>产品经理A</td>
                 <td>产品经理B</td>
             </tr>
-            <tr th:each="sheet:${items}" th:object="${sheet}">
+            <tr th:each="sheet:${page.list}" th:object="${sheet}">
                 <td th:text="*{Item_ID}"></td>
                 <td align="center">
                     <button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
@@ -123,7 +123,7 @@
                 <td th:text="*{Product_Manager_B}"></td>
             </tr>
         </table>
-        <div id="demo7" align="center"></div>
+        <div id="demo6" align="center"></div>
     </div>
 
 
@@ -132,12 +132,15 @@
         layui.use(['laypage', 'layer'], function() {
             var laypage = layui.laypage
                 , layer = layui.layer;
+            var pageNum=
             laypage.render({
-                elem: 'demo7'
-                , count: 100
-                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                , jump: function (obj) {
-                    console.log(obj)
+                elem: 'demo6'
+                ,count: 50
+                ,layout: ['prev', 'next']
+                ,jump: function(obj, first){
+                    if(!first){
+                        layer.msg('第 '+ obj.curr +' 页');
+                    }
                 }
             });
         })

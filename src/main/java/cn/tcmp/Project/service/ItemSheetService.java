@@ -4,6 +4,7 @@ import cn.tcmp.entity.Channel_list;
 import cn.tcmp.entity.Item_sheet;
 import cn.tcmp.entity.Item_type_table;
 import cn.tcmp.entity.Product_classification_table;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface ItemSheetService {
     //查询所有项目
-    List<Item_sheet> queryAllItem_sheet(Item_sheet item_sheet);
+    PageInfo<Item_sheet> queryAllItem_sheet(Integer pageNo, Integer pageSize, Item_sheet item_sheet);
     //查询产品分类(下拉框)
     List<Product_classification_table> queryAllProduct();
     //查询项目类型(下拉框)
