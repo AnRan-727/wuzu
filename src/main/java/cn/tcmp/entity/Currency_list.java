@@ -9,7 +9,7 @@ import lombok.Data;
 /**
  * 币种表
  */
-public class Currency_list{
+public class Currency_list {
 
 	private int CurrencyID;
 	private String CurrencyName;
