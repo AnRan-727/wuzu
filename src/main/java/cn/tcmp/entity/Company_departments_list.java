@@ -7,12 +7,12 @@ import lombok.Data;
  */
 @Data
 public class Company_departments_list{
-	private int Department_ID;
-	private Channel_list Company_ID;//公司ID||渠道ID
-	private String Department_name;
-	private String Departmental_Contacts;
-	private String Introduction_of_Departmental_Contacts;
-	private String Departmental_Introduction;
+	private int DepartmentID;
+	private Channel_list CompanyID;//公司ID||渠道ID
+	private String Departmentname;
+	private String DepartmentalContacts;
+	private String IntroductionofDepartmentalContacts;
+	private String DepartmentalIntroduction;
 
 
 

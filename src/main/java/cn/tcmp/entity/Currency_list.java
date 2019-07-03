@@ -11,8 +11,8 @@ import lombok.Data;
  */
 public class Currency_list{
 
-	private int Currency_ID;
-	private String Currency_Name;
+	private int CurrencyID;
+	private String CurrencyName;
 
 
 

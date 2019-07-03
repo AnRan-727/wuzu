@@ -12,18 +12,18 @@ import java.sql.*;
  * 净值表
 * */
 public class Net_value_table{
-	private int Net_Worth_ID;
-	private Product_list Product_ID;//产品ID
-	private Income_type_statement Income_Type_ID;//收益类型ID
-	private String Set_Up_Batch;
-	private String Net_Worth;
-	private String Cumulative_Net_Worth;
-	private String Extremely_Profitable;
-	private String Rate_Of_Return;
-	private Date Valuation_Date;
-	private Date Date_Of_Publication;
-	private int Operator_ID;//操作人ID
-	private Timestamp Operating_Date;
+	private int NetWorthID;
+	private Product_list ProductID;//产品ID
+	private Income_type_statement IncomeTypeID;//收益类型ID
+	private String SetUpBatch;
+	private String NetWorth;
+	private String CumulativeNetWorth;
+	private String ExtremelyProfitable;
+	private String RateOfReturn;
+	private Date ValuationDate;
+	private Date DateOfPublication;
+	private int OperatorID;//操作人ID
+	private Timestamp OperatingDate;
 
 
 

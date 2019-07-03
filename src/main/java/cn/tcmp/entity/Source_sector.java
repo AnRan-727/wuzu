@@ -10,6 +10,6 @@ import lombok.Data;
  * 来源方部门
  * */
 public class Source_sector{
-	private int Source_ID;
-	private String Source_Name;
+	private int SourceID;
+	private String SourceName;
 }

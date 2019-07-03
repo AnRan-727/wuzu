@@ -11,8 +11,8 @@ import lombok.Data;
  * */
 public class Frequency_of_income_distribution{
 
-	private int Income_Distribution_FrequencyID;
-	private String Frequency_Of_IncomeDistribution_Name;
+	private int IncomeDistributionFrequencyID;
+	private String FrequencyOfIncomeDistributionName;
 
 
 

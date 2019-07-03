@@ -10,8 +10,8 @@ import lombok.Data;
  * 推送方向
  * */
 public class Push_direction_table{
-	private int Push_Direction_ID;
-	private String Push_Direction_Name;
+	private int PushDirectionID;
+	private String PushDirectionName;
 
 
 

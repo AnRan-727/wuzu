@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.tcmp.Material.mapper.Material_period_Mapper">
+    <resultMap id="mpMap" type="cn.tcmp.entity.Material_period" autoMapping="true">
+        <id column="MaterialPeriodID" property="MaterialPeriodID"></id>
+        <collection property="PushDirectionID" resultMap="pushMap"></collection>
+    </resultMap>
+    <resultMap id="pushMap" type="cn.tcmp.entity.Push_direction_table" autoMapping="true">
+        <id column="PushDirectionID" property="PushDirectionID"></id>
+    </resultMap>
+    <!--按材料时期名称和操作时间模糊查询所有的材料时期-->
+    <select id="queryAllMaterial_period" resultMap="mpMap" parameterType="cn.tcmp.entity.Material_period">
+        select * from Material_period mp, push_direction_table pdt
+        where  mp.`PushDirectionID` = pdt.`PushDirectionID`
+            <if test="MaterialPeriodName != null and MaterialPeriodName != ''">
+                and mp.MaterialPeriodName like concat('%',#{MaterialPeriodName},'%')
+            </if>
+            <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+                and mp.OperatingTime BETWEEN #{startTime} and #{endTime}
+            </if>
+    </select>
+    <!--查询单条的材料时期-->
+    <select id="queryMaterial_periodById" parameterType="int" resultMap="mpMap">
+        SELECT * FROM Material_Period mp, push_direction_table pdt
+        where  mp.`PushDirectionID` = pdt.`PushDirectionID` and  mp.MaterialPeriodID = #{id}
+    </select>
+    <!--修改材料时期-->
+    <update id="updateMaterial_period" parameterType="cn.tcmp.entity.Material_period">
+        UPDATE Material_Period(MaterialPeriodName,NoteDescription)
+    SET MaterialPeriodName = #{MaterialPeriodName} ,NoteDescription = #{NoteDescription}
+    WHERE MaterialPeriodID = #{MaterialPeriodID}
+    </update>
+    <!--增加材料时期-->
+    <insert id="addMaterial_period" parameterType="cn.tcmp.entity.Material_period">
+        INSERT INTO Material_Period(MaterialPeriodName,PushDirectionID,IsNotPush,NoteDescription,OperatorID,OperatingTime)
+        VALUES(#{MaterialPeriodName},#{PushDirectionID.PushDirectionID},#{IsNotPush},#{NoteDescription},1,NOW())
+    </insert>
+
+</mapper>

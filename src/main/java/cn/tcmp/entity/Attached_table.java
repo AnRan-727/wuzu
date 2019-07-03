@@ -8,14 +8,14 @@ import java.sql.*;
  */
 @Data
 public class Attached_table{
-	private int Attached_ID;
-	private String Attachment_Name;
-	private String Attachment_Path;
-	private String Attachment_Size;
-	private int Creator_ID;//创建人ID
-	private Timestamp Creation_Time;
-	private Item_sheet Project_ID;//项目ID
-	private String Annex_Description;
+	private int AttachedID;
+	private String AttachmentName;
+	private String AttachmentPath;
+	private String AttachmentSize;
+	private int CreatorID;//创建人ID
+	private Timestamp CreationTime;
+	private Item_sheet ProjectID;//项目ID
+	private String AnnexDescription;
 
 
 }

@@ -10,8 +10,8 @@ import lombok.Data;
  * 投资方向
  * */
 public class Investment_direction_table{
-	private int Investment_Direction_ID;
-	private String nvestment_Direction_Name;
+	private int InvestmentDirectionID;
+	private String nvestmentDirectionName;
 
 
 

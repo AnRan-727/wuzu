@@ -10,8 +10,8 @@ import lombok.Data;
  * 投资方式
  * */
 public class Investments_schedule{
-	private int Investment_Mode_ID;
-	private String Investment_Mode_Name;
+	private int InvestmentModeID;
+	private String InvestmentModeName;
 
 
 }

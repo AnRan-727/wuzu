@@ -16,63 +16,56 @@
             <div class="layui-card">
                 <div class="layui-card-header">文档类型查询</div>
                 <div class="layui-card-body" align="center">
-                    <form class="layui-form" action="" >
+                    <form class="layui-form" id="form" >
                         <table border="1" class="layui-table">
                             <tr>
                                 <td>材料时期</td>
                                 <td>
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                    <input type="text" th:value="${MaterialPeriodName}" name="MaterialPeriodName" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                                 </td>
                                 <td>操作时间</td>
                                 <td>
-                                    <input type="text" class="layui-input" id="test10" placeholder=" - ">(时间区间范围)
+                                    <input type="text" th:value="${dateTime}" name="datetime" class="layui-input" id="test10" placeholder=" - ">(时间区间范围)
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
+                                    <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" onclick="queryMaterial()">查询</button>
                                 </td>
                                 <td colspan="2">
-                                    <button type="button" class="layui-btn layui-btn-radius">重置</button>
+                                    <button type="button" class="layui-btn layui-btn-radius" onclick="ChongZhi()">重置</button>
                                 </td>
                             </tr>
                         </table>
-                    </form>
+
 
 
                     <button type="button" class="layui-btn layui-btn-warm layui-btn-radius">新建</button>
                     <table class="layui-table">
                         <tr>
                             <th>操作</th>
-                            <th>ID</th>
-                            <th>用户名</th>
-                            <th>性别</th>
-                            <th>城市</th>
-                            <th>签名</th>
-                            <th>积分</th>
-                            <th>职业</th>
-                            <th>财富</th>
-                            <th>评分</th>
+                            <th>材料时期</th>
+                            <th>推送方向</th>
+                            <th>备注说明</th>
+                            <th>操作人</th>
+                            <th>操作时间</th>
                         </tr>
-                        <tr>
+                        <tr th:each="list:${material.list}" th:object="${list}">
                             <td>
-                                <a href="">修改</a>
+                                <a th:href="@{toUpdateMaterial(id=*{MaterialPeriodID})}">修改</a>
                                 <a href="">删除</a>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td th:text="*{MaterialPeriodName}"></td>
+                            <td th:text="*{PushDirectionID.PushDirectionName}"></td>
+                            <td th:text="*{NoteDescription}"></td>
+                            <td th:text="*{OperatorID}"></td>
+                            <td th:text="*{OperatingTime}"></td>
                         </tr>
                     </table>
-                    <input name="pageNumber" th:value="1" type="hidden"/><!--//第几页-->
-                    <input name="total" th:value="40" type="hidden"/><!--//一共多少行数据-->
+                    <input name="pageNumber" th:value="${material.pageNum}" type="hidden"/><!--//第几页-->
+                    <input name="total" th:value="${material.total}" type="hidden"/><!--//一共多少行数据-->
                     <center><div id="demo7"></div></center>
+                    </form>
                 </div>
             </div>
         </div>
@@ -83,15 +76,16 @@
     var total=0;
     var pageNum=0;
     $(function(){
+        var data = $("#form").serialize();
         total=$("[name='total']").val();
-        pageNum=$("[name='pageNumer']").val();
+        pageNum=$("[name='pageNumber']").val();
         layui.use([ 'laypage', 'layer' ], function() {
             var laypage = layui.laypage, layer = layui.layer;
             laypage.render({
                 elem : 'demo7',
                 count : total
                 ,curr: pageNum,
-                limit:2//每页几个,需要修改
+                limit:5//每页几个,需要修改
                 ,
                 layout : [ 'count', 'prev', 'page', 'next',  'refresh',
                     'skip', ],
@@ -100,25 +94,41 @@
                     if(!first){
                         //do something
                         $("[name='pageNumber']").val(obj.curr);
-                        $("form").submit();
+                        $("#form").attr("action","queryMaterial?"+data+"&pageNumber="+pageNum).submit();
                     }
                 }
             });
         });
     });
 
+    /*查询文档类型*/
+    function queryMaterial(){
+        var data = $("#form").serialize();
+        $("#form").attr("action","queryMaterial?"+data+"&pageNumber="+pageNum).submit();
+
+    }
+    /*重置*/
+    function ChongZhi(){
+        $("input[name='MaterialPeriodName']").html();
+        $("input[name='datetime']").html();
+    }
     //时间控件
     layui.use('laydate', function(){
         var laydate = layui.laydate;
-
         //日期时间范围
         laydate.render({
             elem: '#test10'
             ,type: 'datetime'
             ,range: true
+            ,done: function(value, date, endDate){
+                //alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+
         });
 
     });
+
 </script>
 </body>
 </html>

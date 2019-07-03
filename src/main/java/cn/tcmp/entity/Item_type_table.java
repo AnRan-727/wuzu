@@ -10,8 +10,8 @@ import lombok.Data;
  * 项目类型
  * */
 public class Item_type_table{
-	private int Item_Type_ID;
-	private String Item_Type_Name;
+	private int ItemTypeID;
+	private String ItemTypeName;
 
 
 }

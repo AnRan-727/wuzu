@@ -21,22 +21,22 @@
                         <tr>
                             <td>材料时期:</td>
                             <td>
-                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入材料时期" class="layui-input">
+                                <input type="text" th:value="${material.MaterialPeriodName}" name="MaterialPeriodName" lay-verify="title" autocomplete="off" placeholder="输入材料时期" class="layui-input">
                             </td>
                             <td>推送方向:</td>
-                            <td>(返显)</td>
+                            <td th:text="${material.PushDirectionID.PushDirectionName}"></td>
                         </tr>
                         <tr>
                             <td>备注说明:</td>
                             <td>
-                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                <input type="text" th:value="${material.NoteDescription}" name="NoteDescription" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                             </td>
                             <td>操作人:</td>
-                            <td>(返显)</td>
+                            <td th:text="${material.OperatorID}"></td>
                         </tr>
                         <tr>
                             <td>操作时间:</td>
-                            <td colspan="3">(返显)</td>
+                            <td colspan="3" th:text="${material.OperatingTime}"></td>
                         </tr>
                     </table>
 
@@ -52,26 +52,55 @@
                                 <td>查看权限</td>
                                 <td>备注说明</td>
                             </tr>
-
-                            <tr>
+                            <tr th:each="item:${list}" th:object="${item}">
                                 <td>
                                     <a href="">修改</a>
                                     <a href="">删除</a>
                                 </td>
                                 <td>
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                    <input type="text" th:value="*{DocumentTypeName}" name="DocumentTypeName" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                                 </td>
                                 <td>
-                                    <select name="" class="layui-select">
+                                    <select name="NecessaryToGoOnline" th:if="*{NecessaryToGoOnline == 1}" class="layui-select">
+                                        <option value="1" selected="selected">是</option>
+                                        <option value="0">否</option>
+                                    </select>
+                                    <select name="NecessaryToGoOnline" th:if="*{NecessaryToGoOnline == 0}" class="layui-select">
+                                        <option value="1">是</option>
+                                        <option value="0" selected="selected">否</option>
+                                    </select>
+                                </td>
+                                <td th:text="*{MaintenanceAuthority}">
+
+                                </td>
+                                <td th:text="*{ViewingPermissions}">
+
+                                </td>
+                                <td>
+                                    <input type="text" th:value="*{NoteDescription}" name="NoteDescription" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <input type="text" name="title" lay-verify="DocumentTypeName" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                </td>
+                                <td>
+                                    <select name="NecessaryToGoOnline" class="layui-select">
                                         <option value="1">是</option>
                                         <option value="0">否</option>
                                     </select>
                                 </td>
                                 <td>
-
+                                    <input type="text" name="MaintenanceAuthority" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                                 </td>
                                 <td>
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                    <input type="text" name="ViewingPermissions" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                </td>
+                                <td>
+                                    <input type="text" name="NoteDescription" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                                 </td>
                             </tr>
                         </table>

@@ -10,8 +10,8 @@ import lombok.Data;
  * 收益分配方式表
  * */
 public class Distribution_of_income{
-	private int Income_Distribution_ID;
-	private String Income_Distribution_Name;
+	private int IncomeDistributionID;
+	private String IncomeDistributionName;
 
 
 

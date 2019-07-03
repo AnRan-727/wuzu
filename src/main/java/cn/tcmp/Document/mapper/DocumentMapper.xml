@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.tcmp.Document.mapper.DocumentMapper">
+
+    <resultMap id="docMap" type="cn.tcmp.entity.Document_type_table" autoMapping="true">
+        <id column="DocumentTypeID" property="DocumentTypeID"></id>
+        <association property="MaterialPeriodID" resultMap="mpMap"></association>
+    </resultMap>
+
+    <resultMap id="mpMap" type="cn.tcmp.entity.Material_period" autoMapping="true">
+        <id column="MaterialPeriodID" property="MaterialPeriodID"></id>
+    </resultMap>
+
+    <!--查询单个材料时期下所有的文档类型-->
+    <select id="queryDocumentById" parameterType="int" resultType="cn.tcmp.entity.Document_type_table">
+        select * from document_type_table dtt , Material_Period mp
+        where dtt.`MaterialPeriodID` = mp.`MaterialPeriodID`
+        and mp.`MaterialPeriodID` = #{id}
+    </select>
+
+    <!--修改文档类型-->
+    <update id="updateDocument" parameterType="cn.tcmp.entity.Document_type_table">
+        UPDATE `document_type_table`(DocumentTypeName,MaintenanceAuthority,ViewingPermissions,NoteDescription)
+        SET DocumentTypeName = #{DocumentTypeName},MaintenanceAuthority = #{MaintenanceAuthority},ViewingPermissions = #{ViewingPermissions},NoteDescription = #{NoteDescription}
+        WHERE DocumentTypeID =#{DocumentTypeID}
+    </update>
+
+    <!--增加文档类型-->
+    <insert id="addDocument" parameterType="cn.tcmp.entity.Document_type_table">
+        INSERT INTO document_type_table(DocumentTypeName,MaterialPeriodID,NecessaryToGoOnline,MaintenanceAuthority,ViewingPermissions,NoteDescription)
+        VALUES(#{DocumentTypeName},#{MaterialPeriodID.MaterialPeriodID},#{NecessaryToGoOnline},#{MaintenanceAuthority},#{ViewingPermissions},#{NoteDescription})
+    </insert>
+
+
+
+
+</mapper>

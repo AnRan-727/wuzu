@@ -10,33 +10,33 @@ import lombok.Data;
  * 产品表
  * */
 public class Product_list{
-	private int Product_ID;
-	private Product_classification_table Product_Classification_ID;//产品分类ID
-	private Item_sheet Item_ID;//项目ID
-	private String Product_Code;
-	private String Product_Name;
-	private Product_investment Products_To_Id;//产品投向ID
-	private String Investment_Consultant;
-	private String Distribution_channel;
-	private String structure_type;
-	private String Contract_prefix;
-	private String Product_Risk_Level;
-	private String Suitable_for_Customer_Risk_Level;
-	private String Product_Description;
+	private int ProductID;
+	private Product_classification_table ProductClassificationID;//产品分类ID
+	private Item_sheet ItemID;//项目ID
+	private String ProductCode;
+	private String ProductName;
+	private Product_investment ProductsToId;//产品投向ID
+	private String InvestmentConsultant;
+	private String Distributionchannel;
+	private String structuretype;
+	private String Contractprefix;
+	private String ProductRiskLevel;
+	private String SuitableforCustomerRiskLevel;
+	private String ProductDescription;
 	private String Remarks;
-	private String Income_type;
-	private String Income_distribution_cycle;
-	private String Profit_Distribution_Description;
-	private String Open_cycle;
-	private String Open_Period_Description;
-	private String Closure_period;
-	private String Closed_period_unit;
-	private String Is_it_redeemable;
-	private String Redemption_Rate;
-	private String Redemption_Restriction;
-	private String Is_Addition_Permissible;
-	private int Operations_Manager_A;
-	private int Operations_Manager_B;
+	private String Incometype;
+	private String Incomedistributioncycle;
+	private String ProfitDistributionDescription;
+	private String Opencycle;
+	private String OpenPeriodDescription;
+	private String Closureperiod;
+	private String Closedperiodunit;
+	private String Isitredeemable;
+	private String RedemptionRate;
+	private String RedemptionRestriction;
+	private String IsAdditionPermissible;
+	private int OperationsManagerA;
+	private int OperationsManagerB;
 
 
 

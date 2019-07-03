@@ -10,8 +10,8 @@ import lombok.Data;
  * 产品投向
  * */
 public class Product_investment{
-	private int Products_To_Id;
-	private String Products_To_Name;
+	private int ProductsToId;
+	private String ProductsToName;
 
 
 
