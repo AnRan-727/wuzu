@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="UTF-8">
 		<title>净值查询</title>
@@ -182,7 +182,8 @@
 						估值日期：
 					</td>
 					<td>
-						<input type="text"placeholder="输入文本"  class="layui-input"/>
+						<input type="date"placeholder="输入文本"  class="layui-input"/>
+
 					</td>
 				</tr>
 
@@ -236,83 +237,67 @@
         <td>操作人</td>
         <td>操作日期</td>
    	 </tr>
-    <tr class="tr">
+
+    <tr class="tr" th:each="item:${jingzhiPage.list}" th:object="${item}">
 		<td>
 			<a href="">
-				<i class="layui-icon-edit">&#xe642;</i>
+				<i class="layui-icon"></i>
 			</a>
 			<a href="">
-				<i class="layui-icon-delete">&#xe640;</i>
+				<i class="layui-icon"></i>
 			</a>
-
 		</td>
-		<td>产品代码</td>
-		<td>产品名称</td>
-		<td>收益类型</td>
-		<td>成立批次</td>
-		<td>净值</td>
-		<td>累计净值</td>
-		<td>每万份收益</td>
-		<td>七日年化收益率（%）</td>
-		<td>估值日期</td>
-		<td>发布日期</td>
-		<td>操作人</td>
-		<td>操作日期</td>
+		<td th:text="*{ProductID.ProductCode}"></td>
+		<td th:text="*{ProductID.ProductName}">产品名称</td>
+		<td th:text="*{IncomeTypeID.IncomeTypeName}">收益类型</td>
+		<td th:text="*{SetUpBatch}">成立批次</td>
+		<td th:text="*{NetWorth}">净值</td>
+		<td th:text="*{CumulativeNetWorth}">累计净值</td>
+		<td th:text="*{ExtremelyProfitable}">每万份收益</td>
+		<td th:text="*{RateOfReturn}">七日年化收益率（%）</td>
+		<td th:text="*{ValuationDate}">估值日期</td>
+		<td th:text="*{DateOfPublication}">发布日期</td>
+		<td th:text="*{OperatorID}">操作人</td>
+		<td th:text="*{OperatingDate}">操作日期</td>
     </tr>
-			<tr class="tr">
-				<td>
-					<a href="">
-						<i class="layui-icon-edit">&#xe642;</i>
-					</a>
-					<a href="">
-						<i class="layui-icon-delete">&#xe640;</i>
-					</a>
 
-				</td>
-				<td>产品代码</td>
-				<td>产品名称</td>
-				<td>收益类型</td>
-				<td>成立批次</td>
-				<td>净值</td>
-				<td>累计净值</td>
-				<td>每万份收益</td>
-				<td>七日年化收益率（%）</td>
-				<td>估值日期</td>
-				<td>发布日期</td>
-				<td>操作人</td>
-				<td>操作日期</td>
-			</tr>
 </table>
-		<div class="q">
-			<p><span id="">
-				<label for=""><input type="checkbox" id="chexd"  />当前页面全选</label>
-			</span>
-			<span id="">
-				每条显示记录
-			</span>
-			<span id="">
-				<select name="">
-					<option value="">10条</option>
-					<option value="">20条</option>
-					<option value="">30条</option>
-				</select>
-			</span>
-			<span class="btn_f">
-				<button>首页</button>
-				<button><上一页</button>
-				<button>下一页></button>
-				<button>末页</button>
-			</span>
-			<span class="btn_t">
-				第1页/共25页
-				&nbsp;
-				到第
-				<input type="text" name="" id="" value=""  style="width: 30px;"/>页
-				<button>转到</button>
-				
-			</span>
-			</p>
-			
-		</div>
+		<!--<input name="" th:value="" type="hidden"/>&lt;!&ndash;//第几页&ndash;&gt;
+		<input name="" th:value="" type="hidden"/>&lt;!&ndash;//一共多少行数据&ndash;&gt;
+		<center>
+			<div id="demo7">
+
+			</div>
+		</center>
+
+		<script type="text/javascript">
+            var total=0;
+            var pageNum=0;
+            $(function(){
+                var data = $("#form").serialize();
+                total=$("[name='total']").val();
+                pageNum=$("[name='pageNumber']").val();
+                layui.use([ 'laypage', 'layer' ], function() {
+                    var laypage = layui.laypage, layer = layui.layer;
+                    laypage.render({
+                        elem : 'demo7',
+                        count : total
+                        ,curr: pageNum,
+                        limit:5//每页几个,需要修改
+                        ,
+                        layout : [ 'count', 'prev', 'page', 'next',  'refresh',
+                            'skip', ],
+                        jump : function(obj,first) {
+                            //console.log(obj)
+                            if(!first){
+                                //do something
+                                $("[name='pageNumber']").val(obj.curr);
+                                $("#form").attr("action","queryMaterial?"+data+"&pageNumber="+pageNum).submit();
+                            }
+                        }
+                    });
+                });
+            });
+		</script>-->
 	</body>
 </html>
