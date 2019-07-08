@@ -1,6 +1,7 @@
 package cn.tcmp.Net_Worth.service;
 
 import cn.tcmp.Net_Worth.mapper.JingzhiMapper;
+import cn.tcmp.entity.Income_type_statement;
 import cn.tcmp.entity.Net_value_table;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,5 +25,10 @@ public class JingZhiServiceImpl implements JingZhiService {
         List<Net_value_table> list=mapper.queryNetValue(n);
         PageInfo<Net_value_table> pageInfo=new PageInfo<>(list);
         return pageInfo;
+    }
+
+    @Override
+    public List<Income_type_statement> queryAllSy() {
+        return mapper.queryAllSy();
     }
 }

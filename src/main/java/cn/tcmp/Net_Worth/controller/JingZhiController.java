@@ -15,16 +15,16 @@ public class JingZhiController {
     @Autowired
     private JingZhiService service;
     @RequestMapping("queryNetValuePage")
-    public  String queryNetValue(Net_value_table n,Integer pageNum,Integer pageSize,Model model) {
-        if(pageNum == null){
-            pageNum=1;
+    public  String queryNetValue(Net_value_table n,Integer pageNumber,Integer pageSize,Model model) {
+        if(pageNumber == null){
+            pageNumber = 1 ;
         }
-        if (pageSize == null) {
-            pageSize=3;
-        }
-        List<Net_value_table> list=service.queryNetValue(n);
-        PageInfo<Net_value_table> pageInfo=new PageInfo<>(list);
-        model.addAttribute("jingzhiPage",pageInfo);
+        model.addAttribute("jingzhiPage",service.queryNetValuePage(n,pageNumber,pageSize));
+        model.addAttribute("syList",service.queryAllSy());
         return "JingZhiGuanLi/ChaXun/JingZhiChaXun";
+    }
+    @RequestMapping("toAddJingzhi")
+    public String toAddJingzhi() {
+        return "JingZhiGuanLi/ChaXun/JingzhiXinJian";
     }
 }

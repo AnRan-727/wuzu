@@ -11,7 +11,7 @@
     <resultMap id="cpMap" type="Product_list" autoMapping="true">
         <id property="ProductID" column="ProductID"></id>
     </resultMap>
-    <resultMap id="syMap" type="Item_type_table" autoMapping="true">
+    <resultMap id="syMap" type="Income_type_statement" autoMapping="true">
         <id property="ItemTypeID" column="ItemTypeID"></id>
     </resultMap>
     <select id="queryNetValue" resultMap="jzMap" parameterType="Net_value_table">
