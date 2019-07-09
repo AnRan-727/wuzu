@@ -14,6 +14,8 @@ public interface ItemSheetMapper {
 
     //查询所有项目
     List<Item_sheet> queryAllItem_sheet(Item_sheet item_sheet);
+    //查询项目详情
+    Item_sheet detailItem_sheet(Integer itemid);
     //查询产品分类(下拉框)
     List<Product_classification_table> queryAllProduct();
     //查询项目类型(下拉框)

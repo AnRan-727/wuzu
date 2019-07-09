@@ -36,9 +36,9 @@ public class Item_sheet{
 	private String Collectinghouseholdnames;//募集户名
 	private String RaisingBank;//募集银行
 	private String Notes;//备注
-	private Currency_list RaiseCurrency;//募集币种
-	private Currency_list InvestmentCurrency;//投资币种
-	private Channel_Type Manager;//管理人
+	private Integer RaiseCurrency;//募集币种
+	private Integer InvestmentCurrency;//投资币种
+	private Integer Manager;//管理人
 	private Investment_direction_table InvestmentDirectionID;//投资方向ID
 	private Investments_schedule InvestmentModeID;//投资方式ID
 	private Integer IsNotStructure;//是否结构化

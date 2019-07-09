@@ -37,6 +37,8 @@ public class ItemSheetController {
 
         return "XiangMuGuanLi/ChaXun";
     }
+
+    //项目查询页模糊查询
     @RequestMapping("queryByItem_sheet")
     public ModelAndView queryByitem_sheet(Integer pageNo, Integer pageSize,Item_sheet item_sheet){
         if (pageNo==null){
@@ -52,8 +54,9 @@ public class ItemSheetController {
         return md;
     }
 
+    //去项目修改页
     @RequestMapping("XiangMuUpdate")
-    public String XiangMuUpdate(Model model){
+    public String XiangMuUpdate(Integer itemid,Model model){
         model.addAttribute("product_type",itemSheetService.queryAllProduct());
         model.addAttribute("channel_list",itemSheetService.queryAllChannel_list());
         model.addAttribute("item_type",itemSheetService.queryAllItem_type_table());
@@ -64,6 +67,12 @@ public class ItemSheetController {
         model.addAttribute("Frequency_of_income_distribution",itemSheetService.queryFrequency_of_income_distribution());
         model.addAttribute("Asset_management_report",itemSheetService.queryAsset_management_report());
         model.addAttribute("Source_sector",itemSheetService.querySource_sector());
+        //项目详情回显
+        Item_sheet item_sheet=itemSheetService.detailItem_sheet(itemid);
+        System.err.println("item_sheet"+item_sheet);
+        model.addAttribute("islist",item_sheet);
         return "XiangMuGuanLi/YeQian/YeQianXinXi";
     }
+
+
 }

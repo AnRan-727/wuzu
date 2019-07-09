@@ -23,6 +23,11 @@ public class ItemSheetServiceImpl implements ItemSheetService {
     }
 
     @Override
+    public Item_sheet detailItem_sheet(Integer itemid) {
+        return itemSheetMapper.detailItem_sheet(itemid);
+    }
+
+    @Override
     public List<Product_classification_table> queryAllProduct() {
         return itemSheetMapper.queryAllProduct();
     }
