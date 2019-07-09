@@ -152,6 +152,7 @@
 					</td>
 					<td >
 						<select name="IncomeTypeID.IncomeTypeID" id="IncomeTypeID"  class="layui-input">
+							<option value="-1">选择所有</option>
 							<option th:each="item:${syList}" th:object="${item}" th:value="*{IncomeTypeID}">
 								<span th:text="*{IncomeTypeName}"></span>
 							</option>
@@ -168,13 +169,13 @@
 						产品代码：
 					</td>
 					<td>
-						<input type="text"placeholder="输入文本"  class="layui-input" name="ProductID.ProductCode"/>
+						<input type="text"placeholder="输入文本" th:value="${nvt.ProductID.ProductCode}"  class="layui-input" name="ProductID.ProductCode"/>
 					</td>
 					<td style="text-align: center">
 						产品名称：
 					</td>
 					<td>
-							<input type="text"placeholder="输入文本"  class="layui-input" name="ProductID.ProductName"/>
+							<input type="text"placeholder="输入文本" th:value="${nvt.ProductID.ProductName}"  class="layui-input" name="ProductID.ProductName"/>
 					</td>
 				</tr>
 				<tr>
@@ -182,13 +183,13 @@
 						成立批次：
 					</td>
 					<td>
-						<input type="text"placeholder="输入文本"  class="layui-input" name="SetUpBatch" id="SetUpBatch"/>
+						<input type="text"placeholder="输入文本" th:value="${nvt.SetUpBatch}"  class="layui-input" name="SetUpBatch" id="SetUpBatch"/>
 					</td>
 					<td style="text-align: center">
 						估值日期：
 					</td>
 					<td>
-						<input type="date" name="ValuationDate" class="layui-input" id="test10" >
+						<input type="date" name="ValuationDate" th:value="${nvt.ValuationDate}" class="layui-input" id="test10" >
 					</td>
 				</tr>
 
@@ -200,7 +201,17 @@
 				<button type="button" class="layui-btn layui-btn-radius" onclick="Chongzhi()" >重置</button>
 			</div>
 			<script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript" charset="utf-8"></script>
-			<script type="text/javascript">
+			<script th:inline="javascript">
+                $(function () {
+                    var z = [[${nvt.IncomeTypeID.IncomeTypeID}]];
+                    if(z!=null && z!=-1){
+                        $("select[name='IncomeTypeID.IncomeTypeID']").val(z);
+					}else{
+                        $("select[name='IncomeTypeID.IncomeTypeID']").children("option").eq(0).attr("selected","selected");
+					}
+
+
+                })
                 function Chongzhi() {
 
                    $("input[name='ProductID.ProductCode']").val("");
@@ -290,6 +301,7 @@
 
 		<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+
             function queryJingZhi(){
                 var data = $("#form").serialize();
                 $("#form").attr("action","queryNetValuePage?"+data+"&pageNumber="+pageNum).submit();

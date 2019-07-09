@@ -26,7 +26,7 @@
          income_type_statement sy
          WHERE jz.ProductID=cp.ProductID
          AND sy.IncomeTypeID=jz.IncomeTypeID
-        <if test="nn.IncomeTypeID.IncomeTypeID !=null and nn.IncomeTypeID.IncomeTypeID !=''">
+        <if test="nn.IncomeTypeID.IncomeTypeID!=null and nn.IncomeTypeID.IncomeTypeID!=-1">
            and   sy.IncomeTypeID=#{nn.IncomeTypeID.IncomeTypeID}
         </if>
         <if test="nn.ProductID.ProductCode !=null and nn.ProductID.ProductCode !=''">

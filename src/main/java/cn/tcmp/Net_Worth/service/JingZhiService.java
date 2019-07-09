@@ -14,4 +14,6 @@ public interface JingZhiService {
     PageInfo<Net_value_table> queryNetValuePage(Net_value_table n,Integer pageNum,Integer pageSize);
     //查询所有的收益类型信息
     List<Income_type_statement> queryAllSy();
+    //删除净值信息
+    Integer deteleJingZhi(Integer NetWorthID);
 }

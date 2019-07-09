@@ -21,6 +21,7 @@ public class JingZhiController {
         }
         model.addAttribute("jingzhiPage",service.queryNetValuePage(n,pageNumber,pageSize));
         model.addAttribute("syList",service.queryAllSy());
+        model.addAttribute("nvt", n);
         return "JingZhiGuanLi/ChaXun/JingZhiChaXun";
     }
     @RequestMapping("toAddJingzhi")

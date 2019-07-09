@@ -31,4 +31,9 @@ public class JingZhiServiceImpl implements JingZhiService {
     public List<Income_type_statement> queryAllSy() {
         return mapper.queryAllSy();
     }
+
+    @Override
+    public Integer deteleJingZhi(Integer NetWorthID) {
+        return mapper.deteleJingZhi(NetWorthID);
+    }
 }

@@ -24,8 +24,8 @@ public class Net_value_table{
 	private String CumulativeNetWorth;//累计净值
 	private String ExtremelyProfitable;//每万份收益
 	private String RateOfReturn;//七日年化收益率
-	private Date ValuationDate;//估值日期
-	private Date DateOfPublication;//发布日期
+	private String ValuationDate;//估值日期
+	private String DateOfPublication;//发布日期
 	private int OperatorID;//操作人ID
 	private Timestamp OperatingDate;//操作日期
 
