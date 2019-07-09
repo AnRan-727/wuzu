@@ -36,4 +36,29 @@ public class JingZhiServiceImpl implements JingZhiService {
     public Integer deteleJingZhi(Integer NetWorthID) {
         return mapper.deteleJingZhi(NetWorthID);
     }
+
+    @Override
+    public Net_value_table detailJingzhi(Integer NetWorthID) {
+        return mapper.detailJingzhi(NetWorthID);
+    }
+
+    @Override
+    public Integer updateNvtJIngzhi(Net_value_table n) {
+        return mapper.updateNvtJIngzhi(n);
+    }
+
+    @Override
+    public Integer updateNvtFudong(Net_value_table n) {
+        return mapper.updateNvtFudong(n);
+    }
+
+    @Override
+    public Integer updateNvtXianjin(Net_value_table n) {
+        return mapper.updateNvtXianjin(n);
+    }
+
+    @Override
+    public Integer addJingzhi(Net_value_table n) {
+        return mapper.addJingzhi(n);
+    }
 }

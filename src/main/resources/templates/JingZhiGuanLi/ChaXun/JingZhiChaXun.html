@@ -270,7 +270,8 @@
 
     <tr class="tr" th:each="item:${jingzhiPage.list}" th:object="${item}">
 		<td>
-			<a href="">
+			<input type="hidden" th:value="*{NetWorthID}" name="NetWorthID">
+			<a th:href="@{toUpdateJz(NetWorthID=*{NetWorthID},IncomeTypeID=*{IncomeTypeID.IncomeTypeID})}">
 				<i class="layui-icon"></i>
 			</a>
 			<a href="">
@@ -295,6 +296,7 @@
     </tr>
 
 </table>
+
 		<input name="pageNumber" th:value="${jingzhiPage.pageNum}" type="hidden"/><!--//第几页-->
 		<input name="total" th:value="${jingzhiPage.total}" type="hidden"/><!--//一共多少行数据-->
 		<center><div id="demo7"></div></center>

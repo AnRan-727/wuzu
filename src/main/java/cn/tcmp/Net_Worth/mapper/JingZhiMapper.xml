@@ -16,7 +16,7 @@
     </resultMap>
     <select id="queryNetValue" resultMap="jzMap" parameterType="Net_value_table">
         SELECT jz.NetWorthID,
-        cp.ProductCode,cp.ProductName,sy.IncomeTypeName,
+        cp.ProductCode,cp.ProductName,sy.IncomeTypeID,sy.IncomeTypeName,
         jz.SetUpBatch,
          jz.NetWorth,jz.CumulativeNetWorth,jz.ExtremelyProfitable,
          jz.RateOfReturn,jz.ValuationDate,jz.DateOfPublication,
@@ -42,5 +42,21 @@
             and jz.ValuationDate like concat('%',#{nn.ValuationDate},'%')
         </if>
         order by jz.DateOfPublication desc
+    </select>
+
+    <select id="detailJingzhi" resultMap="jzMap" parameterType="Integer">
+        SELECT jz.NetWorthID,
+        cp.ProductCode,cp.ProductName,sy.IncomeTypeID,sy.IncomeTypeName,
+        jz.SetUpBatch,
+        jz.NetWorth,jz.CumulativeNetWorth,jz.ExtremelyProfitable,
+        jz.RateOfReturn,jz.ValuationDate,jz.DateOfPublication,
+        jz.OperatorID,jz.OperatingDate
+        FROM
+        product_list cp,net_value_table jz,
+        income_type_statement sy
+        WHERE jz.ProductID=cp.ProductID
+        AND sy.IncomeTypeID=jz.IncomeTypeID
+        AND jz.NetWorthID=#{NetWorthID}
+
     </select>
 </mapper>
