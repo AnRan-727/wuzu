@@ -18,18 +18,33 @@
         and mp.`MaterialPeriodID` = #{id}
     </select>
 
+    <!--查询单个文档类型-->
+    <select id="queryDocumentByDocumentId" parameterType="int" resultType="cn.tcmp.entity.Document_type_table">
+        SELECT * FROM document_type_table WHERE DocumentTypeID = #{id}
+    </select>
+
     <!--修改文档类型-->
     <update id="updateDocument" parameterType="cn.tcmp.entity.Document_type_table">
-        UPDATE `document_type_table`(DocumentTypeName,MaintenanceAuthority,ViewingPermissions,NoteDescription)
-        SET DocumentTypeName = #{DocumentTypeName},MaintenanceAuthority = #{MaintenanceAuthority},ViewingPermissions = #{ViewingPermissions},NoteDescription = #{NoteDescription}
-        WHERE DocumentTypeID =#{DocumentTypeID}
+        UPDATE `document_type_table`
+        SET DocumentTypeName = #{DocumentTypeName},MaintenanceAuthority = #{MaintenanceAuthority},ViewingPermissions = #{ViewingPermissions},NoteDescription = #{NoteDescription},NecessaryToGoOnline = #{NecessaryToGoOnline}
+        WHERE DocumentTypeID = #{DocumentTypeID}
     </update>
 
     <!--增加文档类型-->
     <insert id="addDocument" parameterType="cn.tcmp.entity.Document_type_table">
         INSERT INTO document_type_table(DocumentTypeName,MaterialPeriodID,NecessaryToGoOnline,MaintenanceAuthority,ViewingPermissions,NoteDescription)
-        VALUES(#{DocumentTypeName},#{MaterialPeriodID.MaterialPeriodID},#{NecessaryToGoOnline},#{MaintenanceAuthority},#{ViewingPermissions},#{NoteDescription})
+        VALUES(#{DocumentTypeName},#{MPID},#{NecessaryToGoOnline},#{MaintenanceAuthority},#{ViewingPermissions},#{NoteDescription})
     </insert>
+
+    <!--删除文档类型-->
+    <delete id="deleteDocument" parameterType="int">
+        delete from document_type_table where DocumentTypeID =#{id}
+    </delete>
+
+    <!--查询所有的材料时期推送方向-->
+    <select id="queryAllPush" resultType="cn.tcmp.entity.Push_direction_table">
+        SELECT * FROM push_direction_table
+    </select>
 
 
 

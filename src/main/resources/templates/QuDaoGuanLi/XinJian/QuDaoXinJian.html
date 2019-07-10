@@ -21,49 +21,48 @@
                             <tr>
                                 <td>渠道类型</td>
                                 <td>
-                                    <select name="" id="" class="layui-select">
-                                        <option value="">---请选择---</option>
-                                        <option value="">管理人</option>
-                                        <option value="">XXXX</option>
+                                    <select name="chaId" class="layui-select">
+                                        <option disabled selected id="QingXuanZe">---请选择---</option>
+                                        <option th:each="dict : ${type}" th:value="${dict.ChannelTypeID}" th:text="${dict.ChannelTypeName }">
                                     </select>
                                 </td>
                                 <td>名称</td>
                                 <td>
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+                                    <input type="text" name="Corporatename" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>介绍</td>
                                 <td>
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入介绍" autocomplete="off" class="layui-input">
+                                    <input type="text" name="introduce" required  lay-verify="required" placeholder="请输入介绍" autocomplete="off" class="layui-input">
                                 </td>
                                 <td>联系人名称</td>
                                 <td>
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入联系人名称" autocomplete="off" class="layui-input">
+                                    <input type="text" name="ContactName" required  lay-verify="required" placeholder="请输入联系人名称" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>联系人电话</td>
                                 <td>
-                                    <input type="tel" name="phone" lay-verify="required|phone" placeholder="请输入联系人电话" autocomplete="off" class="layui-input">
+                                    <input type="tel" name="Contacttelephone" lay-verify="required|phone" placeholder="请输入联系人电话" autocomplete="off" class="layui-input">
                                 </td>
                                 <td>联系人电子邮箱</td>
                                 <td>
-                                    <input type="text" name="email" lay-verify="email" placeholder="请输入联系人电子邮箱" autocomplete="off" class="layui-input">
+                                    <input type="text" name="ContactEmail" lay-verify="email" placeholder="请输入联系人电子邮箱" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>证件类型</td>
                                 <td>
-                                        <select name="" id="" class="layui-select">
-                                            <option value="">---请选择---</option>
-                                            <option value="">身份证</option>
-                                            <option value="">军官证</option>
+                                        <select name="Documenttype" class="layui-select">
+                                            <option value="0">---请选择---</option>
+                                            <option value="身份证">身份证</option>
+                                            <option value="军官证">军官证</option>
                                         </select>
                                 </td>
                                 <td>证件号码</td>
                                 <td>
-                                    <input type="text" name="identity" lay-verify="identity" placeholder="请输入证件号码" autocomplete="off" class="layui-input">
+                                    <input type="text" name="IdentificationNumber" lay-verify="identity" placeholder="请输入证件号码" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
@@ -142,7 +141,7 @@
         //设定文件大小限制
         upload.render({
             elem: '#test7'
-            ,url: '/upload/'
+            ,url: '/api/upload/'
             ,size: 50000 //限制文件大小，单位 KB
             ,done: function(res){
                 console.log(res)

@@ -8,6 +8,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
     <script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var id = null;
+        function toUpdate(e){
+            $.get("queryDocumentByDocumentId",{"DocumentId":e},function (result) {
+                console.log("文档类型是:"+result);
+                $("input[name='DocumentTypeName']").val(result.documentTypeName);
+                $("input[name='MaintenanceAuthority']").val(result.maintenanceAuthority);
+                $("input[name='ViewingPermissions']").val(result.viewingPermissions);
+                $("input[name='DocumentTypeID']").val(result.documentTypeID);
+                $("#WDNoteDescription").val(result.noteDescription);
+                alert(result);
+            });
+
+        }
+
+        function doDelete(e){
+            if(window.confirm("确定要删除吗?")){
+                $.get("/document/doAjaxDeleteDocument","id="+e,function(result){
+                    if(result > 0){
+                        alert("删除成功!");
+                        location.reload();
+                    }
+                })
+            }
+        }
+
+        function Save(){
+            if(window.confirm("确定要更改吗?")){
+                //修改文档类型
+                var DocumentTypeName = $("input[name='DocumentTypeName']").val();
+                var MaintenanceAuthority = $("input[name='MaintenanceAuthority']").val();
+                var ViewingPermissions = $("input[name='ViewingPermissions']").val();
+                var NoteDescription = $("#WDNoteDescription").val();
+                var DocumentTypeID = $("input[name='DocumentTypeID']").val();
+
+
+
+                $.get("/document/doAjaxUpdateDocument",
+                    {"DocumentTypeName":DocumentTypeName,
+                        "MaintenanceAuthority":MaintenanceAuthority,
+                        "ViewingPermissions":ViewingPermissions,
+                        "NoteDescription":NoteDescription,
+                        "DocumentTypeID":DocumentTypeID
+                    },function(result){
+                    console.log(result);
+                    alert("文档成功");
+                })
+                //修改材料时期
+                var MaterialPeriodName = $("input[name='MaterialPeriodName']").val();
+                var NoteDescription = $("input[name='NoteDescription']").val();
+                var MaterialPeriodID = $("input[name='MaterialPeriodID']").val();
+
+                $.get("doUpdateMaterial",
+                    {"MaterialPeriodName":MaterialPeriodName,
+                        "NoteDescription":NoteDescription,
+                        "MaterialPeriodID":MaterialPeriodID
+                    },function(result){
+                    console.log(result);
+                    alert("材料成功");
+                })
+            }
+        }
+    </script>
 </head>
 <body>
 <div style="padding: 20px; background-color: #F2F2F2;">
@@ -18,33 +81,37 @@
                     <div class="layui-card-body" align="center">
 
                     <br>
-                    <table border="1" class="layui-table">
-                        <tr>
-                            <td>材料时期:</td>
-                            <td>
-                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入材料时期" class="layui-input">
-                            </td>
-                            <td>推送方向:</td>
-                            <td>(返显)</td>
-                        </tr>
-                        <tr>
-                            <td>备注说明:</td>
-                            <td>
-                                <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
-                            </td>
-                            <td>操作人:</td>
-                            <td>(返显)</td>
-                        </tr>
-                        <tr>
-                            <td>操作时间:</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                    <button type="button" class="layui-btn layui-btn-warm layui-btn-radius">新建</button>
+                        <form action="" method="get" name="CaiLiao">
+                            <table border="1" class="layui-table">
+                                <tr>
+                                    <td>材料时期:</td>
+                                    <td>
+                                        <input type="hidden" th:value="${material.MaterialPeriodID}" name="MaterialPeriodID">
+                                        <input type="text" th:value="${material.MaterialPeriodName}" name="MaterialPeriodName" lay-verify="title" autocomplete="off" placeholder="输入材料时期" class="layui-input">
+                                    </td>
+                                    <td>推送方向:</td>
+                                    <td><span th:text="${material.PushDirectionID.PushDirectionName}" style="color: red;"></span>
+                                        <input type="hidden" th:value="${material.PushDirectionID.PushDirectionName}" name="PushDirectionName">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>备注说明:</td>
+                                    <td>
+                                        <input type="text" th:value="${material.NoteDescription}" name="NoteDescription" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                    </td>
+                                    <td>操作人:</td>
+                                    <td th:text="${material.OperatorID}"></td>
+                                </tr>
+                                <tr>
+                                    <td>操作时间:</td>
+                                    <td colspan="3" th:text="${material.OperatingTime}"></td>
+                                </tr>
+                            </table>
+                        </form>
+                    <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="window.location.href='/document/toAddDocument'">新建</button>
                     <br>
-                    <form action="">
+
+                        <form action="" method="get" name="WenDang">
                         <table border="1" class="layui-table">
                             <tr>
                                 <td>操作</td>
@@ -54,33 +121,71 @@
                                 <td>备注说明</td>
                             </tr>
 
+                            <tr th:each="item:${list.list}" th:object="${item}" id="*{DocumentTypeID}">
+                                <td>
+                                    <a href="javascript:void(0)" class="XiuGai" th:setID="*{DocumentTypeID}">修改</a>
+                                    <script>
+                                        $(function () {
+                                            $(".XiuGai").mouseover(function () {
+                                                id=$(this).attr("setID");
+                                                $(this).attr("onclick","toUpdate("+id+")");
+                                            })
+                                        })
+                                    </script>
+                                    <a href="javascript:void(0)" class="ShanChu" th:setID="*{DocumentTypeID}">删除</a>
+                                    <script>
+                                        $(function () {
+                                            $(".ShanChu").mouseover(function () {
+                                                id=$(this).attr("setID");
+                                                $(this).attr("onclick","doDelete("+id+")");
+                                            })
+                                        })
+                                    </script>
+                                </td>
+                                <td>
+                                    <span th:text="*{DocumentTypeName}"></span>
+                                    <!--<input type="text" th:value="*{DocumentTypeName}" readonly="readonly" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">-->
+                                </td>
+                                <td>
+                                    <span th:text="*{MaintenanceAuthority}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="*{ViewingPermissions}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="*{NoteDescription}"></span>
+                                    <!--<input type="text" th:value="*{NoteDescription}" readonly="readonly" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">-->
+                                </td>
+                            </tr>
                             <tr>
                                 <td>
-                                    <a href="">修改</a>
-                                    <a href="">删除</a>
-                                </td>
-                                <td>
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
-                                </td>
-                                <td>
 
                                 </td>
                                 <td>
-
+                                    <input type="hidden" th:value="${material.MaterialPeriodID}" name="MaterialPeriodID">
+                                    <input type="hidden" th:value="${material.PushDirectionID.PushDirectionName}" name="MaterialPeriodName">
+                                    <input type="text" name="DocumentTypeName" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                                 </td>
                                 <td>
-                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                    <input type="text" name="MaintenanceAuthority" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                </td>
+                                <td>
+                                    <input type="text" name="ViewingPermissions" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
+                                </td>
+                                <td>
+                                    <input type="text" id="WDNoteDescription" name="NoteDescription" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input">
                                 </td>
                             </tr>
                         </table>
-                        <input name="pageNumber" th:value="1" type="hidden"/><!--//第几页-->
-                        <input name="total" th:value="40" type="hidden"/><!--//一共多少行数据-->
+                        <input name="pageNumber" th:value="${list.pageNum}" type="hidden"/><!--//第几页-->
+                        <input name="total" th:value="${list.total}" type="hidden"/><!--//一共多少行数据-->
                         <center><div id="demo7"></div></center>
 
                     </form>
+
                     <br>
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">保存</button>
-                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius" onclick="windows.history.go(-1)">取消</button>
+                    <button type="button" onclick="Save()" class="layui-btn layui-btn-normal layui-btn-radius">保存</button>
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius" onclick="window.history.go(-1)">取消</button>
 
                 </div>
             </div>
@@ -90,18 +195,21 @@
 </div>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script>
+
     var total=0;
     var pageNum=0;
+    var id = $("input[name='MaterialPeriodID']").val();
+    var name = $("input[name='PushDirectionName']").val();
     $(function(){
         total=$("[name='total']").val();
-        pageNum=$("[name='pageNumer']").val();
+        pageNum=$("[name='pageNumber']").val();
         layui.use([ 'laypage', 'layer' ], function() {
             var laypage = layui.laypage, layer = layui.layer;
             laypage.render({
                 elem : 'demo7',
                 count : total
                 ,curr: pageNum,
-                limit:2//每页几个,需要修改
+                limit:5//每页几个,需要修改
                 ,
                 layout : [ 'count', 'prev', 'page', 'next',  'refresh',
                     'skip', ],
@@ -110,7 +218,7 @@
                     if(!first){
                         //do something
                         $("[name='pageNumber']").val(obj.curr);
-                        $("form").submit();
+                        $("form[name='WenDang']").attr("action","toUpdateMaterial?MaterialPeriodName="+name+"&MaterialPeriodID="+id+"&pageNumber="+pageNum).submit();
                     }
                 }
             });

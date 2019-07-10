@@ -7,7 +7,7 @@ import lombok.Data;
  */
 @Data
 public class Company_departments_list{
-	private int DepartmentID;
+	private Integer DepartmentID;
 	private Channel_list CompanyID;//公司ID||渠道ID
 	private String Departmentname;
 	private String DepartmentalContacts;

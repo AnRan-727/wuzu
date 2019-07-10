@@ -8,6 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
     <script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        function Update(){
+
+            var id = $("#ID").val();
+            var Name = $("#Name").val();
+            location.href = "toUpdateMaterial?MaterialPeriodID="+id+"&MaterialPeriodName="+Name;
+
+
+        }
+
+    </script>
 </head>
 <body>
 <div style="padding: 20px; background-color: #F2F2F2;">
@@ -23,19 +35,23 @@
                     <table border="1" class="layui-table">
                         <tr>
                             <td>材料时期:</td>
-                            <td>aaa</td>
+                            <input type="hidden" id="Name" th:value="${material.MaterialPeriodName}">
+                            <input type="hidden" id="ID" th:value="${material.MaterialPeriodID}">
+                            <td th:text="${material.MaterialPeriodName}">
+
+                            </td>
                             <td>推送方向:</td>
-                            <td></td>
+                            <td th:text="${material.PushDirectionID.PushDirectionName}" style="color: red"></td>
                         </tr>
                         <tr>
                             <td>备注说明:</td>
-                            <td></td>
+                            <td th:text="${material.NoteDescription}"></td>
                             <td>操作人:</td>
-                            <td></td>
+                            <td th:text="${material.OperatorID}"></td>
                         </tr>
                         <tr>
                             <td>操作时间:</td>
-                            <td></td>
+                            <td th:text="${material.OperatingTime}"></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -50,17 +66,16 @@
                             <td style="padding: 10px">备注说明</td>
                         </tr>
 
-                        <tr>
-                            <td>阿</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr th:each="list:${list.list}" th:object="${list}">
+                            <td th:text="*{DocumentTypeName}"></td>
+                            <td th:text="*{MaintenanceAuthority}"></td>
+                            <td th:text="*{ViewingPermissions}"></td>
+                            <td th:text="*{NoteDescription}"></td>
                         </tr>
                     </table>
                     <br>
-                    <button type="button" class="layui-btn layui-btn-warm layui-btn-radius">修改</button>
-                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius">删除</button>
+                    <button type="button" onclick="Update()" class="layui-btn layui-btn-warm layui-btn-radius">修改</button>
+                    <button type="button" onclick="window.history.go(-1)" class="layui-btn layui-btn-danger layui-btn-radius">返回</button>
 
                 </div>
             </div>

@@ -43,4 +43,9 @@ public class Material_period_ServiceImpl implements Material_period_Service {
     public int addMaterial_period(Material_period material_period) {
         return material_period_mapper.addMaterial_period(material_period);
     }
+
+    @Override
+    public int deleteMaterial_period(Integer id) {
+        return material_period_mapper.deleteMaterial_period(id);
+    }
 }

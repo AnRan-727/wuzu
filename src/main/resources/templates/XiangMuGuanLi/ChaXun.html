@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
     <title>Title</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -102,8 +100,15 @@
             <tr th:each="sheet:${page.list}" th:object="${sheet}">
                 <td th:text="*{ItemID}"></td>
                 <td align="center">
-                    <button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
+                    <!--<button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
+                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>-->
+                    <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}">
+                        <i class="layui-icon"></i>
+                    </a>
+                    <a href="">
+                        <i class="layui-icon"></i>
+                    </a>
+
                 </td>
                 <td th:text="*{ItemtypeID.ItemTypeName}"></td>
                 <td th:text="*{Entryname}"></td>
@@ -123,24 +128,27 @@
                 <td th:text="*{ProductManagerB}"></td>
             </tr>
         </table>
-        <div id="demo6" align="center"></div>
+        <input type="hidden">
+        <input type="hidden">
+        <div id="demo7" align="center"></div>
     </div>
 
 
     <script th:src="@{/layui/layui.js}"></script>
     <script>
-        layui.use(['laypage', 'layer'], function() {
-            var laypage = layui.laypage
-                , layer = layui.layer;
-            var pageNum=
+        var total=0;
+        var pageNum=0;
+        $(function() {
+            var data = $("#form").serialize();
+            total = $("[name='total']").val();
+            pageNum = $("[name='pageNumber']").val();
+
             laypage.render({
-                elem: 'demo6'
-                ,count: 50
-                ,layout: ['prev', 'next']
-                ,jump: function(obj, first){
-                    if(!first){
-                        layer.msg('第 '+ obj.curr +' 页');
-                    }
+                elem: 'demo7'
+                ,count: 100
+                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                ,jump: function(obj){
+                    console.log(obj)
                 }
             });
         })

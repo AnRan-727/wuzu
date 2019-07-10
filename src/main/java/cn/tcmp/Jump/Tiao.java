@@ -47,6 +47,11 @@ public class Tiao {
     public String toXiangMuXinJian(){
         return "WenDangLeiXing/XinJian/XiangMuXinJian";
     }
+    //文档新建
+    @RequestMapping(value = "toWenDangXinJian")
+    public String toWenDangXinJian(){
+        return "WenDangLeiXing/XinJian/WenDangXinJian";
+    }
     //渠道查询
     @RequestMapping(value = "QuDaoChaXun")
     public  String toQuDaoGuanLi(){
