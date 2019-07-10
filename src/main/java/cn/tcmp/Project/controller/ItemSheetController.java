@@ -66,7 +66,7 @@ public class ItemSheetController {
         model.addAttribute("Distribution_of_income",itemSheetService.queryDistribution_of_income());
         model.addAttribute("Frequency_of_income_distribution",itemSheetService.queryFrequency_of_income_distribution());
         model.addAttribute("Asset_management_report",itemSheetService.queryAsset_management_report());
-        model.addAttribute("Source_sector",itemSheetService.querySource_sector());
+        model.addAttribute("Company_departments_list",itemSheetService.queryCompany_departments_list());
         //项目详情回显
         Item_sheet item_sheet=itemSheetService.detailItem_sheet(itemid);
         System.err.println("item_sheet"+item_sheet);

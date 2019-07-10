@@ -41,6 +41,5 @@ public interface ItemSheetMapper {
     @Select("select * from Asset_management_report")
     List<Asset_management_report> queryAsset_management_report();
     //查询项目来源方部门(下拉框)
-    @Select("select * from Source_sector")
-    List<Source_sector> querySource_sector();
+    List<Company_departments_list> queryCompany_departments_list();
 }

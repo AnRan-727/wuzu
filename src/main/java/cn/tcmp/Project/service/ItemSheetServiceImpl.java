@@ -73,7 +73,8 @@ public class ItemSheetServiceImpl implements ItemSheetService {
     }
 
     @Override
-    public List<Source_sector> querySource_sector() {
-        return itemSheetMapper.querySource_sector();
+    public List<Company_departments_list> queryCompany_departments_list() {
+        return itemSheetMapper.queryCompany_departments_list();
     }
+
 }
