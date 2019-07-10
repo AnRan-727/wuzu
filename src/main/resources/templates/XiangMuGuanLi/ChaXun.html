@@ -59,7 +59,7 @@
                     <td>
                         <select class="layui-select" name="ChanneltableID.ID">
                             <option value="">--请选择--</option>
-                            <option th:each="channellist:${channel_list}" th:value="${channellist.ID}" th:text="${channellist.Corporatename}"></option>
+                            <option th:each="channellist:${channel_list}" th:value="${channellist.ChannelID}" th:text="${channellist.Corporatename}"></option>
                         </select>
                     </td>
                 </tr>

@@ -62,7 +62,7 @@
     </resultMap>-->
 
     <resultMap id="Channel_listMap" type="Channel_list" autoMapping="true">
-        <id property="ID" column="ChannelID" />
+        <id property="ChannelID" column="ChannelID" />
         <association column="ChanneltypeID" property="ChanneltypeID" javaType="Channel_type">
             <id column="ChannelTypeID" property="ChannelTypeID"/>
             <result column="ChannelTypeName" property="ChannelTypeName"/>
@@ -92,8 +92,8 @@
         <if test="MaturityDate!=null and MaturityDate!=''">
             AND s.MaturityDate=#{MaturityDate}
         </if>
-        <if test="ChanneltableID.ID!=null and ChanneltableID.ID!=''">
-            AND c.ChannelID=#{ChanneltableID.ID}
+        <if test="ChanneltableID.ChannelID!=null and ChanneltableID.ChannelID!=''">
+            AND c.ChannelID=#{ChanneltableID.ChannelID}
         </if>
     </select>
     <select id="detailItem_sheet" resultMap="IntemsMap" parameterType="Integer">

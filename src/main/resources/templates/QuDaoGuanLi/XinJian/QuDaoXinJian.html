@@ -141,11 +141,19 @@
         //设定文件大小限制
         upload.render({
             elem: '#test7'
-            ,url: '/api/upload/'
+            ,url: 'doAddChannel'
             ,size: 50000 //限制文件大小，单位 KB
             ,done: function(res){
                 console.log(res)
+            },done:function(res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                    //上传成功
+                    layer.msg('上传成功');
+                }
             }
+
         });
     });
 </script>
