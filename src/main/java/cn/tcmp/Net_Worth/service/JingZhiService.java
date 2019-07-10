@@ -2,6 +2,7 @@ package cn.tcmp.Net_Worth.service;
 
 import cn.tcmp.entity.Income_type_statement;
 import cn.tcmp.entity.Net_value_table;
+import cn.tcmp.entity.Product_list;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
@@ -27,4 +28,6 @@ public interface JingZhiService {
     Integer updateNvtXianjin(Net_value_table n);
     //新建净值信息
     Integer addJingzhi(Net_value_table n);
+
+
 }

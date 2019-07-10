@@ -20,11 +20,7 @@ public class JingZhiController {
         model.addAttribute("nvt", n);
         return "JingZhiGuanLi/ChaXun/JingZhiChaXun";
     }
-    //跳转增加
-    @RequestMapping("toAddJingzhi")
-    public String toAddJingzhi() {
-        return "JingZhiGuanLi/ChaXun/JingzhiXinJian";
-    }
+
     //净值修改跳转
     @RequestMapping("toUpdateJz")
     public String toUpdateJz(Integer NetWorthID,Integer IncomeTypeID, Model model) {
@@ -60,5 +56,12 @@ public class JingZhiController {
     public String doUpdateXianJinSy(Net_value_table n) {
         this.service.updateNvtXianjin(n);
         return "redirect:queryNetValuePage";
+    }
+
+
+    //跳转增加
+    @RequestMapping("toAddJingzhi")
+    public String toAddJingzhi() {
+        return "JingZhiGuanLi/Xinjian/xinjian";
     }
 }
