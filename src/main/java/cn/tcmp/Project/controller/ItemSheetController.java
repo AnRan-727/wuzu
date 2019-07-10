@@ -30,9 +30,9 @@ public class ItemSheetController {
         Item_type_table it=new Item_type_table();
         Channel_list ch=new Channel_list();
         Item_sheet item_sheet=new Item_sheet();
-        item_sheet.setProduct_classification_ID(p);
-        item_sheet.setItem_type_ID(it);
-        item_sheet.setChannel_table_ID(ch);
+        item_sheet.setProductclassificationID(p);
+        item_sheet.setItemtypeID(it);
+        item_sheet.setChanneltableID(ch);
         model.addAttribute("page",itemSheetService.queryAllItem_sheet(1,5,item_sheet));
 
         return "XiangMuGuanLi/ChaXun";

@@ -3,54 +3,26 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.tcmp.Project.mapper.ItemSheetMapper">
-    <resultMap id="IntemsMap" type="Item_sheet" autoMapping="true">
-        <id column="ItemID" property="Item_ID" />
-        <result property="Entry_name" column="EntryName"/>
-        <result property="English_name" column="EnglishName"/>
-        <result property="Project_code" column="ProjectCode"/>
-        <result property="Project_size_lowercase" column="ProjectSizeLowercase"/>
-        <result property="Project_size_capitalization" column="ProjectSizeCapitalization"/>
-        <result property="Project_duration" column="ProjectDuration"/>
-        <result property="Term_Unit" column="TermUnit"/>
-        <result property="Date_of_establishment" column="DateOfEstablishment"/>
-        <result property="Maturity_Date" column="MaturityDate"/>
-        <result property="Financers" column="Financers"/>
-        <result property="Source_docker_A" column="SourceDockerA"/>
-        <result property="Source_docker_B" column="SourceDockerB"/>
-        <result property="Source_docker_C" column="SourceDockerC"/>
-        <result property="Product_Manager_A" column="ProductManagerA"/>
-        <result property="Product_Manager_B" column="ProductManagerB"/>
-        <result property="Custody_account" column="CustodyAccount"/>
-        <result property="Custodian_bank" column="CustodianBank"/>
-        <result property="Custodial_household_name" column="CustodialHouseholdName"/>
-        <result property="Raising_Account" column="RaisingAccount"/>
-        <result property="Collecting_household_names" column="CollectingHouseholdNames"/>
-        <result property="Raising_Bank" column="RaisingBank"/>
-        <association property="Item_type_ID" column="ItemTypeID" resultMap="ItemttMap"/>
-        <association property="Product_classification_ID" column="ProductClassificationID" resultMap="proMap"/>
-        <association property="Channel_table_ID" column="ChannelTableID" resultMap="Channel_listMap"/>
+    <!--<resultMap id="IntemsMap" type="Item_sheet" autoMapping="true">
+        <id column="ItemID" property="ItemID" />
+        <association property="ItemtypeID" column="ItemTypeID" resultMap="ItemttMap"/>
+        <association property="ProductclassificationID" column="ProductClassificationID" resultMap="proMap"/>
+        <association property="ChanneltableID" column="ChannelTableID" resultMap="Channel_listMap"/>
     </resultMap>
     <resultMap id="proMap" type="Product_classification_table">
-        <id column="ProductClassificationID" property="Product_Classification_ID"/>
-        <result column="ProductClassificationName" property="Product_Classification_Name"/>
+        <id column="ProductClassificationID" property="ProductClassificationID"/>
+        <result column="ProductClassificationName" property="ProductClassificationName"/>
     </resultMap>
     <resultMap id="ItemttMap" type="Item_type_table">
-        <id column="ItemTypeID" property="Item_Type_ID"/>
-        <result column="ItemTypeName" property="Item_Type_Name"/>
+        <id column="ItemTypeID" property="ItemTypeID"/>
+        <result column="ItemTypeName" property="ItemTypeName"/>
     </resultMap>
     <resultMap id="Channel_listMap" type="Channel_list">
-        <id property="channel_ID" column="ChannelID" />
-        <result column="CorporateName" property="Corporate_name"/>
-        <result column="introduce" property="introduce"/>
-        <result column="ContactName" property="Contact_Name"/>
-        <result column="ContactTelephone" property="Contact_telephone"/>
-        <result column="ContactEmail" property="Contact_E_mail"/>
-        <result column="DocumentType" property="Document_type"/>
-        <result column="IdentificationNumber" property="Identification_Number"/>
-        <result column="Enclosure" property="Enclosure"/>
-        <association column="ChanneltypeID" property="Channel_type_ID" javaType="Channel_type">
-            <id column="ChannelTypeID" property="Channel_Type_ID"/>
-            <result column="ChannelTypeName" property="Channel_Type_Name"/>
+        <id property="channelID" column="ChannelID" />
+
+        <association column="ChanneltypeID" property="ChanneltypeID" javaType="Channel_type">
+            <id column="ChannelTypeID" property="ChannelTypeID"/>
+            <result column="ChannelTypeName" property="ChannelTypeName"/>
         </association>
     </resultMap>
 
@@ -89,5 +61,5 @@
     </select>
     <select id="queryAllChannel_list" resultMap="Channel_listMap">
         SELECT * FROM channel_list
-    </select>
+    </select>-->
 </mapper>

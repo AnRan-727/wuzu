@@ -11,12 +11,13 @@ import java.sql.Date;
  * 材料时期表
  * */
 public class Material_period{
-	private int MaterialPeriodID;
+	private Integer MaterialPeriodID;
 	private String MaterialPeriodName;
 	private Push_direction_table PushDirectionID;//推送方向ID
-	private int IsNotPush;
+	private Integer pushID;
+	private Integer IsNotPush;
 	private String NoteDescription;
-	private int OperatorID;//操作人ID
+	private Integer OperatorID;//操作人ID
 	private String OperatingTime;
 	private String startTime,endTime;
 }
