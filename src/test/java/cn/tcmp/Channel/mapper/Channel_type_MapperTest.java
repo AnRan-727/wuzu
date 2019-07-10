@@ -2,14 +2,15 @@ package cn.tcmp.Channel.mapper;
 
 import cn.tcmp.Channel.service.Channel_Type_Service;
 import cn.tcmp.Material.service.Material_period_Service;
-import cn.tcmp.entity.Material_period;
-import cn.tcmp.entity.Push_direction_table;
+import cn.tcmp.entity.*;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,4 +49,29 @@ public class Channel_type_MapperTest {
     public void queryAllChannel_type() {
         System.out.println(channelTypeService.queryAllChannelType());
     }
+
+
+    @Test
+    public void queryCompay(){
+
+
+        System.out.println(channelTypeService.queryDetailChannelList(1));
+
+
+
+    }
+
+    @Test
+    public void queryaaaaaaaaaaa(){
+
+        Channel_list channel_list = new Channel_list();
+         //channel_list.setChaId(1);
+        //channel_list.setCorporatename("中");
+
+        for (Channel_list list : channelTypeService.queryAllChannelList(channel_list,1,5).getList()){
+            System.out.println(list);
+        }
+
+    }
+
 }

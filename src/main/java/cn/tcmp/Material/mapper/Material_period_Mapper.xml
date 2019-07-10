@@ -26,14 +26,19 @@
     </select>
     <!--修改材料时期-->
     <update id="updateMaterial_period" parameterType="cn.tcmp.entity.Material_period">
-        UPDATE Material_Period(MaterialPeriodName,NoteDescription)
+        UPDATE Material_Period
     SET MaterialPeriodName = #{MaterialPeriodName} ,NoteDescription = #{NoteDescription}
     WHERE MaterialPeriodID = #{MaterialPeriodID}
     </update>
     <!--增加材料时期-->
-    <insert id="addMaterial_period" parameterType="cn.tcmp.entity.Material_period">
+    <insert id="addMaterial_period" parameterType="cn.tcmp.entity.Material_period" useGeneratedKeys="true" keyProperty="MaterialPeriodID">
         INSERT INTO Material_Period(MaterialPeriodName,PushDirectionID,IsNotPush,NoteDescription,OperatorID,OperatingTime)
-        VALUES(#{MaterialPeriodName},#{PushDirectionID.PushDirectionID},#{IsNotPush},#{NoteDescription},1,NOW())
+        VALUES(#{MaterialPeriodName},#{pushID},#{IsNotPush},#{NoteDescription},1,NOW())
+
     </insert>
+    <!--删除材料时期-->
+    <delete id="deleteMaterial_period" parameterType="int">
+        DELETE FROM `material_period` WHERE MaterialPeriodID = #{id}
+    </delete>
 
 </mapper>

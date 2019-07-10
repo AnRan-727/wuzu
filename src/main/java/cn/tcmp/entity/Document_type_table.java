@@ -11,10 +11,11 @@ import lombok.Data;
  *文档类型表
  * */
 public class Document_type_table{
-	private int DocumentTypeID;
+	private Integer DocumentTypeID;
 	private String DocumentTypeName;
 	private Material_period MaterialPeriodID;//材料时期ID
-	private int NecessaryToGoOnline;
+	private String MPID;
+	private Integer NecessaryToGoOnline;
 	private String MaintenanceAuthority;
 	private String ViewingPermissions;
 	private String NoteDescription;
