@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcmp.Net_Worth.mapper.JingzhiMapper">
+    <resultMap id="jzMap" type="Net_value_table" autoMapping="true">
+        <id property="NetWorthID" column="NetWorthID"></id>
+        <association property="ProductID" resultMap="cpMap"></association>
+        <association property="IncomeTypeID" resultMap="syMap"></association>
+    </resultMap>
+    <resultMap id="cpMap" type="Product_list" autoMapping="true">
+        <id property="ProductID" column="ProductID"></id>
+    </resultMap>
+    <resultMap id="syMap" type="Income_type_statement" autoMapping="true">
+        <id property="ItemTypeID" column="ItemTypeID"></id>
+    </resultMap>
+    <select id="queryNetValue" resultMap="jzMap" parameterType="Net_value_table">
+        SELECT jz.NetWorthID,
+        cp.ProductCode,cp.ProductName,sy.IncomeTypeID,sy.IncomeTypeName,
+        jz.SetUpBatch,
+         jz.NetWorth,jz.CumulativeNetWorth,jz.ExtremelyProfitable,
+         jz.RateOfReturn,jz.ValuationDate,jz.DateOfPublication,
+         jz.OperatorID,jz.OperatingDate
+        FROM
+         product_list cp,net_value_table jz,
+         income_type_statement sy
+         WHERE jz.ProductID=cp.ProductID
+         AND sy.IncomeTypeID=jz.IncomeTypeID
+        <if test="nn.IncomeTypeID.IncomeTypeID!=null and nn.IncomeTypeID.IncomeTypeID!=-1">
+           and   sy.IncomeTypeID=#{nn.IncomeTypeID.IncomeTypeID}
+        </if>
+        <if test="nn.ProductID.ProductCode !=null and nn.ProductID.ProductCode !=''">
+            and  cp.ProductCode like concat('%',#{nn.ProductID.ProductCode},'%')
+        </if>
+        <if test="nn.ProductID.ProductName !=null and nn.ProductID.ProductName !=''">
+            and  cp.ProductName like concat('%',#{nn.ProductID.ProductName},'%')
+        </if>
+        <if test="nn.SetUpBatch !=null and nn.SetUpBatch !=''">
+            and jz.SetUpBatch=#{nn.SetUpBatch}
+        </if>
+        <if test="nn.ValuationDate !=null and nn.ValuationDate !=''">
+            and jz.ValuationDate like concat('%',#{nn.ValuationDate},'%')
+        </if>
+        order by jz.DateOfPublication desc
+    </select>
+
+    <select id="detailJingzhi" resultMap="jzMap" parameterType="Integer">
+        SELECT jz.NetWorthID,
+        cp.ProductCode,cp.ProductName,sy.IncomeTypeID,sy.IncomeTypeName,
+        jz.SetUpBatch,
+        jz.NetWorth,jz.CumulativeNetWorth,jz.ExtremelyProfitable,
+        jz.RateOfReturn,jz.ValuationDate,jz.DateOfPublication,
+        jz.OperatorID,jz.OperatingDate
+        FROM
+        product_list cp,net_value_table jz,
+        income_type_statement sy
+        WHERE jz.ProductID=cp.ProductID
+        AND sy.IncomeTypeID=jz.IncomeTypeID
+        AND jz.NetWorthID=#{NetWorthID}
+
+    </select>
+</mapper>

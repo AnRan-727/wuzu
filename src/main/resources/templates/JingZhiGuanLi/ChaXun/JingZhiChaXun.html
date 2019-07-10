@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="UTF-8">
+		<title>净值查询</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			body{
+				font-size: 14px;
+				color: #333;
+			}
+			ul{
+				list-style: none;
+			}
+			.header{
+				width: 1200px;
+			}
+			.header ul{
+				overflow: hidden;
+			}
+			.header ul li{
+				width: 120px;
+				height: 40px;
+				background: #CDCDCD;
+				border-radius:5px ;
+				margin-left: 2px;
+				line-height:40px;
+				font-size: 16px;
+				text-align: center;
+				cursor: pointer;
+				float: left;
+			}
+			.header ul li.active{
+				background: #169BD5;
+			}
+			.header ul li:hover{
+				background: #169BD5;
+			}
+			.box_from{
+				width: 1100px;
+				margin: 60px  0;
+			}
+			.box_from ul{
+				width: 100%;
+				overflow: hidden;
+			}
+			.box_from ul li{
+				line-height: 40px;
+				width: 33.3333333%;
+				float: left;
+				text-align: right;
+				font-size: 16px;
+			}
+			.box_from ul li input{
+				width: 200px;
+				height: 25px;
+			}
+			.box_from ul li select{
+				width: 200px;
+				height: 25px;
+			}
+			.from_btn{
+				margin-top: 40px;
+				text-align: center;
+			}
+			.from_btn button{
+				width: 100px;
+				height: 30px;
+				background: #4881BD;
+				color: #fff;
+
+				margin-left: 20px;
+			}
+			.contian{
+				width: 1200px;
+				
+			}
+			.contian ul{
+				overflow: hidden;
+			}
+			.contian ul li{
+				width: 115px;
+				height: 35px;
+				border: 1px  solid #333;
+				text-align: center;
+				line-height: 35px;
+				border-radius: 5px;
+				float: left;
+				cursor: pointer;
+			}
+			.contian ul li:hover{
+				background: #000;
+				color: #fff;
+			}
+			a{
+				color: #333;
+			}
+			
+			.quan{
+				margin: 30px;
+			}
+			.quan span{
+				margin-left: 20px;
+			}
+			#chexd{
+				background: #E5E5E5;
+				border: 1px  solid #333;
+				width: 15px;
+				height: 15px;
+			}
+			.btn_f button{
+				padding: 2px 4px;
+			}
+			.btn_t button{
+				padding: 2px 4px;
+			}
+			.header_tr{
+				background: #CDCDCD;
+				line-height: 40px;
+				height: 40px;
+				border: none;
+				
+			}.header_tr td{
+				border: none;
+				width: 80px;
+				text-align: center;
+			}
+			.tr td{
+				width: 80px;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<center>
+			<form  id="form" >
+		<div class="box_from" >
+
+			<table  class="layui-table">
+				<tr>
+					<td style="text-align: center">
+						收益类型：
+					</td>
+					<td >
+						<select name="IncomeTypeID.IncomeTypeID" id="IncomeTypeID"  class="layui-input">
+							<option value="-1">选择所有</option>
+							<option th:each="item:${syList}" th:object="${item}" th:value="*{IncomeTypeID}">
+								<span th:text="*{IncomeTypeName}"></span>
+							</option>
+						</select>
+					</td>
+					<td style="text-align: center;text-align: center;" colspan="2" >
+						<!--<input type="checkbox" value="">
+						<span style="color: red">最新净值</span>-->
+					</td>
+
+				</tr>
+				<tr>
+					<td style="text-align: center">
+						产品代码：
+					</td>
+					<td>
+						<input type="text"placeholder="输入文本" th:value="${nvt.ProductID.ProductCode}"  class="layui-input" name="ProductID.ProductCode"/>
+					</td>
+					<td style="text-align: center">
+						产品名称：
+					</td>
+					<td>
+							<input type="text"placeholder="输入文本" th:value="${nvt.ProductID.ProductName}"  class="layui-input" name="ProductID.ProductName"/>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center">
+						成立批次：
+					</td>
+					<td>
+						<input type="text"placeholder="输入文本" th:value="${nvt.SetUpBatch}"  class="layui-input" name="SetUpBatch" id="SetUpBatch"/>
+					</td>
+					<td style="text-align: center">
+						估值日期：
+					</td>
+					<td>
+						<input type="date" name="ValuationDate" th:value="${nvt.ValuationDate}" class="layui-input" id="test10" >
+					</td>
+				</tr>
+
+
+			</table>
+
+			<div >
+				<button type="button" class="layui-btn layui-btn-normal layui-btn-radius" onclick="queryJingZhi()">查询</button>
+				<button type="button" class="layui-btn layui-btn-radius" onclick="Chongzhi()" >重置</button>
+			</div>
+			<script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript" charset="utf-8"></script>
+			<script th:inline="javascript">
+                $(function () {
+                    var z = [[${nvt.IncomeTypeID.IncomeTypeID}]];
+                    if(z!=null && z!=-1){
+                        $("select[name='IncomeTypeID.IncomeTypeID']").val(z);
+					}else{
+                        $("select[name='IncomeTypeID.IncomeTypeID']").children("option").eq(0).attr("selected","selected");
+					}
+
+
+                })
+                function Chongzhi() {
+
+                   $("input[name='ProductID.ProductCode']").val("");
+                    $("input[name='ProductID.ProductName']").val("");
+                   $("input[name='ValuationDate']").val("");
+                    $("input[name='SetUpBatch']").val("");
+
+                }
+
+
+			</script>
+		</div>
+			</form>
+		</center>
+		<div class="contian">
+			<ul>
+				</a>
+				<a th:href="toAddJingzhi"><li>
+					<span id="">
+						新建
+					</span>
+				</li></a>
+				</a>
+				<a href="##"><li>
+					<span id="">
+						导出全部
+					</span>
+				</li></a>
+			</ul>
+		</div>
+		
+		<table align="center" class="layui-table" border="1" cellspacing="0" cellpadding="0" width="100%" >
+    <tr class="header_tr">
+        <td>操作</td>
+        <td>产品代码</td>
+        <td>产品名称</td>
+        <td>收益类型</td>
+        <td>
+			<span style="color: red">成立批次</span>
+		</td>
+        <td>净值</td>
+        <td>
+			<span style="color: red">累计净值</span>
+		</td>
+        <td>
+			<span style="color:blue">每万份收益</span>
+		</td>
+        <td>
+			<span style="color:blue">七日年化收益率（%）</span>
+		</td>
+        <td>估值日期</td>
+        <td>发布日期</td>
+        <td>操作人</td>
+        <td>操作日期</td>
+   	 </tr>
+
+    <tr class="tr" th:each="item:${jingzhiPage.list}" th:object="${item}">
+		<td>
+			<input type="hidden" th:value="*{NetWorthID}" name="NetWorthID">
+			<a th:href="@{toUpdateJz(NetWorthID=*{NetWorthID},IncomeTypeID=*{IncomeTypeID.IncomeTypeID})}">
+				<i class="layui-icon"></i>
+			</a>
+			<a href="">
+				<i class="layui-icon"></i>
+			</a>
+		</td>
+		<td th:text="*{ProductID.ProductCode}"></td>
+		<td th:text="*{ProductID.ProductName}"></td>
+		<td th:text="*{IncomeTypeID.IncomeTypeName}"></td>
+		<td th:text="*{SetUpBatch}"></td>
+		<td th:text="*{NetWorth}"></td>
+		<td th:text="*{CumulativeNetWorth}"></td>
+		<td th:text="*{ExtremelyProfitable}"></td>
+		<td th:text="*{RateOfReturn}"></td>
+		<td th:text="*{ValuationDate}"></td>
+		<td th:text="*{DateOfPublication}"></td>
+		<td th:switch="*{OperatorID}" >
+			<span th:case="1">系统管理员</span>
+			<span th:case="2">维护用户</span>
+		</td>
+		<td th:text="*{OperatingDate}">操作日期</td>
+    </tr>
+
+</table>
+
+		<input name="pageNumber" th:value="${jingzhiPage.pageNum}" type="hidden"/><!--//第几页-->
+		<input name="total" th:value="${jingzhiPage.total}" type="hidden"/><!--//一共多少行数据-->
+		<center><div id="demo7"></div></center>
+
+		<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+
+            function queryJingZhi(){
+                var data = $("#form").serialize();
+                $("#form").attr("action","queryNetValuePage?"+data+"&pageNumber="+pageNum).submit();
+
+            }
+          var total=0;
+            var pageNum=0;
+            $(function(){
+                var data = $("#form").serialize();
+                total=$("[name='total']").val();
+                pageNum=$("[name='pageNumber']").val();
+                layui.use([ 'laypage', 'layer' ], function() {
+                    var laypage = layui.laypage, layer = layui.layer;
+                    laypage.render({
+                        elem : 'demo7',
+                        count : total
+                        ,curr: pageNum,
+                        limit:3//每页几个,需要修改
+                        ,
+                        layout : [ 'count', 'prev', 'page', 'next',  'refresh',
+                            'skip', ],
+                        jump : function(obj,first) {
+                            //console.log(obj)
+                            if(!first){
+                                //do something
+                                $("[name='pageNumber']").val(obj.curr);
+                                $("#form").attr("action","queryNetValuePage?"+data+"&pageNumber="+pageNum).submit();
+                            }
+                        }
+                    });
+                });
+            });
+
+
+
+
+		</script>
+	</body>
+</html>

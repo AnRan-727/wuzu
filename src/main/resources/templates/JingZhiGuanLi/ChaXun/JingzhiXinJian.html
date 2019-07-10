@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+	</head>
+	<body>
+		<input type="button" value="1" />
+		<input type="button" value="2" />
+		<input type="button" value="3" />
+		<div>
+			<center>
+				<div style="position: relative;">
+					<!--上边-->
+					<div style="width: 60%; height: 50px; border: 1px solid black; background-color: darkgray;">
+						<p align="left"><span style="margin-left: 1%;">新建净值</span><span style="margin-left: 88%;cursor: pointer;">×</span></p>
+					</div>
+					<!--主体1-->
+					<div id="zhuti1" style="width: 60%; height: 500px; border: 1px solid black; position: absolute; top 0px;left: 20%; display: none;">
+						<form>
+							<table>
+								<tr height="80px">
+									<td width="20%">*产品名称：</td>
+									<td width="30%">
+										<select name="">
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+										</select>
+									</td>
+									<td width="20%">*收益类型：</td>
+									<td width="30%">返显（<span style="color: blue;">浮动收益</span>）</td>
+								</tr>
+								<tr height="80px">
+									<td>*产品代码：</td>
+									<td>返显</td>
+									<td>成立批次：</td>
+									<td>
+										<select name="">
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+										</select>
+									</td>
+								</tr>
+								<tr height="80px">
+									<td>*净值：</td>
+									<td><input type="text" /></td>
+									<td>*累计净值：</td>
+									<td><input type="text" /></td>
+								</tr>
+								<tr height="80px">
+									<td>*估计日期：</td>
+									<td><input type="text" /></td>
+									<td>*发布日期：</td>
+									<td><input type="text" /></td>
+								</tr>
+								<tr height="80px">
+									<td colspan="2" align="right"><input type="submit" /></td>
+									<td colspan="2"><input type="button" value="取消" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<!--主体2-->
+					<div id="zhuti2" style="width: 60%; height: 500px; border: 1px solid black; position: absolute; top 0px;left: 20%; display: none;">
+						<form>
+							<table>
+								<tr height="80px">
+									<td width="20%">*产品名称：</td>
+									<td width="30%">
+										<select name="">
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+										</select>
+									</td>
+									<td width="20%">*收益类型：</td>
+									<td width="30%">返显（<span style="color: blue;">浮动收益</span>）</td>
+								</tr>
+								<tr height="80px">
+									<td>*产品代码：</td>
+									<td>返显</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr height="80px">
+									<td>每万份收益：</td>
+									<td><input type="text" /></td>
+									<td>*七日年化收益率：</td>
+									<td><input type="text" /></td>
+								</tr>
+								<tr height="80px">
+									<td>*估值日期：</td>
+									<td><input type="text" /></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr height="80px">
+									<td colspan="2" align="right"><input type="submit" /></td>
+									<td colspan="2"><input type="button" value="取消" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<!--主体3-->
+					<div id="zhuti3" style="width: 60%; height: 500px; border: 1px solid black; position: absolute; top 0px;left: 20%; display: inline;">
+						<form>
+							<table>
+								<tr height="80px">
+									<td width="20%">*产品名称：</td>
+									<td width="30%">
+										<select name="">
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+											<option value="">11111111</option>
+										</select>
+									</td>
+									<td width="20%">*收益类型：</td>
+									<td width="30%">返显（<span style="color: blue;">浮动收益</span>）</td>
+								</tr>
+								<tr height="80px">
+									<td>*产品代码：</td>
+									<td>返显</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr height="80px">
+									<td>净值：</td>
+									<td><input type="text" /></td>
+									<td>*累计净值：</td>
+									<td><input type="text" /></td>
+								</tr>
+								<tr height="80px">
+									<td>*估值日期：</td>
+									<td><input type="text" /></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr height="80px">
+									<td colspan="2" align="right"><input type="submit" /></td>
+									<td colspan="2"><input type="button" value="取消" /></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+			</center>			
+		</div>
+		<script type="text/javascript" src="js/jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("input[value='1']").click(function(){
+					$("#zhuti1").css("display","inline");
+					$("#zhuti2").css("display","none");
+					$("#zhuti3").css("display","none");
+				})
+				$("input[value='2']").click(function(){
+					$("#zhuti1").css("display","none");
+					$("#zhuti2").css("display","inline");
+					$("#zhuti3").css("display","none");
+				})
+				$("input[value='3']").click(function(){
+					$("#zhuti1").css("display","none");
+					$("#zhuti2").css("display","none");
+					$("#zhuti3").css("display","inline");
+				})
+			})
+		</script>
+	</body>
+</html>

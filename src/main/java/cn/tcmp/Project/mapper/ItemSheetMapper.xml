@@ -3,23 +3,66 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.tcmp.Project.mapper.ItemSheetMapper">
-    <!--<resultMap id="IntemsMap" type="Item_sheet" autoMapping="true">
+    <resultMap id="IntemsMap" type="Item_sheet" autoMapping="true">
         <id column="ItemID" property="ItemID" />
-        <association property="ItemtypeID" column="ItemTypeID" resultMap="ItemttMap"/>
-        <association property="ProductclassificationID" column="ProductClassificationID" resultMap="proMap"/>
-        <association property="ChanneltableID" column="ChannelTableID" resultMap="Channel_listMap"/>
+        <association property="ItemtypeID" resultMap="ItemttMap"/>
+        <association property="ProductclassificationID"  resultMap="proMap"/>
+        <association property="ChanneltableID" resultMap="Channel_listMap"/>
+        <!--<association property="RaiseCurrency" resultMap="RaiseCurrencyMap"/>
+        <association property="InvestmentCurrency" resultMap="InvestmentCurrencyMap"/>
+        <association property="Manager" resultMap="ManagerMap"/>-->
+        <!--<association property="RaiseCurrency" javaType="Currency_list" >
+            <id property="CurrencyID" column="Currency_ID"></id>
+            <result column="CurrencyName" property="Currency_Name"></result>
+        </association>-->
+        <!--<association property="InvestmentCurrency" javaType="Currency_list" >
+            <id property="CurrencyID" column="CurrencyID"></id>
+            <result column="CurrencyName" property="CurrencyName"></result>
+        </association>
+        <association property="Manager" javaType="Channel_Type" autoMapping="true">
+            <id property="ChannelTypeID" column="ChannelTypeID"></id>
+        </association>-->
+        <association property="InvestmentDirectionID" javaType="Investment_direction_table" autoMapping="true">
+            <id property="InvestmentDirectionID" column="InvestmentDirectionID"></id>
+        </association>
+        <association property="InvestmentModeID" javaType="Investments_schedule" autoMapping="true">
+            <id property="InvestmentModeID" column="InvestmentModeID"></id>
+        </association>
+        <association property="IncomeDistributionID" javaType="Distribution_of_income" autoMapping="true">
+            <id property="IncomeDistributionID" column="IncomeDistributionID"></id>
+        </association>
+        <association property="IncomeDistributionFrequencyID" javaType="Frequency_of_income_distribution" autoMapping="true">
+            <id property="IncomeDistributionFrequencyID" column="IncomeDistributionFrequencyID"></id>
+        </association>
+        <association property="amrID" javaType="Asset_management_report" autoMapping="true">
+            <id property="amrID" column="amrID"></id>
+        </association>
     </resultMap>
-    <resultMap id="proMap" type="Product_classification_table">
-        <id column="ProductClassificationID" property="ProductClassificationID"/>
-        <result column="ProductClassificationName" property="ProductClassificationName"/>
-    </resultMap>
-    <resultMap id="ItemttMap" type="Item_type_table">
-        <id column="ItemTypeID" property="ItemTypeID"/>
-        <result column="ItemTypeName" property="ItemTypeName"/>
-    </resultMap>
-    <resultMap id="Channel_listMap" type="Channel_list">
-        <id property="channelID" column="ChannelID" />
 
+    <resultMap id="proMap" type="Product_classification_table" autoMapping="true">
+        <id column="ProductClassificationID" property="ProductClassificationID"/>
+    </resultMap>
+
+    <resultMap id="ItemttMap" type="Item_type_table" autoMapping="true">
+        <id column="ItemTypeID" property="ItemTypeID"/>
+    </resultMap>
+
+    <!--<resultMap id="RaiseCurrencyMap" type="Currency_list" >
+        <id property="CurrencyID" column="Currency_ID"></id>
+        <result column="CurrencyName" property="Currency_Name"></result>
+    </resultMap>
+
+    <resultMap id="InvestmentCurrencyMap" type="Currency_list" >
+        <id property="CurrencyID" column="Currency_ID"></id>
+        <result column="CurrencyName" property="Currency_Name"></result>
+    </resultMap>
+
+    <resultMap id="ManagerMap" type="Channel_Type" autoMapping="true">
+        <id property="ChannelTypeID" column="ChannelTypeID"></id>   
+    </resultMap>-->
+
+    <resultMap id="Channel_listMap" type="Channel_list" autoMapping="true">
+        <id property="ID" column="ChannelID" />
         <association column="ChanneltypeID" property="ChanneltypeID" javaType="Channel_type">
             <id column="ChannelTypeID" property="ChannelTypeID"/>
             <result column="ChannelTypeName" property="ChannelTypeName"/>
@@ -31,27 +74,30 @@
         WHERE s.ItemTypeID=it.ItemTypeID AND ct.ChannelTypeID=c.ChanneltypeID
         AND s.ProductClassificationID=p.ProductClassificationID
         AND s.ChannelTableID=c.ChannelID
-        <if test="Project_code!=null and Project_code!=''">
-            AND s.ProjectCode=#{Project_code}
+        <if test="Projectcode!=null and Projectcode!=''">
+            AND s.ProjectCode=#{Projectcode}
         </if>
-        <if test="Entry_name!=null and Entry_name!=''">
-            AND s.EntryName=#{Entry_name}
+        <if test="Entryname!=null and Entryname!=''">
+            AND s.EntryName=#{Entryname}
         </if>
-        <if test="Product_classification_ID.Product_Classification_ID!=null and Product_classification_ID.Product_Classification_ID!=''">
-            AND p.ProductClassificationID=#{Product_classification_ID.Product_Classification_ID}
+        <if test="ProductclassificationID.ProductClassificationID!=null and ProductclassificationID.ProductClassificationID!=''">
+            AND p.ProductClassificationID=#{ProductclassificationID.ProductClassificationID}
         </if>
-        <if test="Item_type_ID.Item_Type_ID!=null and Item_type_ID.Item_Type_ID!=''">
-            AND it.ItemTypeID=#{Item_type_ID.Item_Type_ID}
+        <if test="ItemtypeID.ItemTypeID!=null and ItemtypeID.ItemTypeID!=''">
+            AND it.ItemTypeID=#{ItemtypeID.ItemTypeID}
         </if>
-        <if test="Date_of_establishment!=null and Date_of_establishment!=''">
-            AND s.DateOfEstablishment=#{Date_of_establishment}
+        <if test="Dateofestablishment!=null and Dateofestablishment!=''">
+            AND s.DateOfEstablishment=#{Dateofestablishment}
         </if>
-        <if test="Maturity_Date!=null and Maturity_Date!=''">
-            AND s.MaturityDate=#{Maturity_Date}
+        <if test="MaturityDate!=null and MaturityDate!=''">
+            AND s.MaturityDate=#{MaturityDate}
         </if>
-        <if test="Channel_table_ID.channel_ID!=null and Channel_table_ID.channel_ID!=''">
-            AND c.ChannelID=#{Channel_table_ID.channel_ID}
+        <if test="ChanneltableID.ID!=null and ChanneltableID.ID!=''">
+            AND c.ChannelID=#{ChanneltableID.ID}
         </if>
+    </select>
+    <select id="detailItem_sheet" resultMap="IntemsMap" parameterType="Integer">
+        SELECT * FROM item_sheet WHERE ItemID=#{itemid}
     </select>
     <select id="queryAllProduct" resultMap="proMap">
         SELECT * FROM product_classification_table
@@ -61,5 +107,5 @@
     </select>
     <select id="queryAllChannel_list" resultMap="Channel_listMap">
         SELECT * FROM channel_list
-    </select>-->
+    </select>
 </mapper>

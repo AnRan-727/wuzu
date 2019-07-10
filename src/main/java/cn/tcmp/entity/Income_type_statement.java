@@ -10,7 +10,7 @@ import lombok.Data;
  * 收益类型表
  * */
 public class Income_type_statement{
-	private int IncomeTypeID;
+	private Integer IncomeTypeID;
 	private String IncomeTypeName;
 
 

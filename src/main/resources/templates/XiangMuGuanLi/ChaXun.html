@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
     <title>Title</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -16,23 +14,23 @@
             <table class="layui-table"  border="1 solid black" cellspacing="0" width="100%" align="center">
                 <tr>
                     <td align="right"><span>项目代码:</span></td>
-                    <td><input type="text" name="Project_code" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+                    <td><input type="text" name="Projectcode" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
                     <td align="right"><span>项目名称:</span></td>
-                    <td><input type="text" name="Entry_name" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+                    <td><input type="text" name="Entryname" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
                     <td align="right"><span>产品分类:</span></td>
                     <td>
-                        <select class="layui-select" name="Product_classification_ID.Product_Classification_ID">
+                        <select class="layui-select" name="ProductclassificationID.ProductClassificationID">
                             <option value="">--请选择--</option>
-                            <option th:each="pt:${product_type}" th:value="${pt.Product_Classification_ID}" th:text="${pt.Product_Classification_Name}"></option>
+                            <option th:each="pt:${product_type}" th:value="${pt.ProductClassificationID}" th:text="${pt.ProductClassificationName}"></option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td align="right"><span>项目类型:</span></td>
                     <td>
-                        <select class="layui-select" name="Item_type_ID.Item_Type_ID">
+                        <select class="layui-select" name="ItemtypeID.ItemTypeID">
                             <option value="">--请选择--</option>
-                            <option th:each="itemtt:${item_type}" th:value="${itemtt.Item_Type_ID}" th:text="${itemtt.Item_Type_Name}"></option>
+                            <option th:each="itemtt:${item_type}" th:value="${itemtt.ItemTypeID}" th:text="${itemtt.ItemTypeName}"></option>
                         </select>
                     </td>
                     <!--<td  align="right"><span>成立日期:</span></td>
@@ -41,7 +39,7 @@
                     <td >
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" name="Date_of_establishment" id="Date_of_establishment" placeholder="yyyy-MM-dd">
+                                <input type="text" class="layui-input" name="Dateofestablishment" id="Date_of_establishment" placeholder="yyyy-MM-dd">
                             </div>
                         </div>
                     </td>
@@ -51,7 +49,7 @@
                     <td>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" name="Maturity_Date" id="Maturity_Date" placeholder="yyyy-MM-dd">
+                                <input type="text" class="layui-input" name="MaturityDate" id="Maturity_Date" placeholder="yyyy-MM-dd">
                             </div>
                         </div>
                     </td>
@@ -59,9 +57,9 @@
                 <tr>
                     <td><span>项目来源:</span></td>
                     <td>
-                        <select class="layui-select" name="Channel_table_ID.channel_ID">
+                        <select class="layui-select" name="ChanneltableID.ID">
                             <option value="">--请选择--</option>
-                            <option th:each="channellist:${channel_list}" th:value="${channellist.channel_ID}" th:text="${channellist.Corporate_name}">中融国际信托有限公司</option>
+                            <option th:each="channellist:${channel_list}" th:value="${channellist.ID}" th:text="${channellist.Corporatename}"></option>
                         </select>
                     </td>
                 </tr>
@@ -100,47 +98,57 @@
                 <td>产品经理B</td>
             </tr>
             <tr th:each="sheet:${page.list}" th:object="${sheet}">
-                <td th:text="*{Item_ID}"></td>
+                <td th:text="*{ItemID}"></td>
                 <td align="center">
-                    <button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
+                    <!--<button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
+                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>-->
+                    <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}">
+                        <i class="layui-icon"></i>
+                    </a>
+                    <a href="">
+                        <i class="layui-icon"></i>
+                    </a>
+
                 </td>
-                <td th:text="*{Item_type_ID.Item_Type_Name}"></td>
-                <td th:text="*{Entry_name}"></td>
-                <td th:text="*{Project_code}"></td>
-                <td th:text="*{Project_size_lowercase}"></td>
-                <td th:text="*{Project_duration}"></td>
-                <td th:text="*{Term_Unit}"></td>
-                <td th:text="*{Date_of_establishment}"></td>
-                <td th:text="*{Maturity_Date}"></td>
-                <td th:text="*{Product_classification_ID.Product_Classification_Name}"></td>
-                <td th:text="*{Channel_table_ID.Corporate_name}"></td>
-                <td th:text="*{Channel_table_ID.Channel_type_ID.Channel_Type_Name}"></td>
-                <td th:text="*{Source_docker_A}"></td>
-                <td th:text="*{Source_docker_B}"></td>
-                <td th:text="*{Source_docker_C}"></td>
-                <td th:text="*{Product_Manager_A}"></td>
-                <td th:text="*{Product_Manager_B}"></td>
+                <td th:text="*{ItemtypeID.ItemTypeName}"></td>
+                <td th:text="*{Entryname}"></td>
+                <td th:text="*{Projectcode}"></td>
+                <td th:text="*{Projectsizelowercase}"></td>
+                <td th:text="*{Projectduration}"></td>
+                <td th:text="*{TermUnit}"></td>
+                <td th:text="*{Dateofestablishment}"></td>
+                <td th:text="*{MaturityDate}"></td>
+                <td th:text="*{ProductclassificationID.ProductClassificationName}"></td>
+                <td th:text="*{ChanneltableID.Corporatename}"></td>
+                <td th:text="*{ChanneltableID.ChanneltypeID.ChannelTypeName}"></td>
+                <td th:text="*{SourcedockerA}"></td>
+                <td th:text="*{SourcedockerB}"></td>
+                <td th:text="*{SourcedockerC}"></td>
+                <td th:text="*{ProductManagerA}"></td>
+                <td th:text="*{ProductManagerB}"></td>
             </tr>
         </table>
-        <div id="demo6" align="center"></div>
+        <input type="hidden">
+        <input type="hidden">
+        <div id="demo7" align="center"></div>
     </div>
 
 
     <script th:src="@{/layui/layui.js}"></script>
     <script>
-        layui.use(['laypage', 'layer'], function() {
-            var laypage = layui.laypage
-                , layer = layui.layer;
-            var pageNum=
+        var total=0;
+        var pageNum=0;
+        $(function() {
+            var data = $("#form").serialize();
+            total = $("[name='total']").val();
+            pageNum = $("[name='pageNumber']").val();
+
             laypage.render({
-                elem: 'demo6'
-                ,count: 50
-                ,layout: ['prev', 'next']
-                ,jump: function(obj, first){
-                    if(!first){
-                        layer.msg('第 '+ obj.curr +' 页');
-                    }
+                elem: 'demo7'
+                ,count: 100
+                ,layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                ,jump: function(obj){
+                    console.log(obj)
                 }
             });
         })
