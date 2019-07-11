@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,11 +64,13 @@ public class Channel_Type_Controller {
         return "QuDaoGuanLi/XinJian/QuDaoXinJian";
     }
 
+
     private static List<String> filename = new ArrayList<>();
     private String path="images";//要保存的文件夹的名字,需修改
-    @RequestMapping(value = "doAddChannel",produces = "text/html;charset=UTF-8")
-    @ResponseBody
-    public String doAddChannel(MultipartFile file,HttpServletRequest request){
+    @RequestMapping(value="fileController",produces = "text/html;charset=UTF-8")//解决返回中文乱码
+    @ResponseBody//设置ajax 返回保存路径
+    public String fileController(MultipartFile file,HttpServletRequest request,HttpServletResponse response) {
+        response.setCharacterEncoding("utf-8");
         //寻找要保存的文件夹(保存路径)
         String savePath = request.getSession().getServletContext().getRealPath("/"+path+"/");
         try {
@@ -78,11 +81,18 @@ public class Channel_Type_Controller {
         }
         Attached_table attached_table = new Attached_table();
 
-        String path = file.getOriginalFilename();
-        attached_table.setAttachmentPath(path);
-        filename.add(path);
+        String url = file.getOriginalFilename();
+        attached_table.setAttachmentPath(url);
+        filename.add(url);
 
-        return path;
+
+        return "/"+path+"/"+url;
     }
+
+
+
+
+
+
 
 }
