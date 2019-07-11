@@ -1,10 +1,14 @@
 package cn.tcmp.Net_Worth.controller;
 import cn.tcmp.Net_Worth.service.JingZhiService;
 import cn.tcmp.entity.Net_value_table;
+import cn.tcmp.entity.Product_list;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 @Controller
 public class JingZhiController {
     @Autowired
@@ -61,7 +65,25 @@ public class JingZhiController {
 
     //跳转增加
     @RequestMapping("toAddJingzhi")
-    public String toAddJingzhi() {
+    public String toAddJingzhi(Model model) {
+        model.addAttribute("chanpinlist",service.queryAllPL());
+        model.addAttribute("shouyilist",service.queryAllSy());
+        return "JingZhiGuanLi/Xinjian/xinjian";
+    }
+
+    //ajax交互根据产品id查询产品的信息
+    @RequestMapping(value = "ajaxQueryCpByid",method = RequestMethod.GET,produces = {"application/json;charset = UTF-8"})
+    @ResponseBody
+    public Product_list ajaxQueryCpByid(Integer ProductID) {
+        System.err.println(service.queryCpByProductID(ProductID));
+        return service.queryCpByProductID(ProductID);
+    }
+    //增加净值信息
+    @RequestMapping("doAddJingzhi")
+    public String doAddJingzhi(Net_value_table n,Model model) {
+        model.addAttribute("addMap",service.addJingzhi(n));
+        System.out.println(n);
+        System.out.println(service.addJingzhi(n));
         return "JingZhiGuanLi/Xinjian/xinjian";
     }
 }

@@ -29,5 +29,8 @@ public interface JingZhiService {
     //新建净值信息
     Integer addJingzhi(Net_value_table n);
 
-
+    //产品查询
+    List<Product_list> queryAllPL();
+    //根据所选的产品id查询产品代码和收益类型
+    Product_list queryCpByProductID( Integer ProductID);
 }

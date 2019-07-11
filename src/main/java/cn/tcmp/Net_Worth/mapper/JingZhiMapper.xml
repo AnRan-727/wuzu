@@ -14,6 +14,16 @@
     <resultMap id="syMap" type="Income_type_statement" autoMapping="true">
         <id property="ItemTypeID" column="ItemTypeID"></id>
     </resultMap>
+
+
+    <resultMap id="chanpinMap" type="Product_list" autoMapping="true">
+        <id property="ProductID" column="ProductID"></id>
+        <association property="Incometype" resultMap="shouyiMap"></association>
+    </resultMap>
+    <resultMap id="shouyiMap" type="Income_type_statement" autoMapping="true">
+        <id property="IncomeTypeID" column="IncomeTypeID"></id>
+    </resultMap>
+
     <select id="queryNetValue" resultMap="jzMap" parameterType="Net_value_table">
         SELECT jz.NetWorthID,
         cp.ProductCode,cp.ProductName,sy.IncomeTypeID,sy.IncomeTypeName,
@@ -59,4 +69,47 @@
         AND jz.NetWorthID=#{NetWorthID}
 
     </select>
+    <select id="queryAllPL" resultMap="chanpinMap" >
+          SELECT p.ProductID,p.ProductCode,p.ProductName,sy.IncomeTypeID,sy.IncomeTypeName
+           FROM product_list p,income_type_statement sy
+           WHERE p.IncomeType=sy.IncomeTypeID
+    </select>
+
+    <select id="queryCpByProductID" resultMap="chanpinMap" parameterType="Integer">
+          SELECT p.ProductID,p.ProductCode,p.ProductName,sy.IncomeTypeID,sy.IncomeTypeName
+           FROM product_list p,income_type_statement sy
+           WHERE p.IncomeType=sy.IncomeTypeID
+           and p.ProductID=#{ProductID}
+    </select>
+    <insert id="addJingzhi" parameterType="Net_value_table">
+        INSERT INTO `product`.`net_value_table` (
+  `NetWorthID`,
+  `ProductID`,
+  `IncomeTypeID`,
+  `SetUpBatch`,
+  `NetWorth`,
+  `CumulativeNetWorth`,
+  `ExtremelyProfitable`,
+  `RateOfReturn`,
+  `ValuationDate`,
+  `DateOfPublication`,
+  `OperatorID`,
+  `OperatingDate`
+)
+VALUES
+  (
+    null ,
+    #{ProductID.ProductID},
+    #{IncomeTypeID.IncomeTypeID},
+    #{SetUpBatch},
+    #{NetWorth},
+    #{CumulativeNetWorth},
+    #{ExtremelyProfitable},
+    #{RateOfReturn},
+    #{ValuationDate},
+    #{DateOfPublication},
+    1,
+    NOW()
+  )
+    </insert>
 </mapper>

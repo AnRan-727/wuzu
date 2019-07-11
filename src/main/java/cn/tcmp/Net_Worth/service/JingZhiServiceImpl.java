@@ -3,6 +3,7 @@ package cn.tcmp.Net_Worth.service;
 import cn.tcmp.Net_Worth.mapper.JingzhiMapper;
 import cn.tcmp.entity.Income_type_statement;
 import cn.tcmp.entity.Net_value_table;
+import cn.tcmp.entity.Product_list;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,15 @@ public class JingZhiServiceImpl implements JingZhiService {
     @Override
     public Integer addJingzhi(Net_value_table n) {
         return mapper.addJingzhi(n);
+    }
+
+    @Override
+    public List<Product_list> queryAllPL() {
+        return mapper.queryAllPL();
+    }
+
+    @Override
+    public Product_list queryCpByProductID(Integer ProductID) {
+        return mapper.queryCpByProductID(ProductID);
     }
 }
