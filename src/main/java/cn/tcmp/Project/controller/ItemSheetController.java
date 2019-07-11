@@ -57,6 +57,10 @@ public class ItemSheetController {
         model.addAttribute("product_type",itemSheetService.queryAllProduct());
         model.addAttribute("channel_list",itemSheetService.queryAllChannel_list());
         model.addAttribute("item_type",itemSheetService.queryAllItem_type_table());
+        model.addAttribute("pct",pct);
+        model.addAttribute("itt",itt);
+        model.addAttribute("Channel_list",Channel_list);
+        model.addAttribute("item_sheet",item_sheet);
         if (pageNo==null){
             pageNo=1;
         }
