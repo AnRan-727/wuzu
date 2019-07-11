@@ -77,4 +77,15 @@ public class ItemSheetServiceImpl implements ItemSheetService {
         return itemSheetMapper.queryCompany_departments_list();
     }
 
+    @Override
+    public int saveItem_sheet(Item_sheet item_sheet) {
+        return itemSheetMapper.saveItem_sheet(item_sheet);
+    }
+
+    @Override
+    public int updateItem_sheet(Item_sheet item_sheet) {
+        System.err.println("service:"+item_sheet);
+        return itemSheetMapper.updateItem_sheet(item_sheet);
+    }
+
 }

@@ -35,4 +35,8 @@ public interface ItemSheetService {
     List<Asset_management_report> queryAsset_management_report();
     //查询项目来源方部门(下拉框)
     List<Company_departments_list> queryCompany_departments_list();
+    //新建项目
+    int  saveItem_sheet(Item_sheet item_sheet);
+    //修改项目
+    int updateItem_sheet(Item_sheet item_sheet);
 }

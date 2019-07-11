@@ -10,7 +10,7 @@ import lombok.Data;
  * 产品分类
  * */
 public class Product_classification_table{
-	private int ProductClassificationID;
+	private Integer ProductClassificationID;
 	private String ProductClassificationName;
 
 

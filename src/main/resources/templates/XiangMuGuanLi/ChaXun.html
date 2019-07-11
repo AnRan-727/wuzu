@@ -14,12 +14,12 @@
             <table class="layui-table"  border="1 solid black" cellspacing="0" width="100%" align="center">
                 <tr>
                     <td align="right"><span>项目代码:</span></td>
-                    <td><input type="text" name="Projectcode" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+                    <td><input type="text" name="Projectcode" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
                     <td align="right"><span>项目名称:</span></td>
-                    <td><input type="text" name="Entryname" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+                    <td><input type="text" name="Entryname"  placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
                     <td align="right"><span>产品分类:</span></td>
                     <td>
-                        <select class="layui-select" name="ProductclassificationID.ProductClassificationID">
+                        <select class="layui-select" name="ProductClassificationID">
                             <option value="">--请选择--</option>
                             <option th:each="pt:${product_type}" th:value="${pt.ProductClassificationID}" th:text="${pt.ProductClassificationName}"></option>
                         </select>
@@ -28,7 +28,7 @@
                 <tr>
                     <td align="right"><span>项目类型:</span></td>
                     <td>
-                        <select class="layui-select" name="ItemtypeID.ItemTypeID">
+                        <select class="layui-select" name="ItemTypeID">
                             <option value="">--请选择--</option>
                             <option th:each="itemtt:${item_type}" th:value="${itemtt.ItemTypeID}" th:text="${itemtt.ItemTypeName}"></option>
                         </select>
@@ -57,7 +57,7 @@
                 <tr>
                     <td><span>项目来源:</span></td>
                     <td>
-                        <select class="layui-select" name="ChanneltableID.ID">
+                        <select class="layui-select" name="ChannelID">
                             <option value="">--请选择--</option>
                             <option th:each="channellist:${channel_list}" th:value="${channellist.ChannelID}" th:text="${channellist.Corporatename}"></option>
                         </select>
@@ -129,6 +129,7 @@
             </tr>
         </table>
         <input name="pageNumber" th:value="${page.pageNum}" type="hidden"/><!--//第几页-->
+
         <input name="total" th:value="${page.total}" type="hidden"/><!--//一共多少行数据-->
 
         <div id="demo7" align="center"></div>
@@ -138,11 +139,12 @@
     <script th:src="@{/layui/layui.js}"></script>
     <script>
         var total=0;
-        var pageNum=0;
+        var pageNum= 0;
         $(function(){
             var data = $("#form").serialize();
-            total=$("input[name='total']").val();
-            pageNum=$("input[name='pageNumber']").val();
+            var total=$("input[name='total']").val();
+            var pageNum=$("input[name='pageNumber']").val();
+
             layui.use([ 'laypage', 'layer' ], function() {
                 var laypage = layui.laypage, layer = layui.layer;
                 laypage.render({
@@ -157,8 +159,11 @@
                         console.log(obj)
                         if(!first){
                             //do something
+
                             $("input[name='pageNumber']").val(obj.curr);
-                            $("#form").attr("action","queryByItem_sheet?pageNo="+pageNum+"&"+data).submit();
+                            console.log(data)
+                            $("#form").attr("action","/item/queryByItem_sheet?"+data+"&pageNo="+pageNum).submit();
+                            alert(pageNum);
                         }
                     }
                 });
