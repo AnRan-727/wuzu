@@ -39,4 +39,6 @@ public interface ItemSheetService {
     int  saveItem_sheet(Item_sheet item_sheet);
     //修改项目
     int updateItem_sheet(Item_sheet item_sheet);
+    //删除项目
+    int deleteItem_sheet(Integer itemid);
 }

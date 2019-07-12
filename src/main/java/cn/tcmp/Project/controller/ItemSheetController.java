@@ -132,6 +132,13 @@ public class ItemSheetController {
         }
         return "redirect:queryByItem_sheet";
     }
-
+    @RequestMapping("XiangMuDelete")
+    public String deleteXiangMu(Integer itemID){
+        Integer count=itemSheetService.deleteItem_sheet(itemID);
+        if (count>0){
+            System.err.println("删除成功");
+        }
+        return "redirect:queryByItem_sheet";
+    }
 
 }

@@ -88,4 +88,9 @@ public class ItemSheetServiceImpl implements ItemSheetService {
         return itemSheetMapper.updateItem_sheet(item_sheet);
     }
 
+    @Override
+    public int deleteItem_sheet(Integer itemid) {
+        return itemSheetMapper.deleteItem_sheet(itemid);
+    }
+
 }

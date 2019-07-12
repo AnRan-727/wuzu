@@ -1,6 +1,7 @@
 package cn.tcmp.Project.mapper;
 
 import cn.tcmp.entity.*;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -46,4 +47,7 @@ public interface ItemSheetMapper {
     int saveItem_sheet(Item_sheet item_sheet);
     //修改项目
     int updateItem_sheet(Item_sheet item_sheet);
+    //删除项目
+    @Delete("delete from product.item_sheet where ItemID = #{itemid}")
+    int deleteItem_sheet(Integer itemid);
 }
