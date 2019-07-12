@@ -7,7 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript"></script>
+    <script type="text/javascript">
 
+        $(function(){
+            var ChannelTypeName = $("input[name='ChannelTypeName']").val();
+
+            if(ChannelTypeName == "管理人" || ChannelTypeName == "项目来源方"){
+                $(".ZhengJian").css("display","none");
+            }
+            if(ChannelTypeName == "销售渠道" || ChannelTypeName == "客户项目银行"){
+                $(".ZhengJian").css("display","none");
+                $(".JieShao").css("display","none");
+                $(".FuJian").css("display","none");
+                $(".GongSi").css("display","none");
+            }
+        })
+
+
+
+    </script>
 </head>
 <body>
 <div style="padding: 20px; background-color: #F2F2F2;">
@@ -20,50 +39,55 @@
                     <table border="1" class="layui-table">
                         <tr>
                             <td>渠道类型</td>
-                            <td></td>
+                            <td>
+                                <span th:text="${list.ChanneltypeID.ChannelTypeName}"></span>
+                                <input type="hidden" th:value="${list.ChanneltypeID.ChannelTypeName}" name="ChannelTypeName">
+                            </td>
                             <td>名称</td>
-                            <td></td>
+                            <td th:text="${list.Corporatename}"></td>
                         </tr>
-                        <tr>
+                        <tr class="JieShao">
                             <td>介绍</td>
-                            <td></td>
+                            <td th:text="${list.introduce}"></td>
                             <td>联系人名称</td>
-                            <td></td>
+                            <td th:text="${list.ContactName}"></td>
                         </tr>
-                        <tr>
+                        <tr class="JieShao">
                             <td>联系人电话</td>
-                            <td></td>
+                            <td th:text="${list.Contacttelephone}"></td>
                             <td>联系人电子邮箱</td>
-                            <td></td>
+                            <td th:text="${list.ContactEmail}"></td>
                         </tr>
-                        <tr>
+                        <tr class="ZhengJian">
                             <td>证件类型</td>
-                            <td></td>
+                            <td th:text="${list.Documenttype}"></td>
                             <td>证件号码</td>
-                            <td></td>
+                            <td th:text="${list.IdentificationNumber}"></td>
                         </tr>
-                        <tr>
+                        <tr class="FuJian">
                             <td>附件</td>
                             <td colspan="3"><a href="">图片..........</a></td>
                         </tr>
                     </table>
-                    <span>公司信息</span>
-                    <table border="1" class="layui-table">
-                        <tr>
-                            <th>部门名称</th>
-                            <th>部门联系人</th>
-                            <th>部门介绍人</th>
-                            <th>部门介绍</th>
-                        </tr>
-                        <tr>
-                            <td>XXXX</td>
-                            <td>XXXX</td>
-                            <td>XXXX</td>
-                            <td>XXXX</td>
-                        </tr>
-                    </table>
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">修改</button>
-                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius">删除</button>
+                    <div class="GongSi">
+                        <span>公司信息</span>
+                        <table border="1" class="layui-table">
+                            <tr>
+                                <th>部门名称</th>
+                                <th>部门联系人</th>
+                                <th>部门联系人介绍</th>
+                                <th>部门介绍</th>
+                            </tr>
+                            <tr th:each="list:${company}" th:object="${list}">
+                                <td th:text="*{Departmentname}"></td>
+                                <td th:text="*{DepartmentalContacts}"></td>
+                                <td th:text="*{IntroductionofDepartmentalContacts}"></td>
+                                <td th:text="*{DepartmentalIntroduction}"></td>
+                            </tr>
+                        </table>
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">修改</button>
+                        <button type="button" onclick="window.history.go(-1)" class="layui-btn layui-btn-danger layui-btn-radius">返回</button>
+                    </div>
                 </div>
             </div>
         </div>

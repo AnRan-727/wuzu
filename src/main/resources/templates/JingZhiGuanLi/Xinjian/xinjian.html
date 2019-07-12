@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>修改净值-浮动收益</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+</head>
+<body>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="background-color: #CCCCCC">净值新建</div>
+                <div class="layui-card-body" align="center">
+
+                    <form id="JzForm" autocomplete="off">
+
+                    <table  class="layui-table" id="tab1">
+                        <tr>
+                            <td>*产品名称</td>
+                            <td>
+                                <select name="ProductID.ProductID" id="" class="layui-input" >
+                                    <option value="">请选择产品</option>
+                                    <option th:each="item:${chanpinlist}" th:object="${item}" th:value="*{ProductID}">
+                                        <span th:text="*{ProductName}"></span>
+                                    </option>
+                                </select>
+                            </td>
+                            <td>*收益类型</td>
+                            <td>
+                                <input type="text"  name="IncomeTypeID.incomeTypeName"  readonly="readonly" class="layui-input">
+                                <input type="text"  name="IncomeTypeID.incomeTypeID"  readonly="readonly" class="layui-input">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>*产品代码</td>
+                            <td colspan="3">
+                                <input type="text" name="ProductID.ProductCode"  readonly="readonly" class="layui-input">
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                    </form>
+
+                    <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" onclick="xiugai()">保存</button>
+                    <a th:href="queryNetValuePage">
+                        <button type="button" class="layui-btn layui-btn-danger layui-btn-radius">取消</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+    function fun() {
+        layui.use('laydate', function(){
+            var laydate1 = layui.laydate;
+
+            //执行一个laydate实例
+            laydate1.render({
+                elem: document.getElementById('test1') //指定元素
+                ,type: 'datetime'
+            });
+            var laydate2 = layui.laydate;
+
+            //执行一个laydate实例
+            laydate2.render({
+                elem: '#test2' //指定元素
+                ,type: 'datetime'
+            });
+        });
+    }
+</script>
+
+<script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript" charset="utf-8"></script>
+<script th:inline="javascript">
+    function xiugai() {
+        var data = $("#JzForm").serialize();
+        alert(data);
+        $("#JzForm").attr("action","doAddJingzhi?"+data).submit();
+    }
+    $(function () {
+
+        var z = [[${addMap}]];
+        if (z > 1) {
+            alert("增加成功！！");
+        }
+
+
+        $(".asd").remove();
+            $("select[name='ProductID.ProductID']").change(function () {
+                var  id=$(this).val();
+                $.get("ajaxQueryCpByid",{"ProductID":id},function (data) {
+                    var  productCode=data.productCode;
+                    var incomeTypeName=data.incometype.incomeTypeName;
+                    var incomeTypeID=data.incometype.incomeTypeID;
+
+                    $("input[name='ProductID.ProductCode']").val(productCode);
+                    $("input[name='IncomeTypeID.incomeTypeName']").val(incomeTypeName);
+                    $("input[name='IncomeTypeID.incomeTypeID']").val(incomeTypeID);
+                    if (incomeTypeID == 1) {
+                        $(".asd").remove();
+                            $("#tab1").append("<tr class='asd'>\n" +
+                                "    <td >*成立批次</td>\n" +
+                                "    <td colspan='3' >\n" +
+                                "        <input type='text'  name='SetUpBatch' class='layui-input'>\n" +
+                                "    </td>\n" +
+                                "</tr>\n" +
+                                "<tr class='asd'>\n" +
+                                "\n" +
+                                "    <td >*净值</td>\n" +
+                                "    <td >\n" +
+                                "        <input type='text' name='NetWorth' class='layui-input'>\n" +
+                                "    </td>\n" +
+                                "    <td >*累计净值</td>\n" +
+                                "    <td >\n" +
+                                "        <input type='text' name='CumulativeNetWorth' class='layui-input'>\n" +
+                                "    </td>\n" +
+                                "</tr>\n" +
+                                "<tr class='asd'>\n" +
+                                "    <td>*估值日期</td>\n" +
+                                "    <td>\n" +
+                                "        <input type='text' name='ValuationDate' class='layui-input' id='test1'>\n" +
+                                "    </td>\n" +
+                                "    <td >*发布日期</td>\n" +
+                                "    <td >\n" +
+                                "        <input type='text' name='DateOfPublication' class='layui-input' id='test2'>\n" +
+                                "    </td>\n" +
+                                "</tr>")
+                        fun();
+                    }else if (incomeTypeID == 2) {
+                        $(".asd").remove();
+                        $("#tab1").append("\n" +
+                            "<tr class='asd'>\n" +
+                            "\n" +
+                            "    <td >*净值</td>\n" +
+                            "    <td >\n" +
+                            "        <input type='text' name='NetWorth' class='layui-input'>\n" +
+                            "    </td>\n" +
+                            "    <td >*累计净值</td>\n" +
+                            "    <td >\n" +
+                            "        <input type='text' name='CumulativeNetWorth' class='layui-input'>\n" +
+                            "    </td>\n" +
+                            "</tr>\n" +
+                            "<tr class='asd'>\n" +
+                            "    <td>*估值日期</td>\n" +
+                            "    <td colspan=’3’>\n" +
+                            "        <input type='text' name='ValuationDate' class='layui-input' id='test1'>\n" +
+                            "    </td>\n" +
+                            " \n" +
+                            "</tr>");
+                        fun();
+                    }else if (incomeTypeID == 3) {
+                        $(".asd").remove();
+                        $("#tab1").append("\n" +
+                            "<tr class='asd'>\n" +
+                            "\n" +
+                            "    <td >*每万年收益</td>\n" +
+                            "    <td >\n" +
+                            "        <input type='text' name='ExtremelyProfitable' class='layui-input'>\n" +
+                            "    </td>\n" +
+                            "    <td >*七日年化收益率</td>\n" +
+                            "    <td >\n" +
+                            "        <input type='text' name='RateOfReturn' class='layui-input'>\n" +
+                            "    </td>\n" +
+                            "</tr>\n" +
+                            "<tr class='asd'>\n" +
+                            "    <td>*估值日期</td>\n" +
+                            "    <td colspan=’3’>\n" +
+                            "        <input type='text' name='ValuationDate' class='layui-input' id='test1'>\n" +
+                            "    </td>\n" +
+                            " \n" +
+                            "</tr>\n")
+                        fun();
+                    }
+                })
+            })
+        //$("#pin").hide();
+    })
+    
+</script>
+</body>
+</html>

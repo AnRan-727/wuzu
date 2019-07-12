@@ -8,6 +8,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
     <script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        function doDelete(e){
+            if(window.confirm("确定要删除吗?")){
+                $.get("doAjaxDeleteMaterial","id="+e,function(result){
+                    if(result == 3){
+                        alert("该记录已被引用,无法删除!");
+                    }else if(result == 1){
+                        alert("删除成功!");
+                        location.reload();
+                    }else{
+                        alert(">>>>>>>删除失败!");
+                    }
+                })
+            }
+        }
+
+
+    </script>
 </head>
 <body>
 <div style="padding: 20px; background-color: #F2F2F2;">
@@ -40,7 +59,7 @@
 
 
 
-                    <button type="button" class="layui-btn layui-btn-warm layui-btn-radius">新建</button>
+                    <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="window.location.href='/document/toAddDocument'">新建</button>
                     <table class="layui-table">
                         <tr>
                             <th>操作</th>
@@ -52,10 +71,21 @@
                         </tr>
                         <tr th:each="list:${material.list}" th:object="${list}">
                             <td>
-                                <a th:href="@{toUpdateMaterial(id=*{MaterialPeriodID})}">修改</a>
-                                <a href="">删除</a>
+                                <a th:href="@{toUpdateMaterial(MaterialPeriodID=*{MaterialPeriodID},MaterialPeriodName=*{PushDirectionID.PushDirectionName})}">修改</a>
+                                <a href="javascript:void(0)" class="ShanChu" th:setID="*{MaterialPeriodID}">删除</a>
+                                <script>
+                                    $(function () {
+                                        $(".ShanChu").mouseover(function () {
+                                            id=$(this).attr("setID");
+                                            $(this).attr("onclick","doDelete("+id+")");
+                                        })
+                                    })
+                                </script>
                             </td>
-                            <td th:text="*{MaterialPeriodName}"></td>
+                            <td>
+                                <a th:href="@{toDetailMaterial(MaterialPeriodID=*{MaterialPeriodID},MaterialPeriodName=*{PushDirectionID.PushDirectionName})}" th:text="*{MaterialPeriodName}"></a>
+                                <input type="hidden" value="*{MaterialPeriodID}" id="MaterialPeriodID">
+                            </td>
                             <td th:text="*{PushDirectionID.PushDirectionName}"></td>
                             <td th:text="*{NoteDescription}"></td>
                             <td th:text="*{OperatorID}"></td>
@@ -65,7 +95,7 @@
                     <input name="pageNumber" th:value="${material.pageNum}" type="hidden"/><!--//第几页-->
                     <input name="total" th:value="${material.total}" type="hidden"/><!--//一共多少行数据-->
                     <center><div id="demo7"></div></center>
-                    </form>
+                    </form class="layui-form" id="form">
                 </div>
             </div>
         </div>
@@ -73,6 +103,7 @@
 </div>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+    var MaterialPeriodID = $("#MaterialPeriodID").val();
     var total=0;
     var pageNum=0;
     $(function(){

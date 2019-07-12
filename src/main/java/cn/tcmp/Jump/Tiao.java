@@ -1,6 +1,7 @@
 package cn.tcmp.Jump;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -46,6 +47,11 @@ public class Tiao {
     public String toXiangMuXinJian(){
         return "WenDangLeiXing/XinJian/XiangMuXinJian";
     }
+    //文档新建
+    @RequestMapping(value = "toWenDangXinJian")
+    public String toWenDangXinJian(){
+        return "WenDangLeiXing/XinJian/WenDangXinJian";
+    }
     //渠道查询
     @RequestMapping(value = "QuDaoChaXun")
     public  String toQuDaoGuanLi(){
@@ -72,6 +78,11 @@ public class Tiao {
         return "XiangMuGuanLi/ChaXun";
     }*/
 
+    //净值查询
+    @RequestMapping(value = "JingZhiChaXun")
+    public  String toJingZhiChaXun(){
+        return "JingZhiGuanLi/ChaXun/JingZhiChaXun";
+    }
 
 
 

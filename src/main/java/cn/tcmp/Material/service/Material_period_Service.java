@@ -20,4 +20,6 @@ public interface Material_period_Service {
     int updateMaterial_period(Material_period material_period);
     //增加材料时期
     int addMaterial_period(Material_period material_period);
+    //删除材料时期
+    int deleteMaterial_period(Integer id);
 }

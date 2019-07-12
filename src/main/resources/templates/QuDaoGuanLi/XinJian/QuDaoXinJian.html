@@ -21,57 +21,68 @@
                             <tr>
                                 <td>渠道类型</td>
                                 <td>
-                                    <select name="" id="" class="layui-select">
-                                        <option value="">---请选择---</option>
-                                        <option value="">管理人</option>
-                                        <option value="">XXXX</option>
+                                    <select name="chaId" class="layui-select">
+                                        <option disabled selected id="QingXuanZe">---请选择---</option>
+                                        <option th:each="dict : ${type}" th:value="${dict.ChannelTypeID}" th:text="${dict.ChannelTypeName }">
                                     </select>
                                 </td>
                                 <td>名称</td>
                                 <td>
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
+                                    <input type="text" name="Corporatename" required  lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>介绍</td>
                                 <td>
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入介绍" autocomplete="off" class="layui-input">
+                                    <input type="text" name="introduce" required  lay-verify="required" placeholder="请输入介绍" autocomplete="off" class="layui-input">
                                 </td>
                                 <td>联系人名称</td>
                                 <td>
-                                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入联系人名称" autocomplete="off" class="layui-input">
+                                    <input type="text" name="ContactName" required  lay-verify="required" placeholder="请输入联系人名称" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>联系人电话</td>
                                 <td>
-                                    <input type="tel" name="phone" lay-verify="required|phone" placeholder="请输入联系人电话" autocomplete="off" class="layui-input">
+                                    <input type="tel" name="Contacttelephone" lay-verify="required|phone" placeholder="请输入联系人电话" autocomplete="off" class="layui-input">
                                 </td>
                                 <td>联系人电子邮箱</td>
                                 <td>
-                                    <input type="text" name="email" lay-verify="email" placeholder="请输入联系人电子邮箱" autocomplete="off" class="layui-input">
+                                    <input type="text" name="ContactEmail" lay-verify="email" placeholder="请输入联系人电子邮箱" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>证件类型</td>
                                 <td>
-                                        <select name="" id="" class="layui-select">
-                                            <option value="">---请选择---</option>
-                                            <option value="">身份证</option>
-                                            <option value="">军官证</option>
+                                        <select name="Documenttype" class="layui-select">
+                                            <option value="0">---请选择---</option>
+                                            <option value="身份证">身份证</option>
+                                            <option value="军官证">军官证</option>
                                         </select>
                                 </td>
                                 <td>证件号码</td>
                                 <td>
-                                    <input type="text" name="identity" lay-verify="identity" placeholder="请输入证件号码" autocomplete="off" class="layui-input">
+                                    <input type="text" name="IdentificationNumber" lay-verify="identity" placeholder="请输入证件号码" autocomplete="off" class="layui-input">
                                 </td>
                             </tr>
                             <tr>
                                 <td>附件</td>
                                 <td colspan="3">
-                                    <button type="button" class="layui-btn layui-btn-danger" id="test7"><i class="layui-icon"></i>上传图片</button>
-                                    <div class="layui-inline layui-word-aux">
-                                        50000KB 以内
+                                    <div class="form-group">
+                                        <div class="label">
+                                            <label>图片：</label>
+                                        </div>
+                                        <div class="field">
+                                            <input type="hidden" name="tupianurl" class="input tips" style="width:25%; float:left;"  value="" data-toggle="hover" data-place="right" data-image="" />
+                                            <div id="uploader-demo" class="wu-example">
+                                                <!--用来存放item-->
+                                                <div id="fileList" class="uploader-list"></div>
+                                                <div id="filePicker" class="webuploader-container">选择图片</div>
+                                            </div>
+
+                                        </div>
+                                        <br>
+                                        <!--dom结构部分-->
                                     </div>
                                 </td>
                             </tr>
@@ -101,7 +112,7 @@
                     <input name="total" th:value="40" type="hidden"/><!--//一共多少行数据-->
                     <center><div id="demo7"></div></center>
                     <button class="layui-btn layui-btn-normal layui-btn-radius" lay-submit="" lay-filter="demo1">确定</button>
-                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius" onclick="windows.history.go(-1)">取消</button>
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius" onclick="window.history.go(-1)">取消</button>
                 </div>
             </div>
         </div>
@@ -136,19 +147,101 @@
             });
         });
     });
-    layui.use('upload', function(){
-        var $ = layui.jquery
-            ,upload = layui.upload;
-        //设定文件大小限制
-        upload.render({
-            elem: '#test7'
-            ,url: '/upload/'
-            ,size: 50000 //限制文件大小，单位 KB
-            ,done: function(res){
-                console.log(res)
+    $(function() {
+        var tpMsp="${tpMsp}";
+        if(tpMsp>0){
+            alert("添加图片成功");
+        }
+        //初始化Web Uploader
+        var uploader = WebUploader.create({
+
+            // 选完文件后，是否自动上传。
+            auto : true,
+
+            // swf文件路径
+            swf : '../../Up/Uploader.swf',
+
+            // 文件接收服务端。
+            server : 'fileController',
+
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick : '#filePicker',
+
+            // 只允许选择图片文件。
+            accept : {
+                title : 'Images',
+                extensions : 'gif,jpg,jpeg,bmp,png',
+                mimeTypes : 'image/*'
             }
         });
-    });
+
+        uploader
+            .on(
+                'fileQueued',
+                function(file) {
+                    var $list = $("#fileList");
+                    var $li = $('<div id="' + file.id + '" class="file-item thumbnail">'
+                        + '<img>'), $img = $li.find('img');
+
+                    // $list为容器jQuery实例
+                    $list.append($li);
+
+                    // 创建缩略图
+                    // 如果为非图片文件，可以不用调用此方法。
+                    // thumbnailWidth x thumbnailHeight 为 100 x 100
+                    uploader.makeThumb(file, function(error, src) {
+                        if (error) {
+                            $img.replaceWith('<span>不能预览</span>');
+                            return;
+                        }
+                        $img.attr('src', src);
+                    }, 150, 150);
+                });
+
+        uploader
+            .on(
+                'uploadProgress',
+                function(file, percentage) {
+                    var $li = $('#' + file.id), $percent = $li
+                        .find('.progress .progress-bar');
+
+                    // 避免重复创建
+                    if (!$percent.length) {
+                        $percent = $(
+                            '<div class="progress progress-striped active">'
+                            + '<div class="progress-bar" role="progressbar" style="width: 0%">'
+                            + '</div>' + '</div>')
+                            .appendTo($li).find('.progress-bar');
+                    }
+
+                    $li.find('p.state').text('上传中');
+                    $percent.css('width', percentage * 100 + '%');
+                });
+
+        uploader.on('uploadSuccess', function(file) {
+            $('#' + file.id).find('p.state').text('已上传');
+        });
+
+        uploader.on('uploadError', function(file) {
+            $('#' + file.id).find('p.state').text('上传出错');
+        });
+
+        uploader.on('uploadComplete', function(file) {
+            $('#' + file.id).find('.progress').fadeOut();
+        });
+
+        uploader.on('uploadSuccess', function(file, response) {
+            $('#' + file.id).addClass('upload-state-done');
+            var imgurl = response._raw; //上传文件的路径
+            $("#tupianurl").val(imgurl);
+        });
+
+        $("#ctlBtn").click(function() {
+            uploader.upload();
+        });
+
+    })
 </script>
 </body>
 </html>

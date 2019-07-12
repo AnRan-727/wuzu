@@ -4,53 +4,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.tcmp.Project.mapper.ItemSheetMapper">
     <resultMap id="IntemsMap" type="Item_sheet" autoMapping="true">
-        <id column="ItemID" property="Item_ID" />
-        <result property="Entry_name" column="EntryName"/>
-        <result property="English_name" column="EnglishName"/>
-        <result property="Project_code" column="ProjectCode"/>
-        <result property="Project_size_lowercase" column="ProjectSizeLowercase"/>
-        <result property="Project_size_capitalization" column="ProjectSizeCapitalization"/>
-        <result property="Project_duration" column="ProjectDuration"/>
-        <result property="Term_Unit" column="TermUnit"/>
-        <result property="Date_of_establishment" column="DateOfEstablishment"/>
-        <result property="Maturity_Date" column="MaturityDate"/>
-        <result property="Financers" column="Financers"/>
-        <result property="Source_docker_A" column="SourceDockerA"/>
-        <result property="Source_docker_B" column="SourceDockerB"/>
-        <result property="Source_docker_C" column="SourceDockerC"/>
-        <result property="Product_Manager_A" column="ProductManagerA"/>
-        <result property="Product_Manager_B" column="ProductManagerB"/>
-        <result property="Custody_account" column="CustodyAccount"/>
-        <result property="Custodian_bank" column="CustodianBank"/>
-        <result property="Custodial_household_name" column="CustodialHouseholdName"/>
-        <result property="Raising_Account" column="RaisingAccount"/>
-        <result property="Collecting_household_names" column="CollectingHouseholdNames"/>
-        <result property="Raising_Bank" column="RaisingBank"/>
-        <association property="Item_type_ID" column="ItemTypeID" resultMap="ItemttMap"/>
-        <association property="Product_classification_ID" column="ProductClassificationID" resultMap="proMap"/>
-        <association property="Channel_table_ID" column="ChannelTableID" resultMap="Channel_listMap"/>
+        <id column="ItemID" property="ItemID" />
+        <association property="ItemtypeID" resultMap="ItemttMap"/>
+        <association property="ProductclassificationID"  resultMap="proMap"/>
+        <association property="ChanneltableID" resultMap="Channel_listMap"/>
+        <association property="RaiseCurrency" javaType="Currency_list" autoMapping="true">
+            <id property="CurrencyID" column="CurrencyID"></id>
+        </association>
+        <association property="InvestmentCurrency" javaType="Currency_list" autoMapping="true">
+            <id property="CurrencyID" column="CurrencyID"></id>
+        </association>
+        <association property="InvestmentDirectionID" javaType="Investment_direction_table" autoMapping="true">
+            <id property="InvestmentDirectionID" column="InvestmentDirectionID"></id>
+        </association>
+        <association property="InvestmentModeID" javaType="Investments_schedule" autoMapping="true">
+            <id property="InvestmentModeID" column="InvestmentModeID"></id>
+        </association>
+        <association property="IncomeDistributionID" javaType="Distribution_of_income" autoMapping="true">
+            <id property="IncomeDistributionID" column="IncomeDistributionID"></id>
+        </association>
+        <association property="IncomeDistributionFrequencyID" javaType="Frequency_of_income_distribution" autoMapping="true">
+            <id property="IncomeDistributionFrequencyID" column="IncomeDistributionFrequencyID"></id>
+        </association>
+        <association property="amrID" javaType="Asset_management_report" autoMapping="true">
+            <id property="amrID" column="amrID"></id>
+        </association>
     </resultMap>
-    <resultMap id="proMap" type="Product_classification_table">
-        <id column="ProductClassificationID" property="Product_Classification_ID"/>
-        <result column="ProductClassificationName" property="Product_Classification_Name"/>
+    <resultMap id="cdlMap" type="Company_departments_list" autoMapping="true">
+        <id property="DepartmentID" column="DepartmentID" ></id>
+        <association property="CompanyID" resultMap="Channel_listMap"></association>
     </resultMap>
-    <resultMap id="ItemttMap" type="Item_type_table">
-        <id column="ItemTypeID" property="Item_Type_ID"/>
-        <result column="ItemTypeName" property="Item_Type_Name"/>
+
+    <resultMap id="proMap" type="Product_classification_table" autoMapping="true">
+        <id column="ProductClassificationID" property="ProductClassificationID"/>
     </resultMap>
-    <resultMap id="Channel_listMap" type="Channel_list">
-        <id property="channel_ID" column="ChannelID" />
-        <result column="CorporateName" property="Corporate_name"/>
-        <result column="introduce" property="introduce"/>
-        <result column="ContactName" property="Contact_Name"/>
-        <result column="ContactTelephone" property="Contact_telephone"/>
-        <result column="ContactEmail" property="Contact_E_mail"/>
-        <result column="DocumentType" property="Document_type"/>
-        <result column="IdentificationNumber" property="Identification_Number"/>
-        <result column="Enclosure" property="Enclosure"/>
-        <association column="ChanneltypeID" property="Channel_type_ID" javaType="Channel_type">
-            <id column="ChannelTypeID" property="Channel_Type_ID"/>
-            <result column="ChannelTypeName" property="Channel_Type_Name"/>
+
+    <resultMap id="ItemttMap" type="Item_type_table" autoMapping="true">
+        <id column="ItemTypeID" property="ItemTypeID"/>
+    </resultMap>
+
+    <resultMap id="Channel_listMap" type="Channel_list" autoMapping="true">
+        <id property="ChannelID" column="ChannelID" />
+        <association column="ChanneltypeID" property="ChanneltypeID" javaType="Channel_type">
+            <id column="ChannelTypeID" property="ChannelTypeID"/>
+            <result column="ChannelTypeName" property="ChannelTypeName"/>
         </association>
     </resultMap>
 
@@ -59,27 +56,42 @@
         WHERE s.ItemTypeID=it.ItemTypeID AND ct.ChannelTypeID=c.ChanneltypeID
         AND s.ProductClassificationID=p.ProductClassificationID
         AND s.ChannelTableID=c.ChannelID
-        <if test="Project_code!=null and Project_code!=''">
-            AND s.ProjectCode=#{Project_code}
+        <if test="Projectcode!=null and Projectcode!=''">
+            AND s.ProjectCode=#{Projectcode}
         </if>
-        <if test="Entry_name!=null and Entry_name!=''">
-            AND s.EntryName=#{Entry_name}
+        <if test="Entryname!=null and Entryname!=''">
+            AND s.EntryName=#{Entryname}
         </if>
-        <if test="Product_classification_ID.Product_Classification_ID!=null and Product_classification_ID.Product_Classification_ID!=''">
-            AND p.ProductClassificationID=#{Product_classification_ID.Product_Classification_ID}
+        <if test="ProductclassificationID.ProductClassificationID!=null and ProductclassificationID.ProductClassificationID!=''">
+            AND p.ProductClassificationID=#{ProductclassificationID.ProductClassificationID}
         </if>
-        <if test="Item_type_ID.Item_Type_ID!=null and Item_type_ID.Item_Type_ID!=''">
-            AND it.ItemTypeID=#{Item_type_ID.Item_Type_ID}
+        <if test="ItemtypeID.ItemTypeID!=null and ItemtypeID.ItemTypeID!=''">
+            AND it.ItemTypeID=#{ItemtypeID.ItemTypeID}
         </if>
-        <if test="Date_of_establishment!=null and Date_of_establishment!=''">
-            AND s.DateOfEstablishment=#{Date_of_establishment}
+        <if test="Dateofestablishment!=null and Dateofestablishment!=''">
+            AND s.DateOfEstablishment=#{Dateofestablishment}
         </if>
-        <if test="Maturity_Date!=null and Maturity_Date!=''">
-            AND s.MaturityDate=#{Maturity_Date}
+        <if test="MaturityDate!=null and MaturityDate!=''">
+            AND s.MaturityDate=#{MaturityDate}
         </if>
-        <if test="Channel_table_ID.channel_ID!=null and Channel_table_ID.channel_ID!=''">
-            AND c.ChannelID=#{Channel_table_ID.channel_ID}
+        <if test="ChanneltableID.ChannelID!=null and ChanneltableID.ChannelID!=''">
+            AND c.ChannelID=#{ChanneltableID.ChannelID}
         </if>
+    </select>
+    <select id="detailItem_sheet" resultMap="IntemsMap" parameterType="Integer">
+        SELECT * FROM product.item_sheet s,item_type_table it,product_classification_table p,channel_list c,channel_type ct,
+currency_list cl,Investment_direction_table idt,Investments_schedule isch,Distribution_of_income doi,
+Frequency_of_income_distribution foid,Asset_management_report amr
+WHERE s.ItemTypeID=it.ItemTypeID AND ct.ChannelTypeID=c.ChanneltypeID
+AND s.ProductClassificationID=p.ProductClassificationID
+AND s.ChannelTableID=c.ChannelID
+AND s.RaiseCurrency=cl.CurrencyID
+AND s.InvestmentCurrency=cl.CurrencyID
+AND s.InvestmentDirectionID=idt.InvestmentDirectionID
+AND s.InvestmentModeID=isch.InvestmentModeID
+AND s.IncomeDistributionID=doi.IncomeDistributionID
+AND s.IncomeDistributionFrequencyID=foid.IncomeDistributionFrequencyID
+AND s.amrID=amr.amrID AND s.ItemID=#{itemid}
     </select>
     <select id="queryAllProduct" resultMap="proMap">
         SELECT * FROM product_classification_table
@@ -90,4 +102,129 @@
     <select id="queryAllChannel_list" resultMap="Channel_listMap">
         SELECT * FROM channel_list
     </select>
+    <select id="queryCompany_departments_list" resultMap="cdlMap">
+        SELECT * FROM company_departments_list cdl,channel_list cl WHERE cdl.CompanyID=cl.ChannelID
+    </select>
+    <insert id="saveItem_sheet" parameterType="cn.tcmp.entity.Item_sheet">
+        INSERT INTO product.item_sheet (
+  ItemID,
+  EntryName,
+  ItemTypeID,
+  EnglishName,
+  ProjectCode,
+  ProjectSizeLowercase,
+  ProjectSizeCapitalization,
+  ProjectDuration,
+  TermUnit,
+  DateOfEstablishment,
+  MaturityDate,
+  Financers,
+  ProductClassificationID,
+  ChannelTableID,
+  SourceDockerA,
+  SourceDockerB,
+  SourceDockerC,
+  ProductManagerA,
+  ProductManagerB,
+  CustodyAccount,
+  CustodianBank,
+  CustodialHouseholdName,
+  RaisingAccount,
+  CollectingHouseholdNames,
+  RaisingBank,
+  Notes,
+  RaiseCurrency,
+  InvestmentCurrency,
+  Manager,
+  InvestmentModeID,
+  InvestmentDirectionID,
+  IsNotStructure,
+  IncomeDistributionID,
+  IncomeDistributionFrequencyID,
+  amrID,
+  ProjectLocation,
+  InvestmentConsultan
+)
+VALUES
+  (NULL,
+    #{Entryname},
+    #{ItemtypeID.ItemTypeID},
+    #{Englishname},
+    #{Projectcode},
+    #{Projectsizelowercase},
+    #{Projectsizecapitalization},
+    #{Projectduration},
+    #{TermUnit},
+    #{Dateofestablishment},
+    #{MaturityDate},
+    #{Financers},
+    #{ProductclassificationID.ProductClassificationID},
+    #{ChanneltableID.ChannelID},
+    #{SourcedockerA},
+    #{SourcedockerB},
+    #{SourcedockerC},
+    #{ProductManagerA},
+    #{ProductManagerB},
+    #{Custodyaccount},
+    #{Custodianbank},
+    #{Custodialhouseholdname},
+    #{RaisingAccount},
+    #{Collectinghouseholdnames},
+    #{RaisingBank},
+    #{Notes},
+    #{RaiseCurrency.CurrencyID},
+    #{InvestmentCurrency.CurrencyID},
+    #{Manager},
+    #{InvestmentModeID.InvestmentModeID},
+    #{InvestmentDirectionID.InvestmentDirectionID},
+    #{IsNotStructure},
+    #{IncomeDistributionID.IncomeDistributionID},
+    #{IncomeDistributionFrequencyID.IncomeDistributionFrequencyID},
+    #{amrID.amrID},
+    #{ProjectLocation},
+    #{InvestmentConsultan}
+  );
+    </insert>
+    <update id="updateItem_sheet" parameterType="cn.tcmp.entity.Item_sheet">
+        UPDATE
+  product.item_sheet
+SET
+  EntryName = #{Entryname},
+  ItemTypeID = #{ItemtypeID.ItemTypeID},
+  EnglishName = #{Englishname},
+  ProjectCode = #{Projectcode},
+  ProjectSizeLowercase = #{Projectsizelowercase},
+  ProjectSizeCapitalization = #{Projectsizecapitalization},
+  ProjectDuration = #{Projectduration},
+  TermUnit = #{TermUnit},
+  DateOfEstablishment = #{Dateofestablishment},
+  MaturityDate = #{MaturityDate},
+  Financers = #{Financers},
+  ProductClassificationID = #{ProductclassificationID.ProductClassificationID},
+  ChannelTableID = #{ChanneltableID.ChannelID},
+  SourceDockerA = #{SourcedockerA},
+  SourceDockerB = #{SourcedockerB},
+  SourceDockerC = #{SourcedockerC},
+  ProductManagerA = #{ProductManagerA},
+  ProductManagerB = #{ProductManagerB},
+  CustodyAccount = #{Custodyaccount},
+  CustodianBank = #{Custodianbank},
+  CustodialHouseholdName = #{Custodialhouseholdname},
+  RaisingAccount = #{RaisingAccount},
+  CollectingHouseholdNames = #{Collectinghouseholdnames},
+  RaisingBank = #{RaisingBank},
+  Notes = #{Notes},
+  RaiseCurrency = #{RaiseCurrency.CurrencyID},
+  InvestmentCurrency = #{InvestmentCurrency.CurrencyID},
+  Manager = #{Manager},
+  InvestmentModeID = #{InvestmentModeID.InvestmentModeID},
+  InvestmentDirectionID = #{InvestmentDirectionID.InvestmentDirectionID},
+  IsNotStructure = #{IsNotStructure},
+  IncomeDistributionID = #{IncomeDistributionID.IncomeDistributionID},
+  IncomeDistributionFrequencyID = #{IncomeDistributionFrequencyID.IncomeDistributionFrequencyID},
+  amrID = #{amrID.amrID},
+  ProjectLocation = #{ProjectLocation},
+  InvestmentConsultan = #{InvestmentConsultan}
+WHERE ItemID = #{ItemID};
+    </update>
 </mapper>

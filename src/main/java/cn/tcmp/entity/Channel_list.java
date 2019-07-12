@@ -2,18 +2,22 @@ package cn.tcmp.entity;
 
 import lombok.Data;
 
+import java.sql.Date;
+
 /**
  * channel_list  generated at 2019-06-27 15:55:25 by: eric
  */
 
-@Data
+
 
 /**
  * 公司表 & 渠道表
  * */
+@Data
 public class Channel_list{
-	private int ID;
+	private Integer ChannelID;
 	private Channel_Type ChanneltypeID;//渠道类型ID
+	private Integer chaId;
 	private String Corporatename;
 	private String introduce;
 	private String ContactName;
@@ -22,6 +26,7 @@ public class Channel_list{
 	private String Documenttype;
 	private String IdentificationNumber;
 	private String Enclosure;
+	private Date CreationDate;
 
 
 
