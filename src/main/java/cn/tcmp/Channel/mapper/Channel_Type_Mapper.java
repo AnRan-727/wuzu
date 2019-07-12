@@ -24,4 +24,7 @@ public interface Channel_Type_Mapper {
     //查询该渠道(公司)下的部门
     List<Company_departments_list> queryCompany(Integer id);
 
+    //新建渠道&公司
+    int addChannel(Channel_list channel_list);
+
 }

@@ -8,20 +8,12 @@
         <association property="ItemtypeID" resultMap="ItemttMap"/>
         <association property="ProductclassificationID"  resultMap="proMap"/>
         <association property="ChanneltableID" resultMap="Channel_listMap"/>
-        <!--<association property="RaiseCurrency" resultMap="RaiseCurrencyMap"/>
-        <association property="InvestmentCurrency" resultMap="InvestmentCurrencyMap"/>
-        <association property="Manager" resultMap="ManagerMap"/>-->
-        <!--<association property="RaiseCurrency" javaType="Currency_list" >
-            <id property="CurrencyID" column="Currency_ID"></id>
-            <result column="CurrencyName" property="Currency_Name"></result>
-        </association>-->
-        <!--<association property="InvestmentCurrency" javaType="Currency_list" >
+        <association property="RaiseCurrency" javaType="Currency_list" autoMapping="true">
             <id property="CurrencyID" column="CurrencyID"></id>
-            <result column="CurrencyName" property="CurrencyName"></result>
         </association>
-        <association property="Manager" javaType="Channel_Type" autoMapping="true">
-            <id property="ChannelTypeID" column="ChannelTypeID"></id>
-        </association>-->
+        <association property="InvestmentCurrency" javaType="Currency_list" autoMapping="true">
+            <id property="CurrencyID" column="CurrencyID"></id>
+        </association>
         <association property="InvestmentDirectionID" javaType="Investment_direction_table" autoMapping="true">
             <id property="InvestmentDirectionID" column="InvestmentDirectionID"></id>
         </association>
@@ -38,6 +30,10 @@
             <id property="amrID" column="amrID"></id>
         </association>
     </resultMap>
+    <resultMap id="cdlMap" type="Company_departments_list" autoMapping="true">
+        <id property="DepartmentID" column="DepartmentID" ></id>
+        <association property="CompanyID" resultMap="Channel_listMap"></association>
+    </resultMap>
 
     <resultMap id="proMap" type="Product_classification_table" autoMapping="true">
         <id column="ProductClassificationID" property="ProductClassificationID"/>
@@ -46,20 +42,6 @@
     <resultMap id="ItemttMap" type="Item_type_table" autoMapping="true">
         <id column="ItemTypeID" property="ItemTypeID"/>
     </resultMap>
-
-    <!--<resultMap id="RaiseCurrencyMap" type="Currency_list" >
-        <id property="CurrencyID" column="Currency_ID"></id>
-        <result column="CurrencyName" property="Currency_Name"></result>
-    </resultMap>
-
-    <resultMap id="InvestmentCurrencyMap" type="Currency_list" >
-        <id property="CurrencyID" column="Currency_ID"></id>
-        <result column="CurrencyName" property="Currency_Name"></result>
-    </resultMap>
-
-    <resultMap id="ManagerMap" type="Channel_Type" autoMapping="true">
-        <id property="ChannelTypeID" column="ChannelTypeID"></id>   
-    </resultMap>-->
 
     <resultMap id="Channel_listMap" type="Channel_list" autoMapping="true">
         <id property="ChannelID" column="ChannelID" />
@@ -97,7 +79,19 @@
         </if>
     </select>
     <select id="detailItem_sheet" resultMap="IntemsMap" parameterType="Integer">
-        SELECT * FROM item_sheet WHERE ItemID=#{itemid}
+        SELECT * FROM product.item_sheet s,item_type_table it,product_classification_table p,channel_list c,channel_type ct,
+currency_list cl,Investment_direction_table idt,Investments_schedule isch,Distribution_of_income doi,
+Frequency_of_income_distribution foid,Asset_management_report amr
+WHERE s.ItemTypeID=it.ItemTypeID AND ct.ChannelTypeID=c.ChanneltypeID
+AND s.ProductClassificationID=p.ProductClassificationID
+AND s.ChannelTableID=c.ChannelID
+AND s.RaiseCurrency=cl.CurrencyID
+AND s.InvestmentCurrency=cl.CurrencyID
+AND s.InvestmentDirectionID=idt.InvestmentDirectionID
+AND s.InvestmentModeID=isch.InvestmentModeID
+AND s.IncomeDistributionID=doi.IncomeDistributionID
+AND s.IncomeDistributionFrequencyID=foid.IncomeDistributionFrequencyID
+AND s.amrID=amr.amrID AND s.ItemID=#{itemid}
     </select>
     <select id="queryAllProduct" resultMap="proMap">
         SELECT * FROM product_classification_table
@@ -108,4 +102,129 @@
     <select id="queryAllChannel_list" resultMap="Channel_listMap">
         SELECT * FROM channel_list
     </select>
+    <select id="queryCompany_departments_list" resultMap="cdlMap">
+        SELECT * FROM company_departments_list cdl,channel_list cl WHERE cdl.CompanyID=cl.ChannelID
+    </select>
+    <insert id="saveItem_sheet" parameterType="cn.tcmp.entity.Item_sheet">
+        INSERT INTO product.item_sheet (
+  ItemID,
+  EntryName,
+  ItemTypeID,
+  EnglishName,
+  ProjectCode,
+  ProjectSizeLowercase,
+  ProjectSizeCapitalization,
+  ProjectDuration,
+  TermUnit,
+  DateOfEstablishment,
+  MaturityDate,
+  Financers,
+  ProductClassificationID,
+  ChannelTableID,
+  SourceDockerA,
+  SourceDockerB,
+  SourceDockerC,
+  ProductManagerA,
+  ProductManagerB,
+  CustodyAccount,
+  CustodianBank,
+  CustodialHouseholdName,
+  RaisingAccount,
+  CollectingHouseholdNames,
+  RaisingBank,
+  Notes,
+  RaiseCurrency,
+  InvestmentCurrency,
+  Manager,
+  InvestmentModeID,
+  InvestmentDirectionID,
+  IsNotStructure,
+  IncomeDistributionID,
+  IncomeDistributionFrequencyID,
+  amrID,
+  ProjectLocation,
+  InvestmentConsultan
+)
+VALUES
+  (NULL,
+    #{Entryname},
+    #{ItemtypeID.ItemTypeID},
+    #{Englishname},
+    #{Projectcode},
+    #{Projectsizelowercase},
+    #{Projectsizecapitalization},
+    #{Projectduration},
+    #{TermUnit},
+    #{Dateofestablishment},
+    #{MaturityDate},
+    #{Financers},
+    #{ProductclassificationID.ProductClassificationID},
+    #{ChanneltableID.ChannelID},
+    #{SourcedockerA},
+    #{SourcedockerB},
+    #{SourcedockerC},
+    #{ProductManagerA},
+    #{ProductManagerB},
+    #{Custodyaccount},
+    #{Custodianbank},
+    #{Custodialhouseholdname},
+    #{RaisingAccount},
+    #{Collectinghouseholdnames},
+    #{RaisingBank},
+    #{Notes},
+    #{RaiseCurrency.CurrencyID},
+    #{InvestmentCurrency.CurrencyID},
+    #{Manager},
+    #{InvestmentModeID.InvestmentModeID},
+    #{InvestmentDirectionID.InvestmentDirectionID},
+    #{IsNotStructure},
+    #{IncomeDistributionID.IncomeDistributionID},
+    #{IncomeDistributionFrequencyID.IncomeDistributionFrequencyID},
+    #{amrID.amrID},
+    #{ProjectLocation},
+    #{InvestmentConsultan}
+  );
+    </insert>
+    <update id="updateItem_sheet" parameterType="cn.tcmp.entity.Item_sheet">
+        UPDATE
+  product.item_sheet
+SET
+  EntryName = #{Entryname},
+  ItemTypeID = #{ItemtypeID.ItemTypeID},
+  EnglishName = #{Englishname},
+  ProjectCode = #{Projectcode},
+  ProjectSizeLowercase = #{Projectsizelowercase},
+  ProjectSizeCapitalization = #{Projectsizecapitalization},
+  ProjectDuration = #{Projectduration},
+  TermUnit = #{TermUnit},
+  DateOfEstablishment = #{Dateofestablishment},
+  MaturityDate = #{MaturityDate},
+  Financers = #{Financers},
+  ProductClassificationID = #{ProductclassificationID.ProductClassificationID},
+  ChannelTableID = #{ChanneltableID.ChannelID},
+  SourceDockerA = #{SourcedockerA},
+  SourceDockerB = #{SourcedockerB},
+  SourceDockerC = #{SourcedockerC},
+  ProductManagerA = #{ProductManagerA},
+  ProductManagerB = #{ProductManagerB},
+  CustodyAccount = #{Custodyaccount},
+  CustodianBank = #{Custodianbank},
+  CustodialHouseholdName = #{Custodialhouseholdname},
+  RaisingAccount = #{RaisingAccount},
+  CollectingHouseholdNames = #{Collectinghouseholdnames},
+  RaisingBank = #{RaisingBank},
+  Notes = #{Notes},
+  RaiseCurrency = #{RaiseCurrency.CurrencyID},
+  InvestmentCurrency = #{InvestmentCurrency.CurrencyID},
+  Manager = #{Manager},
+  InvestmentModeID = #{InvestmentModeID.InvestmentModeID},
+  InvestmentDirectionID = #{InvestmentDirectionID.InvestmentDirectionID},
+  IsNotStructure = #{IsNotStructure},
+  IncomeDistributionID = #{IncomeDistributionID.IncomeDistributionID},
+  IncomeDistributionFrequencyID = #{IncomeDistributionFrequencyID.IncomeDistributionFrequencyID},
+  amrID = #{amrID.amrID},
+  ProjectLocation = #{ProjectLocation},
+  InvestmentConsultan = #{InvestmentConsultan}
+WHERE ItemID = #{ItemID};
+    </update>
 </mapper>
