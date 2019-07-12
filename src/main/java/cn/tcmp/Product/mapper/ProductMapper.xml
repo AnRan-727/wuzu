@@ -34,7 +34,7 @@ item_sheet.ItemID=item_type_table.`ItemTypeID` AND
 
     </select>
     
-   <!--<insert id="addProduct" parameterType="Product_list">
+  <!-- <insert id="addProduct" parameterType="Product_list">
    INSERT INTO `product`.`product_list` (
   `ProductID`,
   `ProductClassificationID.ProductClassificationID`,
@@ -66,11 +66,11 @@ item_sheet.ItemID=item_type_table.`ItemTypeID` AND
 VALUES
   (
     NULL,
-    #{ProductClassificationID},
-    #{ItemID},
+    #{ProductClassificationID.ProductClassificationID},
+    #{ItemID.ItemID},
     #{ProductCode},
     #{ProductName},
-    #{ProductsToId},
+    #{ProductsToId.ProductsToId},
     #{DistributionChannel},
     #{structureType},
     #{ContractPrefix},
