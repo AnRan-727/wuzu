@@ -18,4 +18,7 @@ public class Document_type_table{
 	private String MaintenanceAuthority;
 	private String ViewingPermissions;
 	private String NoteDescription;
+	private String ChuangJianRen;
+	private String ShangChuanRiQi;
+	private String WenJianDaXiao;
 }

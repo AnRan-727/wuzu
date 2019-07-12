@@ -24,7 +24,7 @@ public class Product_list{
 	private String SuitableforCustomerRiskLevel;
 	private String ProductDescription;
 	private String Remarks;
-	private String Incometype;
+	private Income_type_statement Incometype;
 	private String Incomedistributioncycle;
 	private String ProfitDistributionDescription;
 	private String Opencycle;

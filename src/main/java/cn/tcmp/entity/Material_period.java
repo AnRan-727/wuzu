@@ -6,10 +6,10 @@ import java.sql.Date;
 /**
  * material_period  generated at 2019-06-28 08:07:37 by: eric
  */
-@Data
 /**
  * 材料时期表
  * */
+@Data
 public class Material_period{
 	private int MaterialPeriodID;
 	private String MaterialPeriodName;
