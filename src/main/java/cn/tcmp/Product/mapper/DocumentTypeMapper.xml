@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcmp.Product.mapper.DocumentTypeMapper">
+    <select id="queryAll" resultType="Document_type_table">
+        SELECT * FROM `document_type_table`
+    </select>
+
+    <insert id="addDocument" parameterType="Document_type_table">
+INSERT INTO `document_type_table` (
+  `DocumentTypeID`,
+  `DocumentTypeName`,
+  `NoteDescription`
+)
+VALUES
+  (NULL,#{DocumentTypeName},#{NoteDescription});
+
+    </insert>
+  <select id="detail" parameterType="integer" resultType="Document_type_table">
+    SELECT * FROM `document_type_table` WHERE DocumentTypeID=#{DocumentTypeID}
+  </select>
+
+  <update id="updateDocument" parameterType="Document_type_table">
+UPDATE
+  `document_type_table`
+SET
+  `DocumentTypeName` =#{DocumentTypeName},
+  `NoteDescription` = #{NoteDescription}
+WHERE `DocumentTypeID` = #{DocumentTypeID};
+
+
+
+  </update>
+
+  <delete id="deleteDocument" parameterType="Integer">
+   DELETE FROM `product`.`document_type_table`where DocumentTypeID=#{id}
+  </delete>
+</mapper>

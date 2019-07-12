@@ -44,7 +44,6 @@ public class Item_sheet{
 	private Integer IsNotStructure;//是否结构化
 	private Distribution_of_income IncomeDistributionID;//收益分配方式ID
 	private Frequency_of_income_distribution IncomeDistributionFrequencyID;//收益分配频度ID
-	private Asset_management_report amrID;//资产管理报告频度ID
 	private String ProjectLocation;//项目所在地
 	private String InvestmentConsultan;//投资顾问
 

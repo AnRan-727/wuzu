@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcmp.Product.mapper.ProductMapper">
+    <resultMap id="productMap" type="Product_list" autoMapping="true">
+        <id property="ProductID" column="ProductID"></id>
+        <association property="ProductClassificationID" javaType="Product_classification_table" autoMapping="true">
+            <id property="ProductClassificationID" column="ProductClassificationID"></id>
+        </association>
+        <association  property="Incometype" javaType="Income_type_statement" autoMapping="true">
+            <id property="IncomeTypeID" column="IncomeTypeID"></id>
+        </association>
+        <association property="ItemID" javaType="Item_sheet" autoMapping="true">
+            <id property="ItemID" column="ItemID"></id>
+            <association property="ItemtypeID" javaType="Item_type_table" autoMapping="true">
+                <id property="ItemTypeID" column="ItemTypeID"></id>
+            </association>
+        </association>
+
+    </resultMap>
+    
+    
+    
+    <select id="queryAll" parameterType="product_list" resultMap="productMap">
+
+
+SELECT   `income_type_statement`.`IncomeTypeName`,  item_type_table.`ItemTypeName`,product_classification_table.`ProductClassificationName`,`product_list`.*,`item_sheet`.*
+FROM  `item_sheet`,`item_type_table`,`product_list`,`product_classification_table`,`income_type_statement`
+WHERE  product_list.ItemID=item_sheet.`ItemID` AND
+item_sheet.ItemID=item_type_table.`ItemTypeID` AND
+`income_type_statement`.`IncomeTypeID`=`product_list`.`IncomeType` AND
+`product_list`.`ProductClassificationID`=`product_classification_table`.`ProductClassificationID`
+
+    </select>
+    
+   <!--<insert id="addProduct" parameterType="Product_list">
+   INSERT INTO `product`.`product_list` (
+  `ProductID`,
+  `ProductClassificationID.ProductClassificationID`,
+  `ItemID`,
+  `ProductCode`,
+  `ProductName`,
+  `ProductsToId`,
+  `DistributionChannel`,
+  `structureType`,
+  `ContractPrefix`,
+  `ProductRiskLevel`,
+  `SuitableForCustomerRiskLevel`,
+  `ProductDescription`,
+  `Remarks`,
+  `IncomeType`,
+  `IncomeDistributionCycle`,
+  `ProfitDistributionDescription`,
+  `OpenCycle`,
+  `OpenPeriodDescription`,
+  `ClosurePeriod`,
+  `ClosedPeriodUnit`,
+  `IsItRedeemable`,
+  `RedemptionRate`,
+  `RedemptionRestriction`,
+  `IsAdditionPermissible`,
+  `OperationsManagerA`,
+  `OperationsManagerB`
+)
+VALUES
+  (
+    NULL,
+    #{ProductClassificationID},
+    #{ItemID},
+    #{ProductCode},
+    #{ProductName},
+    #{ProductsToId},
+    #{DistributionChannel},
+    #{structureType},
+    #{ContractPrefix},
+    #{ProductRiskLevel},
+    #{SuitableForCustomerRiskLevel},
+    #{ProductDescription},
+    #{Remarks},
+    #{IncomeType},
+    #{IncomeDistributionCycle},
+    #{ProfitDistributionDescription},
+    #{OpenCycle},
+    #{OpenPeriodDescription},
+    #{ClosurePeriod},
+    #{ClosedPeriodUnit},
+    #{IsItRedeemable},
+    #{RedemptionRate},
+    #{RedemptionRestriction},
+    #{IsAdditionPermissible},
+    #{OperationsManagerA},
+    #{OperationsManagerB}
+  );
+   </insert>-->
+
+</mapper>

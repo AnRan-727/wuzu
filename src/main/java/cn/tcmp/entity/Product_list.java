@@ -24,7 +24,7 @@ public class Product_list{
 	private String SuitableforCustomerRiskLevel;
 	private String ProductDescription;
 	private String Remarks;
-	private Income_type_statement Incometype;//收益类型ID
+	private Income_type_statement Incometype;
 	private String Incomedistributioncycle;
 	private String ProfitDistributionDescription;
 	private String Opencycle;
