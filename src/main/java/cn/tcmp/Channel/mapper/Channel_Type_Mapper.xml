@@ -36,6 +36,10 @@
     <select id="queryCompany" parameterType="int" resultType="cn.tcmp.entity.Company_departments_list">
         SELECT * FROM company_departments_list WHERE CompanyID = #{id}
     </select>
+    <!--新建渠道公司-->
+    <insert id="addChannel" parameterType="cn.tcmp.entity.Channel_list">
+        
+    </insert>
 
 
 </mapper>

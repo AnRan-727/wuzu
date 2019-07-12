@@ -19,7 +19,7 @@ public class JingZhiController {
         if(pageNumber == null){
             pageNumber = 1 ;
         }
-        model.addAttribute("jingzhiPage",service.queryNetValuePage(n,pageNumber,pageSize));
+        model.addAttribute("jingzhiPage",service.queryNetValuePage(n,pageNumber,3));
         model.addAttribute("syList",service.queryAllSy());
         model.addAttribute("nvt", n);
         return "JingZhiGuanLi/ChaXun/JingZhiChaXun";
