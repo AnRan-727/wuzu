@@ -37,7 +37,7 @@
         SELECT * FROM company_departments_list WHERE CompanyID = #{id}
     </select>
     <!--新建渠道公司-->
-    <insert id="addChannel" parameterType="">
+    <insert id="addChannel" parameterType="cn.tcmp.entity.Channel_list">
         
     </insert>
 
