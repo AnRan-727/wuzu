@@ -22,7 +22,7 @@ public class JingZhiServiceImpl implements JingZhiService {
 
     @Override
     public PageInfo<Net_value_table> queryNetValuePage(Net_value_table n, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageNum);
+        PageHelper.startPage(pageNum,pageSize);
         List<Net_value_table> list=mapper.queryNetValue(n);
         PageInfo<Net_value_table> pageInfo=new PageInfo<>(list);
         return pageInfo;

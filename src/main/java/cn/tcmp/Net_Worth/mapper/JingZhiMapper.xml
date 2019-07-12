@@ -24,7 +24,7 @@
         <id property="IncomeTypeID" column="IncomeTypeID"></id>
     </resultMap>
 
-    <select id="queryNetValue" resultMap="jzMap" parameterType="Net_value_table">
+    <select id="queryNetValue" resultMap="jzMap" parameterType="cn.tcmp.entity.Net_value_table">
         SELECT jz.NetWorthID,
         cp.ProductCode,cp.ProductName,sy.IncomeTypeID,sy.IncomeTypeName,
         jz.SetUpBatch,
