@@ -222,6 +222,8 @@
 
 			</script>
 		</div>
+				<input name="pageNumber" th:value="${jingzhiPage.pageNum}" type="hidden"/><!--//第几页-->
+				<input name="total" th:value="${jingzhiPage.total}" type="hidden"/><!--//一共多少行数据-->
 			</form>
 		</center>
 		<div class="contian">
@@ -295,8 +297,7 @@
 
 </table>
 
-		<input name="pageNumber" th:value="${jingzhiPage.pageNum}" type="hidden"/><!--//第几页-->
-		<input name="total" th:value="${jingzhiPage.total}" type="hidden"/><!--//一共多少行数据-->
+
 		<center><div id="demo7"></div></center>
 
 		<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
