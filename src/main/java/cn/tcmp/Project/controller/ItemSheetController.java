@@ -1,5 +1,6 @@
 package cn.tcmp.Project.controller;
 
+import cn.tcmp.Product.service.ProductService;
 import cn.tcmp.Project.service.ItemSheetService;
 import cn.tcmp.entity.*;
 import com.github.pagehelper.PageInfo;
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class ItemSheetController {
     @Autowired
     private ItemSheetService itemSheetService;
+    @Autowired
+    private ProductService productService;
 
     //查询项目查询页的所有下拉框
     @RequestMapping("queryAllDropdownBox")
@@ -46,11 +49,13 @@ public class ItemSheetController {
 
     //项目查询页模糊查询
     @RequestMapping("queryByItem_sheet")
-    public ModelAndView queryByitem_sheet(Integer pageNo, Integer pageSize,
+    public String queryByitem_sheet(Integer pageNo, Integer pageSize,
         Item_sheet item_sheet,Item_type_table itt,
         Product_classification_table pct,Channel_list Channel_list,Model model){
-        System.err.println("pageNo:"+pageNo);
-        System.err.println("pageSize:"+pageSize);
+        System.err.println("item_sheet:>>"+item_sheet);
+        System.err.println("itt:>>"+itt);
+        System.err.println("Channel_list:>>"+Channel_list);
+        System.err.println("pct:>>"+pct);
         item_sheet.setItemtypeID(itt);
         item_sheet.setProductclassificationID(pct);
         item_sheet.setChanneltableID(Channel_list);
@@ -67,14 +72,37 @@ public class ItemSheetController {
         if (pageSize==null){
             pageSize=1;
         }
+        PageInfo<Item_sheet> itemsList=itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet);
+        System.err.println("service+itemsList+"+itemsList.getList());
+        model.addAttribute("page",itemsList);
+        /*ModelAndView md=new ModelAndView();
+        md.addObject("page",itemsList);
+        md.setViewName("XiangMuGuanLi/ChaXun");*/
+        return "XiangMuGuanLi/ChaXun";
+    }
+    /*//项目查询页模糊查询
+    @RequestMapping("queryByItem_sheetAjax")
+    @ResponseBody
+    public PageInfo<Item_sheet> queryByitem_sheetAjax(Integer pageNo, Integer pageSize,
+                                          Item_sheet item_sheet,Item_type_table itt,
+                                          Product_classification_table pct,Channel_list Channel_list,Model model){
+        System.err.println("pageNo:"+pageNo);
+        System.err.println("pageSize:"+pageSize);
+        item_sheet.setItemtypeID(itt);
+        item_sheet.setProductclassificationID(pct);
+        item_sheet.setChanneltableID(Channel_list);
+        if (pageNo==null){
+            pageNo=1;
+        }
+        if (pageSize==null){
+            pageSize=1;
+        }
         System.err.println("pageNo2:"+pageNo);
         System.err.println("pageSize2:"+pageSize);
-        PageInfo<Item_sheet> itemsList=itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet);
-        ModelAndView md=new ModelAndView();
-        md.addObject("page",itemsList);
-        md.setViewName("XiangMuGuanLi/ChaXun");
-        return md;
-    }
+        PageInfo<Item_sheet> pageInfo=itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet);
+        System.err.println(pageInfo.getList());
+        return pageInfo;
+    }*/
     //去项目添加页
     @RequestMapping("XiangMuAdd")
     public String toXiangMuAdd(Model model){
@@ -103,7 +131,17 @@ public class ItemSheetController {
 
     //去项目修改页
     @RequestMapping("XiangMuUpdate")
-    public String XiangMuUpdate(Integer itemid,Model model){
+    public String XiangMuUpdate(Integer pageNo,
+     Integer pageSize,Integer itemid,Model model){
+        System.err.println("itemid:"+itemid);
+        Product_list product_list=new Product_list();
+        if (pageNo==null){
+            pageNo=1;
+        }
+        if (pageSize==null){
+            pageSize=1;
+        }
+        model.addAttribute("page",productService.queryAll(product_list,pageNo,pageSize));
         model.addAttribute("product_type",itemSheetService.queryAllProduct());
         model.addAttribute("channel_list",itemSheetService.queryAllChannel_list());
         model.addAttribute("item_type",itemSheetService.queryAllItem_type_table());
@@ -115,8 +153,9 @@ public class ItemSheetController {
         model.addAttribute("Asset_management_report",itemSheetService.queryAsset_management_report());
         model.addAttribute("Company_departments_list",itemSheetService.queryCompany_departments_list());
         //项目详情回显
+        System.err.println("itemid:"+itemid);
         Item_sheet item_sheet=itemSheetService.detailItem_sheet(itemid);
-        System.err.println("item_sheet"+item_sheet);
+        System.err.println("item_sheet:"+item_sheet);
         model.addAttribute("islist",item_sheet);
         return "XiangMuGuanLi/YeQian/YeQianXinXi";
     }
@@ -132,13 +171,26 @@ public class ItemSheetController {
         }
         return "redirect:queryByItem_sheet";
     }
-    @RequestMapping("XiangMuDelete")
+    /*@RequestMapping("XiangMuDelete")
     public String deleteXiangMu(Integer itemID){
         Integer count=itemSheetService.deleteItem_sheet(itemID);
         if (count>0){
             System.err.println("删除成功");
         }
         return "redirect:queryByItem_sheet";
+    }*/
+    @RequestMapping("XiangMuDelete")
+    @ResponseBody
+    public String deleteXiangMu(Integer itemID){
+        Integer count=0;
+        if(itemID!=null || itemID!=0){
+            count=itemSheetService.deleteItem_sheet(itemID);
+        }
+        if (count>0){
+            System.err.println("删除成功");
+            return "ok";
+        }
+        return "error";
     }
 
 }
