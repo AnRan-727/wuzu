@@ -1,7 +1,7 @@
 package cn.tcmp.Product.service;
 
 import cn.tcmp.Product.mapper.ProductMapper;
-import cn.tcmp.entity.Product_list;
+import cn.tcmp.entity.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Insert;
@@ -14,6 +14,7 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     private ProductMapper productMapper;
 
+
     @Override
     public PageInfo<Product_list> queryAll(Product_list product_list,Integer pageNum,Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -23,8 +24,44 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Insert addProduct(Product_list product_list) {
+    public Integer addProduct(Product_list product_list) {
         return productMapper.addProduct(product_list);
+    }
+
+    @Override
+    public List<Item_type_table> queryXiaLaKuang() {
+        return productMapper.queryXiaLaKuang();
+    }
+
+    @Override
+    public List<Product_classification_table> queryChanPinXiaLaKuang() {
+        return productMapper.queryChanPinXiaLaKuang();
+    }
+
+    @Override
+    public List<Income_type_statement> ShouYiLeiXing() {
+        return productMapper.ShouYiLeiXing();
+    }
+
+    @Override
+    public List<Product_investment> TouXiangXiaLaKuang() {
+        return productMapper.TouXiangXiaLaKuang();
+    }
+
+    @Override
+    public Product_list detailProduct(Integer Productid) {
+        System.err.println("+++++++++++++"+productMapper.detailProduct(Productid));
+        return productMapper.detailProduct(Productid);
+    }
+
+    @Override
+    public Integer updateProduct(Product_list product_list) {
+        return productMapper.updateProduct(product_list);
+    }
+
+    @Override
+    public Integer deleteProduct(Integer id) {
+        return productMapper.deleteProduct(id);
     }
 
 

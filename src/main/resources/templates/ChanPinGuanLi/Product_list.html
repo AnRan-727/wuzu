@@ -3,7 +3,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" href="css/Inquiry.css" />
 		<script th:src="@{/js/jquery-1.12.4.js}"></script>
 	</head>
 	<meta name="renderer" content="webkit">
@@ -11,47 +10,25 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
 
-	<form action="" id="form">
+	<form action="queryAll" id="form">
 		<div id="chanpin1">
 			<table class="layui-table"  border="1 solid black" cellspacing="0" width="100%" align="center">
 				<tr>
-					<td align="right"><span>项目代码:</span></td>
-					<td><input type="text" name="" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
-					<td align="right"><span>项目名称:</span></td>
-					<td><input type="text" name="" required lay-verify="required" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
-					<td align="right"><span>产品风险等级:</span></td>
-					<td>
-						<select class="layui-select" name="">
-							<option value="">--请选择--</option>
-							<option value="低">低</option>
-							<option value="中">中</option>
-							<option value="高">高</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td align="right"><span>收益类型:</span></td>
-					<td>
-						<select class="layui-select" name="">
-							<option value="">--请选择--</option>
-							<option value="固定收益">固定收益</option>
-							<option value="浮动收益">浮动收益</option>
-						</select>
-					</td>
-
+					<td align="right"><span>产品代码:</span></td>
+					<td><input type="text" name="ProductCode"  placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+					<td align="right"><span>产品名称:</span></td>
+					<td><input type="text" name="ProductName"  placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
 				</tr>
 
-				<tr>
-					<td align="right"><span>销售渠道:</span></td>
 
-					<td><input type="text" name="" required lay-verify="required" placeholder="多选:1.2.3" autocomplete="off" class="layui-input"> </td>
-				</tr>
+
+
 
 			</table>
 		</div>
 		<div align="center">
-			<button type="button" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
-			<button type="button" class="layui-btn layui-btn-radius">重置</button>
+			<button type="submit" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
+			<button type="reset" class="layui-btn layui-btn-radius">重置</button>
 			<br/>
 			<br/>
 		</div>
@@ -59,7 +36,7 @@
 		<input name="total" th:value="${page.total}" type="hidden"/><!--//一共多少行数据-->
 	</form>
 
-
+	<button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="window.location.href='toAddProduct'">新建</button>
 
 
 
@@ -83,9 +60,15 @@
 					</tr>
 					<tr th:each="product:${page.list}" th:object="${product}">
 						<td>
-								<button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-								<button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
+							<a th:href="@{toUpdateProduct(ProductId=*{ProductID})}" >
+								<i class="layui-icon"></i>
+							</a>
+							<a id="deletesheet">
+								<i class="layui-icon"></i>
+							</a>
 						</td>
+
+
 						<td th:text="*{ItemID.ItemtypeID.ItemTypeName}"></td>
 						<td th:text="*{ProductClassificationID.ProductClassificationName}"></td>
 						<td th:text="*{ProductCode}"></td>
@@ -106,6 +89,16 @@
 
 		</div>
 	<script th:src="@{/layui/layui.js}"></script>
+	<!--<script type="text/javascript">
+		$(function () {
+		    var proanniu=$("input[name='proanniu']").val();
+		    console.log(proanniu);
+			$("#anniu").click(function () {
+				location.href="toUpdateProduct?ProductId="+proanniu;
+            })
+        })
+
+	</script>-->
 	<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 	<script>
         var total=0;
@@ -113,7 +106,7 @@
         $(function(){
             var data = $("#form").serialize();
             total=$("[name='total']").val();
-            pageNum=$("[name='pageNumber']").val();
+            pageNum=$("[name='pageNum']").val();
             layui.use([ 'laypage', 'layer' ], function() {
                 var laypage = layui.laypage, layer = layui.layer;
                 laypage.render({
@@ -128,7 +121,7 @@
                         //console.log(obj)
                         if(!first){
                             //do something
-                            $("[name='pageNumber']").val(obj.curr);
+                            $("[name='pageNum']").val(obj.curr);
                             $("#form").attr("action","queryAll?"+data).submit();
                         }
                     }

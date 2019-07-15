@@ -67,6 +67,7 @@
 
 </head>
 <body>
+<form action="/product/doAddProduct">
 <div class="layui-tab">
     <ul class="layui-tab-title">
         <li class="layui-this">项目信息</li>
@@ -78,223 +79,129 @@
             <!--此处为项目信息页签开始-->
             <table class="layui-table" lay-size="sm" lay-even="color:red" border="1" >
                 <tr>
-                    <td colspan="6" align="left">项目添加</td>
+                    <td colspan="6" align="left">产品添加</td>
                 </tr>
                 <tr>
                     <td colspan="6" align="left">基本信息</td>
                 </tr>
                 <tr >
-                    <td align="right">项目类型:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010">信托</option>
+
+                    <td align="right">产品代码: </td>
+                    <td>
+                    <input type="text" class="layui-input" name="ProductCode">
+                    </td>
+                    <td align="right">产品名称</td>
+                    <td>
+                        <input type="text" class="layui-input" name="ProductName">
+                    </td>
+                    <td align="right">项目类型</td>
+                    <td align="center" width="100px">
+                        <select name="ItemID.ItemtypeID.ItemTypeID" class="layui-select">
+                            <option value="">请选择:</option>
+                            <option th:each="lz:${xialakuang}" th:value="${lz.ItemTypeID}" th:text="${lz.ItemTypeName}">
+
+                            </option>
+
+
                         </select>
                     </td>
-                    <td align="right">项目代码:</td>
-                    <td align="center" width="200px"><span>系统自动生成</span></td>
-                    <td align="right">项目名称</td>
-                    <td align="center" width="200px"><input type="text" name="title" required lay-verify="required"  autocomplete="off" class="layui-input"></td>
                 </tr>
                 <tr >
-                    <td align="right">外文名称:</td>
+                    <td align="right">结构类型:</td>
                     <td align="center" width="200px">
-                        <input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+                        <input type="text"  class="layui-input" name="structuretype">
                     </td>
                     <td align="right">产品分类:</td>
                     <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
+                        <select name="ProductClassificationID.ProductClassificationID" lay-verify="" class="layui-select">
                             <option value="">--请选择--</option>
-                            <option value="010" selected>房地产投资</option>
+                            <option th:each="FenLei:${ChanPinXiaLaKuang}" th:value="${FenLei.ProductClassificationID}" th:text="${FenLei.ProductClassificationName}">
                         </select>
                     </td>
-                    <td align="right">项目规模(小写):</td>
-                    <td align="center" width="200px"><input type="text" name="title" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input"></td>
+                    <td align="right">销售渠道:</td>
+                    <td align="center" width="200px"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></td>
                 </tr>
+
                 <tr >
-                    <td align="right">项目规模(大写):</td>
-                    <td align="center" width="200px">
-                        <input type="text" name="title" placeholder="根据项目规模小写返显" required lay-verify="required" autocomplete="off" class="layui-input">
+                    <td align="right">合同前缀:</td>
+                    <td>
+                        <input type="text" class="layui-input" name="Contractprefix">
                     </td>
-                    <td align="right">项目期限:</td>
-                    <td align="center" width="200px">
-                        <input type="datetime-local" name="title" placeholder="根据项目规模小写返显" required lay-verify="required" autocomplete="off" class="layui-input">
+                    <td align="right">产品风险等级:</td>
+                    <td>
+                        <input type="text" class="layui-input" name="ProductRiskLevel">
                     </td>
-                    <td align="right">期限单位:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>月</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">成立日期:</td>
-                    <td align="center" width="200px">
-                        <input type="datetime-local" name="title" placeholder="根据项目规模小写返显" required lay-verify="required" autocomplete="off" class="layui-input">
-                    </td>
-                    <td align="right">到期日期:</td>
-                    <td align="center" width="200px">
-                        <input type="datetime-local" name="title" placeholder="根据项目规模小写返显" required lay-verify="required" autocomplete="off" class="layui-input">
-                    </td>
-                    <td align="right">期限单位:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>贷款</option>
-                        </select>
-                    </td>
-                <tr >
-                    <td align="right">资金投向:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>基础产业</option>
-                        </select>
-                    </td>
-                    <td align="right">募集币种:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>人民币(单选)</option>
-                        </select>
-                    </td>
-                    <td align="right">投资币种:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>人民币(多选)</option>
-                        </select>
+                    <td align="right">适合客户风险等级:</td>
+                    <td>
+                        <input type="text" class="layui-input" name="SuitableforCustomerRiskLevel">
                     </td>
                 </tr>
                 <tr >
-                    <td align="right">是否结构化:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>是</option>
-                        </select>
+                    <td align="right">产品描述:</td>
+                    <td>
+                        <input type="text" class="layui-input" name="ProductDescription">
                     </td>
-                    <td align="right">收益分配方式:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>其他</option>
-                        </select>
-                    </td>
-                    <td align="right">收益分配频度:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>周</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">资产管理报告频度:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>按月</option>
-                        </select>
-                    </td>
-                    <td align="right">融资方:</td>
-                    <td align="center" width="200px">
-                        <input type="text" name="title" placeholder="" required lay-verify="required" autocomplete="off" class="layui-input">
-                    </td>
-                    <td align="right">管理人:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>单选,取渠道值</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">投资顾问:</td>
-                    <td align="center" width="200px" colspan="4">
-                        <!--<input type="checkbox" name="" title="投顾A">投顾A
-                        <input type="checkbox" name="" title="投顾B">投顾B
-                        <input type="checkbox" name="" title="投顾C">投顾C-->
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010">投顾A</option>
-                            <option value="010">投顾B</option>
-                            <option value="010">投顾C</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">项目来源方:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>中融国际信托有限公司</option>
-                        </select>
-                    </td>
-                    <td align="right">来源方部门:</td>
-                    <td align="center" width="200px">
-                        <select name="city" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option value="010" selected>信托业务一部</option>
-                        </select>
-                    </td>
-                    <td align="right">来源方对接人A:</td>
-                    <td align="center" width="200px">
-                        <input type="text" name="title" placeholder="请输入" required lay-verify="required" autocomplete="off" class="layui-input">
-                    </td>
-                <tr >
-                    <td align="right">项目来源方:</td>
-                    <td align="center" width="200px">
-                        <input type="text" name="title" placeholder="请输入" required lay-verify="required" autocomplete="off" class="layui-input">
-                    </td>
-                    <td align="right">来源方部门:</td>
-                    <td align="center" width="200px">
-                        <input type="text" name="title" placeholder="请输入" required lay-verify="required" autocomplete="off" class="layui-input">
-                    </td>
-                    <td align="right">来源方对接人A:</td>
-                    <td align="center" width="200px">
-                        <span>选择</span>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">产品经理B:</td>
-                    <td align="center" width="200px">
-                        <span>选择</span>
-                    </td>
-                    <td align="right">保管账号:</td>
-                    <td align="center" width="200px">
-                        <span>输入</span>
-                    </td>
-                    <td align="right">保管银行:</td>
-                    <td align="center" width="200px">
-                        <span>单选+输入</span>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">保管户名:</td>
-                    <td align="center" width="200px">
-                        <span>输入</span>
-                    </td>
-                    <td align="right">保管账号:</td>
-                    <td align="center" width="200px">
-                        <span>输入框</span>
-                    </td>
-                    <td align="right">保管银行:</td>
-                    <td align="center" width="200px">
-                        <span>单选+输入(非渠道)</span>
-                    </td>
-                </tr>
-                <tr >
-                    <td align="right">募集户名:</td>
-                    <td align="center" width="200px">
-                        <span>输入框</span>
-                    </td>
-                </tr>
-                <tr >
                     <td align="right">备注:</td>
-                    <td align="center" width="200px" colspan="4">
-                        <input type="text" name="title" required lay-verify="required"  autocomplete="off" class="layui-input">
+                    <td>
+                        <input type="text" class="layui-input" name="Remarks">
+                    </td>
+                    <td align="right">收益类型:</td>
+                    <td align="center" width="200px">
+                        <select name="Incometype.IncomeTypeID" lay-verify="" class="layui-select">
+                            <option value="">--请选择--</option>
+                            <option th:each="ShouYi:${ShouYiLeiXing}" th:value="${ShouYi.IncomeTypeID}" th:text="${ShouYi.IncomeTypeName}">
+                        </select>
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">收益分配周期:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="Incomedistributioncycle">
+                    </td>
+                    <td align="right">封闭期:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="Closureperiod">
+                    </td>
+                    <td align="right">开放期描述:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="OpenPeriodDescription">
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">是否可赎回:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="Isitredeemable">
+                    </td>
+                    <td align="center" width="100px">产品投向
+                        <select name="ProductsToId.ProductsToId" class="layui-select">
+                            <option value="">请选择:</option>
+                            <option th:each="TouXiang:${touxiang}" th:value="${TouXiang.ProductsToId}" th:text="${TouXiang.ProductsToName}">
+
+                            </option>
+
+
+                        </select>
+                    </td>
+                </tr>
+                <tr >
+                    <td align="right">赎回费率:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="RedemptionRate">
+                    </td>
+                    <td align="right">是否允许追加:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="IsAdditionPermissible">
+                    </td>
+                    <td align="right">运营经理A:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="OperationsManagerA">
+                    </td>
+
+                </tr>
+                <tr>
+                    <td align="right">运营经理B:</td>
+                    <td align="center" width="200px">
+                        <input type="text" class="layui-input" name="OperationsManagerB">
                     </td>
                 </tr>
                 <tr >
@@ -305,5 +212,7 @@
                 </tr>
             </table>
         </div>
+
     </div>
 </div>
+</form>

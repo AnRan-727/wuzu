@@ -22,10 +22,10 @@ public class ProductController {
     public String queryAll(Product_list product_list, Integer pageNum, Integer pageSize, Model model) {
         if (pageNum ==null) {
             pageNum=1;
-        }
+    }
         if (pageSize ==null) {
             pageSize=2;
-        }
+    }
         model.addAttribute("page", productService.queryAll(product_list, pageNum, pageSize));
         System.err.println(productService.queryAll(product_list, pageNum, pageSize));
         Item_type_table item_type_table = new Item_type_table();
@@ -39,8 +39,44 @@ public class ProductController {
     }
 
     @RequestMapping("toAddProduct")
-    public String toAddProduct() {
+    public String toAddProduct(Product_list product_list,Integer pageNum,Integer pageSize,Model model) {
+        model.addAttribute("ShouYiLeiXing", productService.ShouYiLeiXing());
+        model.addAttribute("xialakuang", productService.queryXiaLaKuang());
+        model.addAttribute("touxiang", productService.TouXiangXiaLaKuang());
+        model.addAttribute("ChanPinXiaLaKuang",productService.queryChanPinXiaLaKuang());
+        model.addAttribute("page", productService.queryAll(product_list, 1, 2));
         return "ChanPinGuanLi/ChanPinTianJia";
     }
+
+    @RequestMapping("doAddProduct")
+    public String doAddProduct(Product_list product_list) {
+        Integer count = productService.addProduct(product_list);
+        if (count > 0) {
+            System.out.println("添加成功");
+        }
+        return "redirect:queryAll";
+    }
+
+    @RequestMapping("toUpdateProduct")
+    public String toUpdateProduct(Product_list product_list,Integer ProductId, Model model) {
+        model.addAttribute("ShouYiLeiXing", productService.ShouYiLeiXing());
+        System.err.println("+++++++++"+productService.TouXiangXiaLaKuang());
+        model.addAttribute("touxiang", productService.TouXiangXiaLaKuang());
+        model.addAttribute("xialakuang", productService.queryXiaLaKuang());
+        model.addAttribute("ChanPinXiaLaKuang", productService.queryChanPinXiaLaKuang());
+        System.err.println("+++++++++++++"+productService.detailProduct(ProductId));
+        model.addAttribute("detail", productService.detailProduct(ProductId));
+        return "ChanPinGuanLi/ChanPinXiuGai";
+    }
+
+    @RequestMapping("doUpdateProduct")
+    public String doUpdateProduct(Product_list product_list, Integer ProductID, Model model) {
+        Integer count = productService.updateProduct(product_list);
+        if (count > 0) {
+            System.out.println("修改成功");
+        }
+        return "redirect:queryAll";
+    }
+
 
 }

@@ -21,34 +21,11 @@
     </div>
 <div align="center">
 <form action="">
-    <div>
-    <table>
-        <tr>
 
-            <div class="layui-inline">
-                <label class="layui-form-label">日期范围</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="test6" placeholder=" - ">
-                </div>
-            </div>
-
-
-        </tr>
-
-
-    </table>
-    </div>
 </form>
 </div>
     <br/>
     <br/>
-    <div align="center">
-        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
-        <button type="button" class="layui-btn layui-btn-radius">重置</button>
-        <br/>
-        <br/>
-        <br/>
-    </div>
     <div>
     <table class="layui-table" border="1" align="center">
         <tr>
@@ -76,20 +53,6 @@
     </div>
 <script th:src="@{/layui/layui.js}"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
-    layui.use(['laypage', 'layer'], function() {
-        var laypage = layui.laypage
-            , layer = layui.layer;
-        laypage.render({
-            elem: 'demo7'
-            , count: 100
-            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-            , jump: function (obj) {
-                console.log(obj)
-            }
-        });
-    })
-</script>
 
 <script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
