@@ -45,4 +45,14 @@ public class Channel_Type_ServiceImpl implements Channel_Type_Service {
     public List<Company_departments_list> queryCompany(Integer id) {
         return channelTypeMapper.queryCompany(id);
     }
+
+    @Override
+    public int addChannel(Channel_list channel_list) {
+        return channelTypeMapper.addChannel(channel_list);
+    }
+
+    @Override
+    public int addCompanyDepartmentsList(Company_departments_list company_departments_list) {
+        return channelTypeMapper.addCompanyDepartmentsList(company_departments_list);
+    }
 }

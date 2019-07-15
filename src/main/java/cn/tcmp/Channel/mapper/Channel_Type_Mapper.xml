@@ -37,8 +37,14 @@
         SELECT * FROM company_departments_list WHERE CompanyID = #{id}
     </select>
     <!--新建渠道公司-->
-    <insert id="addChannel" parameterType="cn.tcmp.entity.Channel_list">
-        
+    <insert id="addChannel" parameterType="cn.tcmp.entity.Channel_list" useGeneratedKeys="true" keyProperty="ChannelID">
+        INSERT INTO `channel_list`(ChanneltypeID,CorporateName,introduce,ContactName,ContactTelephone,ContactEmail,DocumentType,IdentificationNumber,Enclosure,CreationDate)
+        VALUES(#{chaId},#{Corporatename},#{introduce},#{ContactName},#{Contacttelephone},#{ContactEmail},#{Documenttype},#{IdentificationNumber},#{Enclosure},NOW())
+    </insert>
+    <!--新增部门信息-->
+    <insert id="addCompanyDepartmentsList" parameterType="cn.tcmp.entity.Company_departments_list">
+        INSERT INTO `company_departments_list`(CompanyID,DepartmentName,DepartmentalContacts,IntroductionOfDepartmentalContacts,DepartmentalIntroduction)
+        VALUES(#{comId},#{Departmentname},#{DepartmentalContacts},#{IntroductionofDepartmentalContacts},#{DepartmentalIntroduction})
     </insert>
 
 

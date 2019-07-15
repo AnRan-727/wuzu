@@ -3,6 +3,7 @@ package cn.tcmp.Channel.controller;
 import cn.tcmp.Channel.service.Channel_Type_Service;
 import cn.tcmp.entity.Attached_table;
 import cn.tcmp.entity.Channel_list;
+import cn.tcmp.entity.Company_departments_list;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,8 +65,48 @@ public class Channel_Type_Controller {
         return "QuDaoGuanLi/XinJian/QuDaoXinJian";
     }
 
+    //新增公司渠道信息
+    @RequestMapping(value = "doAddChannel")
+    @ResponseBody
+    public Integer doAddChannel(Channel_list channel_list){
+        channel_type_service.addChannel(channel_list);
+        return channel_list.getChannelID();
+    }
 
-    private static List<String> filename = new ArrayList<>();
+    //新增公司部门信息
+    @RequestMapping(value = "doAddCompany")
+    public String doAddCompany(Company_departments_list company_departments_list){
+        System.out.println("=====>公司部门信息:"+company_departments_list);
+        channel_type_service.addCompanyDepartmentsList(company_departments_list);
+        return "redirect:toQueryChannelType";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private static List<String> filename = new ArrayList<>();
     private String path="images";//要保存的文件夹的名字,需修改
     @RequestMapping(value="fileController",produces = "text/html;charset=UTF-8")//解决返回中文乱码
     @ResponseBody//设置ajax 返回保存路径
@@ -88,7 +129,7 @@ public class Channel_Type_Controller {
 
         return "/"+path+"/"+url;
     }
-
+*/
 
 
 

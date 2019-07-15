@@ -46,6 +46,7 @@ public class Item_sheet{
 	private Frequency_of_income_distribution IncomeDistributionFrequencyID;//收益分配频度ID
 	private String ProjectLocation;//项目所在地
 	private String InvestmentConsultan;//投资顾问
+	private Asset_management_report amrID;
 
 
 }

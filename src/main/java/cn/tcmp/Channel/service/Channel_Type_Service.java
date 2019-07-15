@@ -24,4 +24,10 @@ public interface Channel_Type_Service {
 
     //查询该渠道(公司)下的部门
     List<Company_departments_list> queryCompany(Integer id);
+
+    //新建渠道&公司
+    int addChannel(Channel_list channel_list);
+
+    //新增部门信息
+    int addCompanyDepartmentsList(Company_departments_list company_departments_list);
 }
