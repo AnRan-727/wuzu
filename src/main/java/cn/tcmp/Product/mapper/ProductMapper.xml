@@ -8,6 +8,9 @@
         <association property="ProductClassificationID" javaType="Product_classification_table" autoMapping="true">
             <id property="ProductClassificationID" column="ProductClassificationID"></id>
         </association>
+        <association property="ProductsToId" javaType="Product_investment" autoMapping="true">
+            <id property="ProductsToId" column="ProductsToId"></id>
+        </association>
         <association  property="Incometype" javaType="Income_type_statement" autoMapping="true">
             <id property="IncomeTypeID" column="IncomeTypeID"></id>
         </association>
@@ -25,38 +28,47 @@
     <select id="queryAll" parameterType="product_list" resultMap="productMap">
 
 
-SELECT   `income_type_statement`.`IncomeTypeName`,  item_type_table.`ItemTypeName`,product_classification_table.`ProductClassificationName`,`product_list`.*,`item_sheet`.*
-FROM  `item_sheet`,`item_type_table`,`product_list`,`product_classification_table`,`income_type_statement`
+SELECT `product_investment`.*, `income_type_statement`.*,  item_type_table.`ItemTypeName`,product_classification_table.`ProductClassificationName`,`product_list`.*,`item_sheet`.*
+FROM  `item_sheet`,`item_type_table`,`product_list`,`product_classification_table`,`income_type_statement`,`product_investment`
 WHERE  product_list.ItemID=item_sheet.`ItemID` AND
 item_sheet.ItemID=item_type_table.`ItemTypeID` AND
 `income_type_statement`.`IncomeTypeID`=`product_list`.`IncomeType` AND
-`product_list`.`ProductClassificationID`=`product_classification_table`.`ProductClassificationID`
 
+`product_list`.`ProductClassificationID`=`product_classification_table`.`ProductClassificationID`
+AND
+product_list.`ProductsToId` =`product_investment`.`ProductsToId`
+
+<if test="ProductCode!='' and ProductCode!=null">
+    and product_list.ProductCode like concat('%',#{ProductCode},'%')
+</if>
+<if test="ProductName!='' and ProductName!=null">
+    and  product_list.ProductName like concat('%',#{ProductName},'%')
+</if>
     </select>
     
-  <!-- <insert id="addProduct" parameterType="Product_list">
+   <insert id="addProduct" parameterType="Product_list">
    INSERT INTO `product`.`product_list` (
   `ProductID`,
-  `ProductClassificationID.ProductClassificationID`,
+  `ProductClassificationID`,
   `ItemID`,
   `ProductCode`,
   `ProductName`,
   `ProductsToId`,
-  `DistributionChannel`,
-  `structureType`,
-  `ContractPrefix`,
+  `Distributionchannel`,
+  `structuretype`,
+  `Contractprefix`,
   `ProductRiskLevel`,
-  `SuitableForCustomerRiskLevel`,
+  `SuitableforCustomerRiskLevel`,
   `ProductDescription`,
   `Remarks`,
-  `IncomeType`,
-  `IncomeDistributionCycle`,
+  `Incometype`,
+  `Incomedistributioncycle`,
   `ProfitDistributionDescription`,
-  `OpenCycle`,
+  `Opencycle`,
   `OpenPeriodDescription`,
-  `ClosurePeriod`,
-  `ClosedPeriodUnit`,
-  `IsItRedeemable`,
+  `Closureperiod`,
+  `Closedperiodunit`,
+  `Isitredeemable`,
   `RedemptionRate`,
   `RedemptionRestriction`,
   `IsAdditionPermissible`,
@@ -67,31 +79,94 @@ VALUES
   (
     NULL,
     #{ProductClassificationID.ProductClassificationID},
-    #{ItemID.ItemID},
+    #{ItemID.ItemtypeID.ItemTypeID},
     #{ProductCode},
     #{ProductName},
     #{ProductsToId.ProductsToId},
-    #{DistributionChannel},
-    #{structureType},
-    #{ContractPrefix},
+    #{Distributionchannel},
+    #{structuretype},
+    #{Contractprefix},
     #{ProductRiskLevel},
-    #{SuitableForCustomerRiskLevel},
+    #{SuitableforCustomerRiskLevel},
     #{ProductDescription},
     #{Remarks},
-    #{IncomeType},
-    #{IncomeDistributionCycle},
+    #{Incometype.IncomeTypeID},
+    #{Incomedistributioncycle},
     #{ProfitDistributionDescription},
-    #{OpenCycle},
+    #{Opencycle},
     #{OpenPeriodDescription},
-    #{ClosurePeriod},
-    #{ClosedPeriodUnit},
-    #{IsItRedeemable},
+    #{Closureperiod},
+    #{Closedperiodunit},
+    #{Isitredeemable},
     #{RedemptionRate},
     #{RedemptionRestriction},
     #{IsAdditionPermissible},
     #{OperationsManagerA},
     #{OperationsManagerB}
   );
-   </insert>-->
+   </insert>
+    <select id="queryXiaLaKuang" resultType="Item_type_table">
+        SELECT * FROM `item_type_table`
+    </select>
+    <select id="queryChanPinXiaLaKuang" resultType="Product_classification_table">
+        SELECT * FROM `product_classification_table`
+    </select>
+
+    <select id="ShouYiLeiXing" resultType="Income_type_statement">
+        SELECT * FROM `income_type_statement`
+    </select>
+    <select id="TouXiangXiaLaKuang" resultType="Product_investment">
+        SELECT * FROM `product_investment`
+    </select>
+
+    <update id="updateProduct" parameterType="Product_list">
+        UPDATE
+  `product`.`product_list`
+SET
+  `ProductClassificationID` = #{ProductClassificationID.ProductClassificationID},
+  `ItemID` = #{ItemID.ItemtypeID.ItemTypeID},
+  `ProductCode` = #{ProductCode},
+  `ProductName` = #{ProductName},
+  `ProductsToId` = #{ProductsToId.ProductsToId},
+  `Distributionchannel` = #{Distributionchannel},
+  `structuretype` = #{structuretype},
+  `Contractprefix` = #{Contractprefix},
+  `ProductRiskLevel` = #{ProductRiskLevel},
+  `SuitableforCustomerRiskLevel` = #{SuitableforCustomerRiskLevel},
+  `ProductDescription` = #{ProductDescription},
+  `Remarks` = #{Remarks},
+  `Incometype` = #{Incometype.IncomeTypeID},
+  `Incomedistributioncycle` = #{Incomedistributioncycle},
+  `ProfitDistributionDescription` = #{ProfitDistributionDescription},
+  `Opencycle` = #{Opencycle},
+  `OpenPeriodDescription` = #{OpenPeriodDescription},
+  `Closureperiod` = #{Closureperiod},
+  `Closedperiodunit` = #{Closedperiodunit},
+  `Isitredeemable` = #{Isitredeemable},
+  `RedemptionRate` = #{RedemptionRate},
+  `RedemptionRestriction` = #{RedemptionRestriction},
+  `IsAdditionPermissible` = #{IsAdditionPermissible},
+  `OperationsManagerA` = #{OperationsManagerA},
+  `OperationsManagerB` = #{OperationsManagerB}
+WHERE `ProductID` = #{ProductID}
+    </update>
+
+
+    <select id="detailProduct" parameterType="integer" resultMap="productMap">
+       SELECT `product_investment`.*, `income_type_statement`.*,  item_type_table.`ItemTypeName`,product_classification_table.`ProductClassificationName`,`product_list`.*,`item_sheet`.*
+FROM  `item_sheet`,`item_type_table`,`product_list`,`product_classification_table`,`income_type_statement`,`product_investment`
+WHERE  product_list.ItemID=item_sheet.`ItemID` AND
+item_sheet.ItemID=item_type_table.`ItemTypeID` AND
+`income_type_statement`.`IncomeTypeID`=`product_list`.`IncomeType` AND
+`product_investment`.`ProductsToId`=product_list.`ProductsToId` AND
+`product_list`.`ProductClassificationID`=`product_classification_table`.`ProductClassificationID`
+AND product_list.ProductID=#{Productid}
+    </select>
+
+
+    <delete id="deleteProduct" parameterType="Integer">
+     DELETE FROM `product`.`product_list`
+WHERE `ProductID` = #{ProductID};
+    </delete>
 
 </mapper>
