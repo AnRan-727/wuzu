@@ -1,11 +1,20 @@
 package cn.tcmp.Product.mapper;
 
 import cn.tcmp.entity.*;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface ProductMapper {
+    //查询所有附件信息
+    List<Attached_table> queryAllFuJian(@Param("AttachmentName") String AttachmentName);
+    //查询附件信息详情
+    Attached_table detailFuJian(@Param("AttachedID")Integer AttachedID);
+    //修改附件
+    Integer updateFuJian(Attached_table Attached_table);
+    //删除附件
+    Integer deleteFuJian(@Param("AttachedID")Integer AttachedID);
+
     //查询全部产品
     List<Product_list> queryAll(Product_list product_list);
     //新增按钮

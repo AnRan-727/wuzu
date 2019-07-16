@@ -67,10 +67,10 @@ public class ItemSheetServiceImpl implements ItemSheetService {
         return itemSheetMapper.queryFrequency_of_income_distribution();
     }
 
-   /* @Override
+    @Override
     public List<Asset_management_report> queryAsset_management_report() {
         return itemSheetMapper.queryAsset_management_report();
-    }*/
+    }
 
     @Override
     public List<Company_departments_list> queryCompany_departments_list() {

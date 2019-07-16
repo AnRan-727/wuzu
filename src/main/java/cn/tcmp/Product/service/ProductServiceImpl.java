@@ -4,7 +4,6 @@ import cn.tcmp.Product.mapper.ProductMapper;
 import cn.tcmp.entity.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Insert;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,6 +13,26 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     private ProductMapper productMapper;
 
+
+    @Override
+    public List<Attached_table> queryAllFuJian(String AttachmentName) {
+        return productMapper.queryAllFuJian(AttachmentName);
+    }
+
+    @Override
+    public Attached_table detailFuJian(Integer AttachedID) {
+        return productMapper.detailFuJian(AttachedID);
+    }
+
+    @Override
+    public Integer updateFuJian(Attached_table Attached_table) {
+        return productMapper.updateFuJian(Attached_table);
+    }
+
+    @Override
+    public Integer deleteFuJian(Integer AttachedID) {
+        return productMapper.deleteFuJian(AttachedID);
+    }
 
     @Override
     public PageInfo<Product_list> queryAll(Product_list product_list,Integer pageNum,Integer pageSize) {

@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: AnRan
@@ -75,34 +77,9 @@ public class ItemSheetController {
         PageInfo<Item_sheet> itemsList=itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet);
         System.err.println("service+itemsList+"+itemsList.getList());
         model.addAttribute("page",itemsList);
-        /*ModelAndView md=new ModelAndView();
-        md.addObject("page",itemsList);
-        md.setViewName("XiangMuGuanLi/ChaXun");*/
         return "XiangMuGuanLi/ChaXun";
     }
-    /*//项目查询页模糊查询
-    @RequestMapping("queryByItem_sheetAjax")
-    @ResponseBody
-    public PageInfo<Item_sheet> queryByitem_sheetAjax(Integer pageNo, Integer pageSize,
-                                          Item_sheet item_sheet,Item_type_table itt,
-                                          Product_classification_table pct,Channel_list Channel_list,Model model){
-        System.err.println("pageNo:"+pageNo);
-        System.err.println("pageSize:"+pageSize);
-        item_sheet.setItemtypeID(itt);
-        item_sheet.setProductclassificationID(pct);
-        item_sheet.setChanneltableID(Channel_list);
-        if (pageNo==null){
-            pageNo=1;
-        }
-        if (pageSize==null){
-            pageSize=1;
-        }
-        System.err.println("pageNo2:"+pageNo);
-        System.err.println("pageSize2:"+pageSize);
-        PageInfo<Item_sheet> pageInfo=itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet);
-        System.err.println(pageInfo.getList());
-        return pageInfo;
-    }*/
+
     //去项目添加页
     @RequestMapping("XiangMuAdd")
     public String toXiangMuAdd(Model model){
@@ -114,7 +91,7 @@ public class ItemSheetController {
         model.addAttribute("Currency_list",itemSheetService.queryCurrency_list());
         model.addAttribute("Distribution_of_income",itemSheetService.queryDistribution_of_income());
         model.addAttribute("Frequency_of_income_distribution",itemSheetService.queryFrequency_of_income_distribution());
-       // model.addAttribute("Asset_management_report",itemSheetService.queryAsset_management_report());
+        model.addAttribute("Asset_management_report",itemSheetService.queryAllItem_type_table());
         model.addAttribute("Company_departments_list",itemSheetService.queryCompany_departments_list());
         return "XiangMuGuanLi/ChaXunAdd";
     }
@@ -132,7 +109,7 @@ public class ItemSheetController {
     //去项目修改页
     @RequestMapping("XiangMuUpdate")
     public String XiangMuUpdate(Integer pageNo,
-     Integer pageSize,Integer itemid,Model model){
+     Integer pageSize,Integer itemid,Model model,String AttachmentName){
         System.err.println("itemid:"+itemid);
         Product_list product_list=new Product_list();
         if (pageNo==null){
@@ -141,6 +118,9 @@ public class ItemSheetController {
         if (pageSize==null){
             pageSize=2;
         }
+        List<Attached_table> Atttlist=productService.queryAllFuJian(AttachmentName);
+        System.err.println("Atttlist:::"+Atttlist);
+        model.addAttribute("Atttlist",Atttlist);
         model.addAttribute("page",productService.queryAll(product_list,pageNo,pageSize));
         model.addAttribute("product_type",itemSheetService.queryAllProduct());
         model.addAttribute("channel_list",itemSheetService.queryAllChannel_list());
@@ -150,7 +130,7 @@ public class ItemSheetController {
         model.addAttribute("Currency_list",itemSheetService.queryCurrency_list());
         model.addAttribute("Distribution_of_income",itemSheetService.queryDistribution_of_income());
         model.addAttribute("Frequency_of_income_distribution",itemSheetService.queryFrequency_of_income_distribution());
-       // model.addAttribute("Asset_management_report",itemSheetService.queryAsset_management_report());
+        model.addAttribute("Asset_management_report",itemSheetService.queryAsset_management_report());
         model.addAttribute("Company_departments_list",itemSheetService.queryCompany_departments_list());
         //项目详情回显
         System.err.println("itemid:"+itemid);
@@ -171,14 +151,8 @@ public class ItemSheetController {
         }
         return "redirect:queryByItem_sheet";
     }
-    /*@RequestMapping("XiangMuDelete")
-    public String deleteXiangMu(Integer itemID){
-        Integer count=itemSheetService.deleteItem_sheet(itemID);
-        if (count>0){
-            System.err.println("删除成功");
-        }
-        return "redirect:queryByItem_sheet";
-    }*/
+
+    //删除项目操作
     @RequestMapping("XiangMuDelete")
     @ResponseBody
     public String deleteXiangMu(Integer itemID){
@@ -197,9 +171,54 @@ public class ItemSheetController {
         System.out.println("................>>>");
         return "XiangMuGuanLi/FuJian/FuJianAdd";
     }
+    //去查询附件详情页
     @RequestMapping("toFuJianUpdate")
-    public String toFuJianUpdate(){
-        System.out.println("???????????????>");
+    public String toFuJianUpdate(Integer AttachedID,Model model){
+        if (AttachedID!=null || AttachedID!=0){
+            Attached_table table=productService.detailFuJian(AttachedID);
+            model.addAttribute("tables",table);
+        }
         return "XiangMuGuanLi/FuJian/FuJianUpdate";
+    }
+    //做附件修改操作
+    @RequestMapping("doFuJianUpdate")
+    @ResponseBody
+    public String doupdateFuJian(Attached_table attached_table){
+        Integer count=0;
+        if (attached_table!=null){
+            count=productService.updateFuJian(attached_table);
+        }
+        if (count>0){
+            System.err.println("修改附件成功");
+            return "ok";
+        }
+        return "error";
+    }
+    //做附件修改操作
+    @RequestMapping("deleteFuJian")
+    @ResponseBody
+    public String deleteFuJian(Integer AttachedID){
+        Integer count=0;
+        if (AttachedID!=null || AttachedID!=0){
+            count=productService.deleteFuJian(AttachedID);
+        }
+        if (count>0){
+            System.err.println("删除附件成功");
+            return "ok";
+        }
+        return "error";
+    }
+    //做附件修改操作
+    @RequestMapping("deleteFuJian2")
+    public String deleteFuJian2(Integer AttachedID){
+        Integer count=0;
+        if (AttachedID!=null || AttachedID!=0){
+            count=productService.deleteFuJian(AttachedID);
+        }
+        if (count>0){
+            System.err.println("删除附件成功");
+            return "redirect:queryByItem_sheet";
+        }
+        return "redirect:queryByItem_sheet";
     }
 }

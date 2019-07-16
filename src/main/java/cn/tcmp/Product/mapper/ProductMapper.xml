@@ -22,8 +22,35 @@
         </association>
 
     </resultMap>
+    <resultMap id="fujianMap" type="Attached_table" autoMapping="true">
+        <id property="AttachedID" column="AttachedID"></id>
+        <association property="ProjectID" javaType="Item_sheet" autoMapping="true">
+            <id property="ItemID" column="ItemID"></id>
+        </association>
+    </resultMap>
     
-    
+    <select id="queryAllFuJian" resultMap="fujianMap" parameterType="String">
+        SELECT * FROM product.attached_table p,item_sheet ish
+        WHERE p.ProjectID=ish.itemID
+        <if test="AttachmentName!=null and AttachmentName!=''">
+            AND p.AttachmentName=#{AttachmentName}
+        </if>
+    </select>
+    <select id="detailFuJian" resultMap="fujianMap" parameterType="Integer">
+        SELECT * FROM product.attached_table p,item_sheet ish
+        WHERE p.ProjectID=ish.itemID and p.AttachedID=#{AttachedID}
+    </select>
+    <update id="updateFuJian" parameterType="Attached_table">
+        UPDATE
+  product.attached_table
+SET
+  AttachmentName = #{AttachmentName},
+  AnnexDescription = #{AnnexDescription}
+WHERE AttachedID = #{AttachedID}
+    </update>
+    <delete id="deleteFuJian" parameterType="Integer">
+        DELETE FROM product.attached_table WHERE AttachedID = #{AttachedID}
+    </delete>
     
     <select id="queryAll" parameterType="product_list" resultMap="productMap">
 

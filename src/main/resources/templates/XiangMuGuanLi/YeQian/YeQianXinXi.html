@@ -216,7 +216,7 @@
                     <td align="center" width="200px">
                         <select name="amrID.amrID" lay-verify="" class="layui-select">
                             <option value="">--请选择--</option>
-                            <option th:each="amr:${Asset_management_report}" th:selected="${islist.amrID.amrID} eq ${amr.amrID}" th:value="${amr.amrID}" th:text="${amr.amrName}"></option>
+                            <option th:each="amr:${Asset_management_report}" th:selected="${islist.amrID} eq ${amr.amrID}" th:value="${amr.amrID}" th:text="${amr.amrName}"></option>
                         </select>
                     </td>
                     <td align="right">融资方:</td>
@@ -325,7 +325,7 @@
                     <td colspan="12">产品列表信息</td>
                 </tr>
                 <tr>
-                    <td>操作</td>
+                    <!--<td>操作</td>-->
                     <td>项目类型</td>
                     <td>产品分类</td>
                     <td>产品代码</td>
@@ -339,11 +339,15 @@
                     <td>运营经理B</td>
                 </tr>
                 <tr th:each="product:${page.list}" th:object="${product}">
-                    <td>
+                    <!--<td>
                         <input type="hidden" name="ItemID" th:value="${islist.ItemID}">
-                        <button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-                        <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-                    </td>
+                        <a href="" >
+                            <i class="layui-icon"></i>
+                        </a>
+                        <a href="">
+                            <i class="layui-icon"></i>
+                        </a>
+                    </td>-->
                     <td th:text="*{ItemID.ItemtypeID.ItemTypeName}"></td>
                     <td th:text="*{ProductClassificationID.ProductClassificationName}"></td>
                     <td th:text="*{ProductCode}"></td>
@@ -360,63 +364,37 @@
                 <input name="pageNo" th:value="${page.pageNum}" type="hidden"/><!--//第几页-->
                 <input name="total" th:value="${page.total}" type="hidden"/><!--//一共多少行数据-->
             </form>
-            <div id="demo7" align="center"></div>
-            <script th:src="@{/layui/layui.js}"></script>
-            <script>
-                var total=0;
-                var pageNo= 0;
-                $(function(){
-                    var data = $("#form").serialize();
-                    var total=$("input[name='total']").val();
-                    var pageNum=$("input[name='pageNo']").val();
 
-                    layui.use([ 'laypage', 'layer' ], function() {
-                        var laypage = layui.laypage, layer = layui.layer;
-                        laypage.render({
-                            elem : 'demo7',
-                            count : total
-                            ,curr: pageNum,
-                            limit:1//每页几个,需要修改
-                            ,
-                            layout : [ 'count', 'prev', 'page', 'next',  'refresh',
-                                'skip', ],
-                            jump : function(obj,first) {
-                                //console.log(obj)
-                                if(!first){
-                                    //do something
-
-                                    $("input[name='pageNo']").val(obj.curr);
-                                    console.log(data)
-                                    $("#form").attr("action","/item/XiangMuUpdate?"+data).submit();
-                                    //alert(pageNum);
-                                }
-                            }
-                        });
-                    });
-                });
-                </script>
             <!--此处为产品信息页签结束-->
 
         </div>
         <div class="layui-tab-item">
             <!--此处为附件信息页签开始-->
             <div>
-                <div align="center">
-                    <form action="" method="post">
-                        <span>文件名:</span>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" /><br /><br />
-                        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
+                <div align="center" id="ajaxfujianzuijia">
+                    <form  action="" method="post">
+                        <table class="layui-table">
+                            <tr>
+                                <td width="300px" align="right"><span>文件名:</span></td>
+                                <td align="left">
+                                    <input name="AttachmentName" type="text" placeholder="请输入文件名" required lay-verify="required"  autocomplete="off" class="layui-input"/>
+                                </td>
+                                <td width="300px"></td>
+                            </tr>
+                        </table>
+                        <button name="fujianbutton" type="button" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
                         <button type="reset" class="layui-btn layui-btn-radius">重置</button><br /><br />
                     </form>
                 </div>
-                <div>
-                    <table class="layui-table"  border="1  solid" cellspacing="0" align="center" width="100%">
+                <div id="fujiantr1">
+                    <table id="fujiantr3"  class="layui-table"  border="1  solid" cellspacing="0" align="center" width="100%">
                         <tr>
                             <td align="left" colspan="6"><span >附件列表</span></td>
                         </tr>
                         <tr>
                             <td align="left" colspan="6"><a href="toFuJianAdd" >添加附件</a></td>
                         </tr>
-                        <tr>
+                        <tr >
                             <td>操作</td>
                             <td>文件名</td>
                             <td>文件大小</td>
@@ -424,15 +402,22 @@
                             <td>创建时间</td>
                             <td>附件说明</td>
                         </tr>
-                        <tr>
+                        <tr id="fujiantr2" th:each="attts:${Atttlist}"  th:object="${attts}" th:on="*{AttachedID}">
                             <td>
-                                <a href="toFuJianUpdate" >编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="">删除</a>
+                                <a th:href="@{toFuJianUpdate(AttachedID=*{AttachedID})}" >
+                                    <i class="layui-icon"></i>
+                                </a>
+                                <!--<a id="deleteFu" th:href="@{deleteFuJian(AttachedID=*{AttachedID})}">-->
+                                <a name="deleteFu" >
+                                    <i class="layui-icon"></i>
+                                </a>
+                                <input type="hidden" name="AttachedID" th:value="*{AttachedID}">
                             </td>
-                            <td>XXX</td>
-                            <td>128.KB</td>
-                            <td>SHU</td>
-                            <td>xx</td>
-                            <td>文本说明</td>
+                            <td th:text="*{AttachmentName}"></td>
+                            <td th:text="*{AttachmentSize}"></td>
+                            <td th:text="*{CreatorID}"></td>
+                            <td th:text="*{#dates.format(CreationTime,'yyyy-MM-dd')}"></td>
+                            <td th:text="*{AnnexDescription}"></td>
                         </tr>
                     </table>
                 </div>
@@ -442,10 +427,61 @@
     </div>
 </div>
 <div>
-    <!--<button type="button" data-url="" class="layui-btn">项目信息</button>
-    <button type="button" data-url="" class="layui-btn">产品信息</button>
-    <button type="button" onclick="location.href='FuJainXinXi'" data-url="FuJainXinXi" class="layui-btn">附件</button>-->
+    <script type="text/javascript">
+        $(function () {
+            $("a[name='deleteFu']").click(function () {
+                var AttachedID = $("input[name='AttachedID']").val();
+                layui.use('layer', function() { //独立版的layer无需执行这一句
+                    var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+                    layer.confirm('确认删除吗?', {
+                        btn: ['确认', '取消'] //按钮
+                    }, function () {
+                        console.log(AttachedID);
+                        $.get("/item/deleteFuJian", {"AttachedID": AttachedID}, function (result) {
+                            if(result=="ok"){
+                                layer.msg("删除成功", {time: 1000}, function () {
+                                    $.get("/product/queryFuJian",function (result) {
+                                        $("#fujiantr2").remove();
+                                    })
+                                })
+                            }else {
+                                layer.msg("删除失败", { time: 1000});
+                            }
+                        })
+                    }, function () {
+                        layer.msg('删除失败', {
+                            time: 1000, //20s后自动关闭
+                        });
+                    });
+                });
+                })
+            })
+    </script>
+<script type="text/javascript">
+    $(function () {
+        $("button[name='fujianbutton']").click(function () {
+            var AttachmentName=$("input[name='AttachmentName']").val();
+            console.log(AttachmentName);
+            if (AttachmentName!='') {
+                $.get("/product/queryFuJian", {"AttachmentName": AttachmentName}, function (result) {
+                    $.each(result, function (i, fujian) {
+                        $("#fujiantr2").remove();
+                        //deleteFuJian2?AttachedID="+fujian.attachedID+" onclick='return confirm("确定删除？")'
+                        $("#fujiantr3").append("<tr><td><a href='toFuJianUpdate?AttachedID="+fujian.attachedID+"' >编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='deleteFuJian2?AttachedID="+fujian.attachedID+"' onclick='return confirm(\"确定删除？\")' name='deleteFu' >删除</a><input type='hidden' name='AttachedID' value='"+fujian.attachedID+"'></td><td>" + fujian.attachmentName + "</td><td>" + fujian.attachmentPath + "</td><td>" + fujian.creatorID + "</td><td>" + fujian.creationTime + "</td><td>" + fujian.annexDescription + "</td></tr></table></div>")
+                        //$("#fujiantr3").append("<tr><td><a href='toFuJianUpdate?AttachedID="+fujian.attachedID+"' >编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a name='deleteFu' >删除</a><input type='text' name='AttachedID' value='"+fujian.attachedID+"'></td><td>" + fujian.attachmentName + "</td><td>" + fujian.attachmentPath + "</td><td>" + fujian.creatorID + "</td><td>" + fujian.creationTime + "</td><td>" + fujian.annexDescription + "</td></tr></table></div>")
+                    })
+                })
+            }else{
+                layer.msg('文件名不能为空', {
+                    time: 1000, //20s后自动关闭
+                });
+            }
+        });
 
+    });
+
+
+</script>
 </div>
 </body>
 </html>

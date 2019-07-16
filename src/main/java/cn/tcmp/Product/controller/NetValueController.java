@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class NetValueController {
     @Autowired
     private NetValueService service;
+
     @RequestMapping("queryAll")
     public String queryAll(Model model) {
         model.addAttribute("list", service.queryAll());

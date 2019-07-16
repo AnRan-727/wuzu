@@ -32,8 +32,8 @@ public interface ItemSheetService {
     //查询收益分配频度(下拉框)
     List<Frequency_of_income_distribution> queryFrequency_of_income_distribution();
     //查询资产管理报告频度(下拉框)
-    //List<Asset_management_
-    //查询项目来源方部门(report> queryAsset_management_report();下拉框)
+    List<Asset_management_report> queryAsset_management_report();
+    //查询项目来源方部门(下拉框)
     List<Company_departments_list> queryCompany_departments_list();
     //新建项目
     int  saveItem_sheet(Item_sheet item_sheet);

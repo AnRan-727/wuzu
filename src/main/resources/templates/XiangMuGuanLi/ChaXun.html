@@ -100,7 +100,7 @@
                 <td>产品经理A</td>
                 <td>产品经理B</td>
             </tr>
-            <tr th:each="sheet:${page.list}" th:object="${sheet}">
+            <tr id="sheetdelete" th:each="sheet:${page.list}" th:object="${sheet}">
                 <td th:text="*{ItemID}"></td>
                 <td align="center">
                     <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}" >
@@ -141,30 +141,38 @@
     <script type="text/javascript">
         $(function () {
             $("#deletesheet").click(function () {
-                var itemid=$("input[name='ItemID']").val();
+                var itemid = $("input[name='ItemID']").val();
                 //console.log(itemid)
-                $.post("/item/XiangMuDelete",{itemID:itemid},function (result) {
-                    //console.log(result)
-                    if (result=="ok"){
-                       layer.confirm('确认删除吗?', {
-                            btn: ['确认','取消'] //按钮
-                        }, function(){
-                            layer.msg("删除成功",{icon:1,time:1000},function () {
-                                location.href="queryByItem_sheet";
-                            })
-                        }, function(){
-                            layer.msg('删除失败', {
-                                time: 1000, //20s后自动关闭
-                            });
-                        });
-                    }else{
-                        layer.msg("删除失败",{icon:1,time:1000},function () {
-                            window.history.back(-1);
-                        })
-                    }
-                })
 
-            });
+                    //console.log(result)
+
+                        layer.confirm('确认删除吗?', {
+                            btn: ['确认', '取消'] //按钮
+                        }, function () {
+                            $.post("/item/XiangMuDelete", {itemID: itemid}, function (result) {
+                                if (result == "ok") {
+                                    layer.msg("删除成功", {time: 1000}, function () {
+                                        //$("#sheetdelete").remove();
+                                        location.href="queryByItem_sheet"
+                                    })
+                                }else {
+                                layer.msg("删除失败", {time: 1000}, function () {
+                                    window.history.back(-1);
+                                 })
+                                }
+                            })//post
+                            }, function () {
+                                layer.msg('删除失败', {
+                                    time: 1000, //20s后自动关闭
+                                 });
+                           });
+
+
+                        })
+
+
+
+            })
     </script>
     <script>
         var total=0;
@@ -180,7 +188,7 @@
                     elem : 'demo7',
                     count : total
                     ,curr: pageNum,
-                    limit:1//每页几个,需要修改
+                    limit:2//每页几个,需要修改
                     ,
                     layout : [ 'count', 'prev', 'page', 'next',  'refresh',
                         'skip', ],
