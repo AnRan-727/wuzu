@@ -58,6 +58,16 @@ public class Channel_Type_Controller {
     }
 
 
+    //删除公司信息
+    @RequestMapping(value = "doDeleteChannel")
+    @ResponseBody
+    public boolean doDeleteChannel(Integer id){
+        if(channel_type_service.deleteChannel(id) > 0){
+            return true;
+        }
+        return false;
+    }
+
     //去新增渠道公司页面
     @RequestMapping(value = "toAddChannel")
     public String toAddChannel(Model model){
@@ -78,6 +88,47 @@ public class Channel_Type_Controller {
     public String doAddCompany(Company_departments_list company_departments_list){
         System.out.println("=====>公司部门信息:"+company_departments_list);
         channel_type_service.addCompanyDepartmentsList(company_departments_list);
+        return "redirect:toQueryChannelType";
+    }
+
+    //删除部门信息
+    @RequestMapping(value = "doDeleteCompany")
+    @ResponseBody
+    public boolean doDeleteCompany(Integer id){
+        if(channel_type_service.deleteCompany(id) > 0){
+            return true;
+        }
+        return false;
+    }
+
+    //去修改渠道页面
+    @RequestMapping(value = "toUpdateChannel")
+    public String toUpdateChannel(Integer id ,Model model){
+        model.addAttribute("channel",channel_type_service.queryDetailChannelList(id));
+        model.addAttribute("type",channel_type_service.queryAllChannelType());
+        model.addAttribute("company",channel_type_service.queryCompany(id));
+        return "QuDaoGuanLi/XiuGai/QuDaoXiuGai";
+    }
+
+    //修改公司渠道信息
+    @RequestMapping(value = "doUpdateChannel")
+    public String doUpdateChannel(Channel_list channel_list){
+        System.out.println("=====>公司信息:"+channel_list);
+        channel_type_service.updateChannel(channel_list);
+        return "redirect:toQueryChannelType";
+    }
+
+    //ajax查询部门信息
+    @ResponseBody
+    @RequestMapping(value = "toUpdateCompany")
+    public Company_departments_list toUpdateCompany(Integer id){
+        return channel_type_service.queryCompanyById(id);
+    }
+
+    //修改公司部门信息
+    @RequestMapping(value = "doUpdateCompany")
+    public String doUpdateCompany(Company_departments_list company_departments_list){
+        channel_type_service.updateCompany(company_departments_list);
         return "redirect:toQueryChannelType";
     }
 

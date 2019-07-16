@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -24,7 +23,7 @@ public class ProductController {
             pageNum=1;
     }
         if (pageSize ==null) {
-            pageSize=2;
+            pageSize=5;
     }
         model.addAttribute("page", productService.queryAll(product_list, pageNum, pageSize));
         System.err.println(productService.queryAll(product_list, pageNum, pageSize));

@@ -108,8 +108,34 @@ VALUES
     #{RateOfReturn},
     #{ValuationDate},
     #{DateOfPublication},
-    1,
+    '关振方',
     NOW()
   )
     </insert>
+    <!--产品净值-->
+    <select id="queryChanPinJingZhi" resultMap="jzMap" parameterType="cn.tcmp.entity.VO.ChanPinJingZhi">
+        SELECT * FROM `net_value_table`
+        WHERE ProductID = #{ProductID}
+        <if test="piCi != null and piCi != ''">
+          AND SetUpBatch = #{piCi}
+        </if>
+        <if test="guZhi == '1' || guZhi == 1 ">
+            AND ValuationDate BETWEEN DATE_SUB(NOW(),INTERVAL 3 YEAR) AND NOW()
+        </if>
+        <if test="guZhi == '2' || guZhi == 2 ">
+            AND ValuationDate BETWEEN DATE_SUB(NOW(),INTERVAL 1 YEAR) AND NOW()
+        </if>
+        <if test="guZhi == '3' || guZhi == 3 ">
+            AND ValuationDate BETWEEN DATE_SUB(NOW(),INTERVAL 3 MONTH) AND NOW()
+        </if>
+        <if test="guZhi == '4' || guZhi == 4 ">
+            AND ValuationDate BETWEEN DATE_SUB(NOW(),INTERVAL 1 MONTH) AND NOW()
+        </if>
+        <if test="guZhi == '5' || guZhi == 5 ">
+            AND ValuationDate BETWEEN DATE_SUB(NOW(),INTERVAL 7 DAY) AND NOW()
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            and ValuationDate BETWEEN #{startTime} and #{endTime}
+        </if>
+    </select>
 </mapper>

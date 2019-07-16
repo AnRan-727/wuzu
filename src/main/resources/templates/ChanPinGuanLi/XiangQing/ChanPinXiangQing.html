@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script th:src="@{/js/jquery-1.12.4.js}" type="text/javascript"></script>
+    <script th:src="@{/layer/layer.js}" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/echarts.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+            guZhiRiQi();
+            var IsNotStructure = $("select[name='IsNotStructure']").val();
+            if(IsNotStructure == 0){
+                $(".JieGouLeiXing").css("display","none");
+            }else{
+                $(".JieGouLeiXing").css("display","");
+            }
+            //设置所有的文本框为只读
+            $("input").attr("readonly","readonly");
+            //设置所有的下拉框为只读
+            $("select").attr("onfocus","this.defaultIndex=this.selectedIndedx");
+            $("select").attr("onchange","this.selectedIndex=this.defaultIndex");
+
+            $("select[name='documentType']").attr("onfocus","");
+            $("select[name='documentType']").attr("onchange","");
+            $("select[name='guZhi']").attr("onfocus","");
+            $("select[name='guZhi']").attr("onchange","");
+            $("select[name='piCi']").attr("onfocus","");
+            $("select[name='piCi']").attr("onchange","");
+            //产品投向
+            var protID = $("input[name='protID']").val();
+            $("option[value='" + protID + "']").attr("selected", "selected");
+            //是否结构化
+            var IsNot = $("input[name='IsNot']").val();
+            $("option[value='" + IsNot + "']").attr("selected", "selected");
+            //结构类型
+            var sttype = $("input[name='sttype']").val();
+            $("option[value='" + sttype + "']").attr("selected", "selected");
+            //产品风险等级
+            var proleve = $("input[name='proleve']").val();
+            $("option[value='" + proleve + "']").attr("selected", "selected");
+            //适合客户风险等级
+            var sfcr = $("input[name='sfcr']").val();
+            $("option[value='" + sfcr + "']").attr("selected", "selected");
+            //收益类型
+            var incID = $("input[name='incID']").val();
+            $("option[value='" + incID + "']").attr("selected", "selected");
+            if(incID == "固定收益"){
+                $("li[name='JingZhi']").attr("display","none");
+                $("div[name='JingZhi']").attr("display","none");
+            }else{
+                $("li[name='JingZhi']").attr("display","");
+                $("div[name='JingZhi']").attr("display","");
+            }
+            //收益周期
+            var inccle = $("input[name='inccle']").val();
+            $("option[value='" + inccle + "']").attr("selected", "selected");
+            //开放周期
+            var Opencycle = $("input[name='Opencycle']").val();
+            $("option[value='" + Opencycle + "']").attr("selected", "selected");
+            //封闭期单位
+            var Closedperiodunit = $("input[name='Closedperiodunit']").val();
+            $("option[value='" + Closedperiodunit + "']").attr("selected", "selected");
+            //是否可赎回
+            var Isitredeemable = $("input[name='Isitredeemable']").val();
+            $("option[value='" + Isitredeemable + "']").attr("selected", "selected");
+            //是否允许追加
+            var IsAdditionPermissible = $("input[name='IsAdditionPermissible']").val();
+            $("option[value='" + IsAdditionPermissible + "']").attr("selected", "selected");
+
+        })
+        function Chongzhi() {
+
+            $("option[value='']").attr("selected","selected");
+            $("input[name='datetime']").val("");
+            $("#test6").val("");
+
+        }
+        //附件
+        function FuJian(){
+
+            var type = $("select[name='documentType']").val();
+            var datetime= $("input[name='datetime']").val();
+            var ProductID = $("input[name='ProductID']").val();
+            $.post("toDetailAccess",{
+                "product_list.ProductID":ProductID,
+                "documentType":type,
+                "datetime":datetime
+            },function(result){
+                $(".document").html("");
+                $.each(result,function(index,item){
+                    /*alert(item);*/
+                    $("#fuJian").append("<tr class='document'>\n" +
+                        "                        <td>\n" +
+                        "                            <a href='toUpdateProductAccessories?id="+item.productAccessoriesID+"'>修改</a>\n" +
+                        "                            <a href='doDeleteProductAccessories?id="+item.productAccessoriesID+"'>删除</a>\n" +
+                        "                        </td>\n" +
+                        "                        <td>"+item.documentType+"</td>\n" +
+                        "                        <td>"+item.productAccessoriesName+"</td>\n" +
+                        "                        <td>"+item.founder+"</td>\n" +
+                        "                        <td>"+item.uploadDate+"</td>\n" +
+                        "                        <td>"+item.documentSize+"</td>\n" +
+                        "                        <td>"+item.productAccessoriesExplain+"</td>\n" +
+                        "                    </tr>");
+                })
+            })
+
+        }
+        //判断是否为时间段选择
+        function guZhiRiQi(){
+            var guZhi = $("select[name='guZhi']").val();
+            if(guZhi == "6" || guZhi == 6){
+                $("#test6").attr("type","text");
+            }else{
+                $("#test6").attr("type","hidden");
+            }
+        }
+        /**
+         * 将"2018-05-19T08:04:52.000+0000"这种格式的时间转化为正常格式
+         * @param time
+         */
+        function timeFormat(time) {
+            var d = new Date(time);
+
+            var year = d.getFullYear();       //年
+            var month = d.getMonth() + 1;     //月
+            var day = d.getDate();            //日
+
+            var hh = d.getHours();            //时
+            var mm = d.getMinutes();          //分
+            var ss = d.getSeconds();           //秒
+
+            var clock = year + "/";
+
+            if (month < 10)
+                clock += "0";
+
+            clock += month + "/";
+
+            if (day < 10)
+                clock += "0";
+
+            clock += day + " ";
+
+            if (hh < 10)
+                clock += "0";
+
+            clock += hh + ":";
+            if (mm < 10) clock += '0';
+            clock += mm + ":";
+
+            if (ss < 10) clock += '0';
+            clock += ss;
+            return (clock);
+        }
+
+        function tianJia(){
+            var ProductID = $("input[name='ProductID']").val();
+            location.href="toAddProductAccessories?id="+ProductID;
+        }
+    </script>
+</head>
+<body>
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        <li class="layui-this">产品信息</li>
+        <li onclick="FuJian()">附件信息</li>
+        <li onclick="JingZhi()" name="JingZhi">净值</li>
+    </ul>
+    <div class="layui-tab-content" style="height: 100px;">
+        <div class="layui-tab-item layui-show">
+            <h3>产品信息详情</h3>
+            <h4>基本信息</h4>
+            <form action="doUpdateProduct_List">
+                <table class="layui-table">
+                    <tr>
+                        <td>※产品代码:</td>
+                        <td>
+                            <input type="text" name="ProductCode" readonly="readonly" th:value="${product.ProductCode}" class="layui-input">
+                            <input type="hidden" name="ItemID.ItemID" readonly="readonly" th:value="${item.ItemID}" class="layui-input">
+                            <input type="hidden" name="ProductID" readonly="readonly" th:value="${product.ProductID}" class="layui-input">
+                        </td>
+                        <td>※产品名称:</td>
+                        <td>
+                            <input type="text" name="ProductName" th:value="${product.ProductName}" class="layui-input">
+                        </td>
+                        <td>※项目类型:</td>
+                        <td>
+                            <input type="text" name="ItemtypeID" readonly="readonly" th:value="${item.ItemtypeID.ItemTypeName}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※产品分类:</td>
+                        <td>
+                            <input type="text" name="ProductclassificationID.ProductsToId" readonly="readonly" th:value="${item.ProductclassificationID.ProductClassificationName}" class="layui-input">
+                        </td>
+                        <td>※项目名称:</td>
+                        <td>
+                            <input type="text" name="Entryname" readonly="readonly" th:value="${item.Entryname}" class="layui-input">
+                        </td>
+                        <td>外文名:</td>
+                        <td>
+                            <input type="text" name="Englishname" readonly="readonly" th:value="${item.Englishname}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>投资方式:</td>
+                        <td>
+                            <input type="text" name="InvestmentModeID.InvestmentModeID" readonly="readonly" th:value="${item.InvestmentModeID.InvestmentModeName}" class="layui-input">
+                        </td>
+                        <td>资金投向:</td>
+                        <td>
+                            <input type="text" name="InvestmentDirectionID.InvestmentDirectionID" readonly="readonly" th:value="${item.InvestmentDirectionID.nvestmentDirectionName}" class="layui-input">
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="color: red;">产品投向:
+                            <input type="hidden" name="protID" th:value="${product.ProductsToId.ProductsToId}">
+                        </td>
+                        <td colspan="3">
+                            <select name="ProductsToId.ProductsToId" class="layui-input">
+                                <option th:each="dict : ${touXiang}" th:value="${dict.ProductsToId}" th:text="${dict.ProductsToName}">
+                            </select>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>※募集币种:</td>
+                        <td>
+                            <input type="text" name="RaiseCurrency.CurrencyName" readonly="readonly" th:value="${item.RaiseCurrency.CurrencyName}" class="layui-input">
+                        </td>
+                        <td>投资币种:</td>
+                        <td>
+                            <input type="text" name="InvestmentCurrency.CurrencyName" readonly="readonly" th:value="${item.InvestmentCurrency.CurrencyName}" class="layui-input">
+                        </td>
+                        <td>融资方:</td>
+                        <td>
+                            <input type="text" name="Financers" readonly="readonly" th:value="${item.Financers}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>投资顾问:</td>
+                        <td colspan="3">
+                            <input type="text" name="InvestmentConsultan" readonly="readonly" th:value="${item.InvestmentConsultan}" class="layui-input">
+                        </td>
+                        <td style="color: red;">管理人:</td>
+                        <td>
+                            <input type="text" name="Manager" readonly="readonly" th:value="${item.Manager}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※项目来源方:</td>
+                        <td>
+                            <input type="text" name="ChanneltableID.Corporatename" readonly="readonly" th:value="${item.ChanneltableID.Corporatename}" class="layui-input">
+                        </td>
+                        <td>来源方部门:</td>
+                        <td>
+                            <input type="text" name="Manager" readonly="readonly" th:value="${item.Manager}" class="layui-input">
+                        </td>
+                        <td>来源方对接人A:</td>
+                        <td>
+                            <input type="text" name="SourcedockerA" readonly="readonly" th:value="${item.SourcedockerA}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>来源方对接人B:</td>
+                        <td>
+                            <input type="text" name="SourcedockerB" readonly="readonly" th:value="${item.SourcedockerB}" class="layui-input">
+                        </td>
+                        <td>来源方对接人C:</td>
+                        <td>
+                            <input type="text" name="SourcedockerC" readonly="readonly" th:value="${item.SourcedockerC}" class="layui-input">
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>※销售渠道:</td>
+                        <td colspan="3">
+                            <input type="text" name="Distributionchannel" th:value="${product.Distributionchannel}" class="layui-input">
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>※是否结构化:
+                            <input type="hidden" name="IsNot" th:value="${product.ItemID.IsNotStructure}">
+                        </td>
+                        <td>
+                            <select name="IsNotStructure" class="layui-input">
+                                <div th:if="${item.IsNotStructure == 1}">
+                                    <option value="1" selected>是</option>
+                                    <option value="0">否</option>
+                                </div>
+                                <div th:if="${item.IsNotStructure == 0}">
+                                    <option value="1">是</option>
+                                    <option value="0" selected>否</option>
+                                </div>
+                            </select>
+                        </td>
+                        <td class="JieGouLeiXing">※结构类型:
+                            <input type="hidden" name="sttype" th:value="${product.structuretype}">
+                        </td>
+                        <td class="JieGouLeiXing">
+                            <select name="structuretype" class="layui-input">
+                                <option value="优先">优先</option>
+                                <option value="次级">次级</option>
+                            </select>
+                        </td>
+                        <td>※合同前缀:</td>
+                        <td>
+                            <input type="text" name="Contractprefix" th:value="${product.Contractprefix}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※产品风险等级:
+                            <input type="hidden" name="proleve" th:value="${product.ProductRiskLevel}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="ProductRiskLevel" class="layui-input">
+                                <option value="低">低</option>
+                                <option value="中低">中低</option>
+                                <option value="中">中</option>
+                                <option value="中高">中高</option>
+                                <option value="高">高</option>
+                            </select>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>※适合客户风险等级:
+                            <input type="hidden" name="sfcr" th:value="${product.SuitableforCustomerRiskLevel}" class="layui-input">
+                        </td>
+                        <td colspan="3">
+                            <select name="SuitableforCustomerRiskLevel" class="layui-input">
+                                <option value="专业投资者">专业投资者</option>
+                                <option value="C1">C1</option>
+                                <option value="C2">C2</option>
+                                <option value="C3">C3</option>
+                                <option value="C4">C4</option>
+                                <option value="C5">C5</option>
+                            </select>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>产品描述:</td>
+                        <td colspan="5">
+                            <input type="text" name="ProductDescription" th:value="${product.ProductDescription}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>备注:</td>
+                        <td colspan="5">
+                            <input type="text" name="Remarks" th:value="${product.Remarks}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※收益类型:
+                            <input type="hidden" name="incID" th:value="${product.Incometype.IncomeTypeID}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="Incometype.IncomeTypeID" class="layui-input">
+                                <option th:each="dict : ${shouYi}" th:value="${dict.IncomeTypeID}" th:text="${dict.IncomeTypeName}">
+                            </select>
+                        </td>
+                        <td style="color: red;">※收益分配周期:
+                            <input type="hidden" name="inccle" th:value="${product.Incomedistributioncycle}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="Incomedistributioncycle" class="layui-input">
+                                <option th:each="dict : ${zhouQi}" th:value="${dict.FrequencyOfIncomeDistributionName}" th:text="${dict.FrequencyOfIncomeDistributionName}">
+                            </select>
+                        </td>
+                        <td style="color: red;">收益分配描述:</td>
+                        <td>
+                            <input type="text" name="ProfitDistributionDescription" th:value="${product.ProfitDistributionDescription}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: red;">开放周期:
+                            <input type="hidden" name="Opencycle" th:value="${product.Opencycle}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="Opencycle" class="layui-input">
+                                <option th:each="dict : ${zhouQi}" th:value="${dict.FrequencyOfIncomeDistributionName}" th:text="${dict.FrequencyOfIncomeDistributionName}">
+                            </select>
+                        </td>
+                        <td style="color: red;">开放周期描述:</td>
+                        <td>
+                            <input type="text" name="OpenPeriodDescription" th:value="${product.OpenPeriodDescription}" class="layui-input">
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>封闭期:</td>
+                        <td>
+                            <input type="text" name="Closureperiod" th:value="${product.Closureperiod}" placeholder="请输入正整数" class="layui-input">
+                        </td>
+                        <td>封闭期单位:
+                            <input type="hidden" name="Closedperiodunit" th:value="${product.Closedperiodunit}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="Closedperiodunit" class="layui-input">
+                                <option value="年">年</option>
+                                <option value="季">季</option>
+                                <option value="月">月</option>
+                                <option value="周">周</option>
+                                <option value="日">日</option>
+                            </select>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>※是否可赎回:
+                            <input type="hidden" name="Isitredeemable" th:value="${product.Isitredeemable}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="Isitredeemable" class="layui-input">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </td>
+                        <td>※赎回费率:</td>
+                        <td>
+                            <input type="text" name="RedemptionRate" th:value="${product.RedemptionRate}" class="layui-input">
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>※赎回限制:</td>
+                        <td colspan="3">
+                            <input type="text" name="RedemptionRestriction" th:value="${product.RedemptionRestriction}" class="layui-input">
+                        </td>
+                        <td>※是否允许追加:
+                            <input type="hidden" name="IsAdditionPermissible" th:value="${product.IsAdditionPermissible}" class="layui-input">
+                        </td>
+                        <td>
+                            <select name="IsAdditionPermissible" class="layui-input">
+                                <option value="是">是</option>
+                                <option value="否">否</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※募集账号:</td>
+                        <td>
+                            <input type="text" name="RaisingAccount" readonly="readonly" th:value="${item.RaisingAccount}" class="layui-input">
+                        </td>
+                        <td>※募集银行:</td>
+                        <td>
+                            <input type="text" name="RaisingBank" readonly="readonly" th:value="${item.RaisingBank}" class="layui-input">
+                        </td>
+                        <td>※募集户名:</td>
+                        <td>
+                            <input type="text" name="Collectinghouseholdnames" readonly="readonly" th:value="${item.Collectinghouseholdnames}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※保管账号:</td>
+                        <td>
+                            <input type="text" name="Custodyaccount" readonly="readonly" th:value="${item.Custodyaccount}" class="layui-input">
+                        </td>
+                        <td>※保管银行:</td>
+                        <td>
+                            <input type="text" name="Custodianbank" readonly="readonly" th:value="${item.Custodianbank}" class="layui-input">
+                        </td>
+                        <td>※保管户名:</td>
+                        <td>
+                            <input type="text" name="Custodialhouseholdname" readonly="readonly" th:value="${item.Custodialhouseholdname}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>※产品经理A:</td>
+                        <td>
+                            <input type="text" name="ProductManagerA" readonly="readonly" th:value="${item.ProductManagerA}" class="layui-input">
+                        </td>
+                        <td>※产品经理B:</td>
+                        <td>
+                            <input type="text" name="ProductManagerB" readonly="readonly" th:value="${item.ProductManagerB}" class="layui-input">
+                        </td>
+                        <td>运营经理A:</td>
+                        <td>
+                            <input type="text" name="OperationsManagerA" th:value="${product.OperationsManagerA}" class="layui-input">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>运营经理B:</td>
+                        <td>
+                            <input type="text" name="OperationsManagerB" th:value="${product.OperationsManagerB}" class="layui-input">
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div align="center">
+                    <button class="layui-btn layui-btn-normal layui-btn-radius" onclick="confirm('确定要修改吗?')" lay-submit="doUpdateProduct_List" lay-filter="demo1">确定</button>
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-radius" onclick="window.history.go(-1)">取消</button>
+                </div>
+            </form>
+
+
+        </div>
+        <div class="layui-tab-item">
+            <div>
+                <h2>附件信息列表</h2>
+            </div>
+            <div>
+                <form action="">
+                    <table class="layui-table">
+                        <tr>
+                            <td>文档类型:</td>
+                            <td>
+                                <select name="documentType" class="layui-input">
+                                    <option value="">---请选择---</option>
+                                    <option value="募集期材料">募集期材料</option>
+                                    <option value="存续期材料">存续期材料</option>
+                                    <option value="清算期材料">清算期材料</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </td>
+                            <td>上传时间:</td>
+                            <td>
+                                <input type="text" name="datetime" class="layui-input" id="test10" placeholder=" - ">(时间区间范围)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" onclick="FuJian()">查询</button>
+                            </td>
+                            <td colspan="2">
+                                <button type="button" class="layui-btn layui-btn-radius" onclick="Chongzhi()" >重置</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="contian">
+                <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" onclick="tianJia()">添加附件</button>
+
+            </div>
+            <div>
+                <table id="fuJian" class="layui-table">
+                    <tr>
+                        <td>操作</td>
+                        <td>文档类型</td>
+                        <td>文件名称</td>
+                        <td>创建人</td>
+                        <td>上传日期</td>
+                        <td>文件大小</td>
+                        <td>附件说明</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <!--<a th:href='@{}'>修改</a>
+                            <a th:href='@{}'>删除</a>-->
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div name="JingZhi" class="layui-tab-item">
+            <center class="FuDongShouYi">
+                <form action="" id="JingZhiForm">
+                    <table border="1" class="layui-table">
+                        <tr>
+                            <td>
+                                <input type="hidden" name="ProductID" readonly="readonly" th:value="${product.ProductID}" class="layui-input">
+                                估值日期:
+                            </td>
+                            <td>
+                                <select name="guZhi" onclick="guZhiRiQi()" class="layui-input">
+                                    <option value="6" selected="selected">时间段选择</option>
+                                    <option value="0">成立以来</option>
+                                    <option value="1">最近三年</option>
+                                    <option value="2">最近一年</option>
+                                    <option value="3">最近三个月</option>
+                                    <option value="4">最近一个月</option>
+                                    <option value="5">最近一周</option>
+                                </select>&nbsp;
+                                <input type="text" name="dateTime" class="layui-input" id="test6" placeholder=" - ">(时间区间范围)
+                            </td>
+                            <td class="chenglipici">
+                                成立批次:
+                            </td>
+                            <td class="chenglipici">
+                                <select name="piCi" class="layui-input">
+                                    <option value="" selected>---请选择---</option>
+                                    <option value="10430">10430</option>
+                                    <option value="10431">10431</option>
+                                    <option value="10432">10432</option>
+                                    <option value="10433">10433</option>
+                                    <option value="10434">10434</option>
+                                    <option value="10435">10435</option>
+                                    <option value="10436">10436</option>
+                                    <option value="10437">10437</option>
+                                    <option value="10438">10438</option>
+                                    <option value="10439">10439</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="button" class="layui-btn layui-btn-normal layui-btn-radius" onclick="JingZhi()">查询</button>
+                            </td>
+                            <td colspan="2">
+                                <button type="button" class="layui-btn layui-btn-radius" onclick="Chongzhi()" >重置</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <div>
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+                    <div id="line" style="width: 600px;height:400px;"></div>
+                    <script type="text/javascript" >
+
+                        var myline = echarts.init(document.getElementById('line'));
+                        //净值
+                        function JingZhi(){
+                            var data = $("#JingZhiForm").serialize();
+                            var netWorth = [];
+                            var cumulativeNetWorth = [];
+                            var shouyi = [];
+                            var date = [];
+                            $.post("queryChanPinJingZhi",data,function(result){
+                                console.log(result);
+                                $(".jingzhijieguo").html("");
+                                $.each(result,function(index,item){
+                                    if(item != null || item != ""){
+                                        netWorth.push(item.netWorth);
+                                        cumulativeNetWorth.push(item.cumulativeNetWorth);
+                                        date.push(item.valuationDate);
+                                        myline.setOption(option);
+                                        var time = timeFormat(item.operatingDate);
+                                            $("#JingZhi").append("<tr class='jingzhijieguo'><td>"+item.setUpBatch+"</td>\n" +
+                                                "                            <td>"+item.netWorth+"</td>\n" +
+                                                "                            <td>"+item.cumulativeNetWorth+"</td>\n" +
+                                                "                            <td>"+item.valuationDate+"</td>\n" +
+                                                "                            <td>"+item.dateOfPublication+"</td>\n" +
+                                                "                            <td>"+item.operatorID+"</td>\n" +
+                                                "                            <td>"+time+"</td></tr>");
+                                        }else{
+
+                                        netWorth.push(0);
+                                        cumulativeNetWorth.push(0);
+                                        date.push(0);
+                                    }
+
+                                })
+                            })
+
+                            option = {
+                                title: {
+                                    text: '净值折线图:(横坐标:估值日期;纵坐标:净值,累计净值)'
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                grid: {
+                                    left: '3%',
+                                    right: '4%',
+                                    bottom: '3%',
+                                    containLabel: true
+                                },
+                                toolbox: {
+                                    feature: {
+                                        saveAsImage: {}
+                                    }
+                                },
+                                legend: {
+                                    right:'right',
+                                    data:['净值','累计净值']
+                                },
+                                xAxis: {
+                                    type: 'category',
+                                    data: date
+                                },
+                                yAxis: {
+                                    type: 'value'
+                                },
+                                series: [{
+                                    name:'净值',
+                                    data: netWorth,
+                                    type: 'line'
+                                },{
+                                    name:'累计净值',
+                                    data: cumulativeNetWorth,
+                                    type: 'line'
+                                }
+
+                                ]}
+
+
+                        }
+                    </script>
+                </div>
+                <div id="JingZhiDiv">
+                    <p>净值结果列表:</p>
+                    <table class="layui-table" id="JingZhi">
+                        <tr>
+                            <td>成立批次</td>
+                            <td>净值</td>
+                            <td>累计净值</td>
+                            <td>估值日期</td>
+                            <td>发布日期</td>
+                            <td>操作人</td>
+                            <td>操作日期</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </center>
+
+            <center class="XianJinGuanLiXing"></center>
+        </div>
+    </div>
+</div>
+<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script>
+    layui.use('element', function(){
+        var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+        //触发事件
+        var active = {
+            tabAdd: function(){
+                //新增一个Tab项
+                element.tabAdd('demo', {
+                    title: '新选项'+ (Math.random()*1000|0) //用于演示
+                    ,content: '内容'+ (Math.random()*1000|0)
+                    ,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+                })
+            }
+            ,tabDelete: function(othis){
+                //删除指定Tab项
+                element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+                othis.addClass('layui-btn-disabled');
+            }
+            ,tabChange: function(){
+                //切换到指定Tab项
+                element.tabChange('demo', '22'); //切换到：用户管理
+            }
+        };
+
+        $('.site-demo-active').on('click', function(){
+            var othis = $(this), type = othis.data('type');
+            active[type] ? active[type].call(this, othis) : '';
+        });
+
+        //Hash地址的定位
+        var layid = location.hash.replace(/^#test=/, '');
+        element.tabChange('test', layid);
+
+        element.on('tab(test)', function(elem){
+            location.hash = 'test='+ $(this).attr('lay-id');
+        });
+
+    });
+    //时间控件
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        //日期时间范围
+        laydate.render({
+            elem: '#test10'
+            ,type: 'datetime'
+            ,range: true
+            ,done: function(value, date, endDate){
+                //alert(value); //得到日期生成的值，如：2017-08-18
+
+            }
+
+        });
+        //日期范围
+        laydate.render({
+            elem: '#test6'
+            ,range: true
+        });
+
+    });
+</script>
+</body>
+</html>

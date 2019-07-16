@@ -41,4 +41,7 @@ public interface ItemSheetService {
     int updateItem_sheet(Item_sheet item_sheet);
     //删除项目
     int deleteItem_sheet(Integer itemid);
+
+    //根据项目类型查询项目
+    List<Item_sheet> queryItemSheetByTypeId(Integer id);
 }

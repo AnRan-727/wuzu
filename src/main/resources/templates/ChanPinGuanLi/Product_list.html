@@ -36,7 +36,7 @@
 		<input name="total" th:value="${page.total}" type="hidden"/><!--//一共多少行数据-->
 	</form>
 
-	<button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="window.location.href='toAddProduct'">新建</button>
+	<button type="button" class="layui-btn layui-btn-warm layui-btn-radius" onclick="window.location.href='/product_Controller/toGuanoLianProductName'">新建</button>
 
 
 
@@ -47,7 +47,6 @@
 
 						<td>操作</td>
 						<td>项目类型</td>
-						<td>产品分类</td>
 						<td>产品代码</td>
 						<td>产品名称</td>
 						<td>销售渠道</td>
@@ -60,7 +59,7 @@
 					</tr>
 					<tr th:each="product:${page.list}" th:object="${product}">
 						<td>
-							<a th:href="@{toUpdateProduct(ProductId=*{ProductID})}" >
+							<a th:href="@{/product_Controller/toUpdateProduct_List(id=*{ProductID})}" >
 								<i class="layui-icon"></i>
 							</a>
 							<a id="deletesheet">
@@ -70,9 +69,10 @@
 
 
 						<td th:text="*{ItemID.ItemtypeID.ItemTypeName}"></td>
-						<td th:text="*{ProductClassificationID.ProductClassificationName}"></td>
 						<td th:text="*{ProductCode}"></td>
-						<td th:text="*{ProductName}"></td>
+						<td>
+							<a th:href="@{/product_Controller/toDetailProduct_List(product_list.ProductID=*{ProductID})}" th:text="*{ProductName}"></a>
+						</td>
 						<td th:text="*{Distributionchannel}"></td>
 						<td th:text="*{Incometype.IncomeTypeName}"></td>
 						<td th:text="*{ProductRiskLevel}"></td>
@@ -113,7 +113,7 @@
                     elem : 'demo7',
                     count : total
                     ,curr: pageNum,
-                    limit:2//每页几个,需要修改
+                    limit:5//每页几个,需要修改
                     ,
                     layout : [ 'count', 'prev', 'page', 'next',  'refresh',
                         'skip', ],

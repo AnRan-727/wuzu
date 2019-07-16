@@ -5,7 +5,6 @@
 <mapper namespace="cn.tcmp.Project.mapper.ItemSheetMapper">
     <resultMap id="IntemsMap" type="Item_sheet" autoMapping="true">
         <id column="ItemID" property="ItemID" />
-        <association property="ItemtypeID" resultMap="ItemttMap"/>
         <association property="ProductclassificationID"  resultMap="proMap"/>
         <association property="ChanneltableID" resultMap="Channel_listMap"/>
         <association property="RaiseCurrency" javaType="Currency_list" autoMapping="true">
@@ -26,9 +25,7 @@
         <association property="IncomeDistributionFrequencyID" javaType="Frequency_of_income_distribution" autoMapping="true">
             <id property="IncomeDistributionFrequencyID" column="IncomeDistributionFrequencyID"></id>
         </association>
-        <!--<association property="amrID" javaType="Asset_management_report" autoMapping="true">
-            <id property="amrID" column="amrID"></id>
-        </association>-->
+        <collection property="ItemtypeID" resultMap="ItemttMap"></collection>
     </resultMap>
     <resultMap id="cdlMap" type="Company_departments_list" autoMapping="true">
         <id property="DepartmentID" column="DepartmentID" ></id>
@@ -41,6 +38,7 @@
 
     <resultMap id="ItemttMap" type="Item_type_table" autoMapping="true">
         <id column="ItemTypeID" property="ItemTypeID"/>
+        <result column="ItemTypeName" property="ItemTypeName"></result>
     </resultMap>
 
     <resultMap id="Channel_listMap" type="Channel_list" autoMapping="true">
@@ -227,4 +225,9 @@ SET
   InvestmentConsultan = #{InvestmentConsultan}
 WHERE ItemID = #{ItemID};
     </update>
+    <!--根据项目类型ID查询项目-->
+    <select id="queryItemSheetByTypeId" parameterType="Integer" resultMap="IntemsMap">
+        SELECT * FROM `item_sheet` item, `item_type_table` itt WHERE item.`ItemTypeID` = itt.`ItemTypeID` AND item.ItemTypeID = #{id}
+    </select>
+
 </mapper>

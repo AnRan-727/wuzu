@@ -64,5 +64,35 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.deleteProduct(id);
     }
 
+    @Override
+    public Product_list queryMaxProductCode() {
+        return productMapper.queryMaxProductCode();
+    }
+
+    @Override
+    public List<Product_Accessories> queryAllProductAccessories(Product_Accessories productAccessories) {
+        return productMapper.queryAllProductAccessories(productAccessories);
+    }
+
+    @Override
+    public int addProductAccessories(Product_Accessories productAccessories) {
+        return productMapper.addProductAccessories(productAccessories);
+    }
+
+    @Override
+    public Product_Accessories detailProductAccessories(Integer id) {
+        return productMapper.detailProductAccessories(id);
+    }
+
+    @Override
+    public int updateProductAccessories(Product_Accessories productAccessories) {
+        return productMapper.updateProductAccessories(productAccessories);
+    }
+
+    @Override
+    public int deleteProductAccessories(Integer id) {
+        return productMapper.deleteProductAccessories(id);
+    }
+
 
 }
