@@ -40,7 +40,7 @@ public class ItemSheetController {
             pageNo=1;
         }
         if (pageSize==null){
-            pageSize=1;
+            pageSize=2;
         }
         model.addAttribute("page",itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet));
 
@@ -70,7 +70,7 @@ public class ItemSheetController {
             pageNo=1;
         }
         if (pageSize==null){
-            pageSize=1;
+            pageSize=2;
         }
         PageInfo<Item_sheet> itemsList=itemSheetService.queryAllItem_sheet(pageNo,pageSize,item_sheet);
         System.err.println("service+itemsList+"+itemsList.getList());
@@ -139,7 +139,7 @@ public class ItemSheetController {
             pageNo=1;
         }
         if (pageSize==null){
-            pageSize=1;
+            pageSize=2;
         }
         model.addAttribute("page",productService.queryAll(product_list,pageNo,pageSize));
         model.addAttribute("product_type",itemSheetService.queryAllProduct());
@@ -192,5 +192,14 @@ public class ItemSheetController {
         }
         return "error";
     }
-
+    @RequestMapping("toFuJianAdd")
+    public String toFuJianAdd(){
+        System.out.println("................>>>");
+        return "XiangMuGuanLi/FuJian/FuJianAdd";
+    }
+    @RequestMapping("toFuJianUpdate")
+    public String toFuJianUpdate(){
+        System.out.println("???????????????>");
+        return "XiangMuGuanLi/FuJian/FuJianUpdate";
+    }
 }

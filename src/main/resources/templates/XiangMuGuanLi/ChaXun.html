@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <script th:src="@{/js/jquery-1.12.4.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
 <title>Title</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -14,12 +15,22 @@
             <table class="layui-table"  border="1 solid black" cellspacing="0" width="100%" align="center">
                 <tr>
                     <td align="right"><span>项目代码:</span></td>
-                    <td><input type="text" name="Projectcode" placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+                    <td>
+                        <input type="text" th:if="${item_sheet != null}"  th:value="${item_sheet.Projectcode}" name="Projectcode" placeholder="输入文本" autocomplete="off" class="layui-input">
+                        <input type="text" th:if="${item_sheet == null}" name="Projectcode" placeholder="输入文本" autocomplete="off" class="layui-input">
+                    </td>
                     <td align="right"><span>项目名称:</span></td>
-                    <td><input type="text" name="Entryname"  placeholder="输入文本" autocomplete="off" class="layui-input"> </td>
+                    <td>
+                        <input type="text" th:if="${item_sheet != null}"  th:value="${item_sheet.Entryname}" name="Entryname" placeholder="输入文本" autocomplete="off" class="layui-input">
+                        <input type="text" th:if="${item_sheet == null}" name="Entryname"  placeholder="输入文本" autocomplete="off" class="layui-input">
+                    </td>
                     <td align="right"><span>产品分类:</span></td>
                     <td>
-                        <select class="layui-select" name="ProductClassificationID">
+                        <select th:if="${pct!=null}" class="layui-select" name="ProductClassificationID">
+                            <option value="">--请选择--</option>
+                            <option th:each="pt:${product_type}" th:selected="${pct.ProductClassificationID} eq ${pt.ProductClassificationID}" th:value="${pt.ProductClassificationID}" th:text="${pt.ProductClassificationName}"></option>
+                        </select>
+                        <select th:if="${pct==null}" class="layui-select" name="ProductClassificationID">
                             <option value="">--请选择--</option>
                             <option th:each="pt:${product_type}" th:value="${pt.ProductClassificationID}" th:text="${pt.ProductClassificationName}"></option>
                         </select>
@@ -28,28 +39,30 @@
                 <tr>
                     <td align="right"><span>项目类型:</span></td>
                     <td>
-                        <select class="layui-select" name="ItemTypeID">
+                        <select th:if="${itt!=null}" class="layui-select" name="ItemTypeID">
+                            <option value="">--请选择--</option>
+                            <option th:each="itemtt:${item_type}" th:selected="${itt.ItemTypeID} eq ${itemtt.ItemTypeID}" th:value="${itemtt.ItemTypeID}" th:text="${itemtt.ItemTypeName}"></option>
+                        </select>
+                        <select th:if="${itt==null}" class="layui-select" name="ItemTypeID">
                             <option value="">--请选择--</option>
                             <option th:each="itemtt:${item_type}" th:value="${itemtt.ItemTypeID}" th:text="${itemtt.ItemTypeName}"></option>
                         </select>
                     </td>
-                    <!--<td  align="right"><span>成立日期:</span></td>
-                    <td><input class="layui-input" th:width="20px" type="date" />~<input class="layui-input" type="date" /></td>-->
                     <td><label class="layui-form-label">成立日期:</label></td>
                     <td >
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" name="Dateofestablishment" id="Date_of_establishment" placeholder="请输入时间">
+                                <input type="text" class="layui-input" th:if="${item_sheet != null}" th:value="${item_sheet.Dateofestablishment}" name="Dateofestablishment" id="Date_of_establishment" placeholder="请输入时间">
+                                <input type="text" class="layui-input" th:if="${item_sheet == null}" name="Dateofestablishment"  placeholder="请输入时间(例:2019-06-09)">
                             </div>
                         </div>
                     </td>
-                    <!--<td align="right"><span>到期日期:</span></td>
-                    <td><input class="layui-input" th:width="20px" type="date" />~<input class="layui-input" type="date" /></td>-->
                     <td><label class="layui-form-label">到期日期:</label></td>
                     <td>
                         <div class="layui-inline">
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" name="MaturityDate" id="Maturity_Date" placeholder="请输入时间">
+                                <input type="text" class="layui-input" th:if="${item_sheet != null}" th:value="${item_sheet.MaturityDate}" name="MaturityDate" id="Maturity_Date" placeholder="请输入时间">
+                                <input type="text" class="layui-input" th:if="${item_sheet == null}" name="MaturityDate" placeholder="请输入时间(例:2019-06-09)">
                             </div>
                         </div>
                     </td>
@@ -57,7 +70,11 @@
                 <tr>
                     <td><span>项目来源:</span></td>
                     <td>
-                        <select class="layui-select" name="ChannelID">
+                        <select th:if="${Channel_list!=null}" class="layui-select" name="ChannelID">
+                            <option value="">--请选择--</option>
+                            <option th:each="channellist:${channel_list}" th:selected="${Channel_list.ChannelID} eq ${channellist.ChannelID}" th:value="${channellist.ChannelID}" th:text="${channellist.Corporatename}"></option>
+                        </select>
+                        <select th:if="${Channel_list==null}" class="layui-select" name="ChannelID">
                             <option value="">--请选择--</option>
                             <option th:each="channellist:${channel_list}" th:value="${channellist.ChannelID}" th:text="${channellist.Corporatename}"></option>
                         </select>
@@ -65,8 +82,8 @@
                 </tr>
                 <tr>
                     <td colspan="6" align="center">
-                        <button type="submit" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
-                        <button type="reset" class="layui-btn layui-btn-radius">重置</button>
+                        <button id="sheetsubmit" type="button" class="layui-btn layui-btn-normal layui-btn-radius">查询</button>
+                        <!--<button type="reset" class="layui-btn layui-btn-radius">重置</button>-->
                     </td>
                 </tr>
             </table>
@@ -102,14 +119,13 @@
             <tr th:each="sheet:${page.list}" th:object="${sheet}">
                 <td th:text="*{ItemID}"></td>
                 <td align="center">
-                    <!--<button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>-->
-                    <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}">
+                    <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}" >
                         <i class="layui-icon"></i>
                     </a>
-                    <a th:href="@{XiangMuDelete(itemID=*{ItemID})}">
+                    <a id="deletesheet">
                         <i class="layui-icon"></i>
                     </a>
+                    <input type="hidden" name="ItemID" th:value="*{ItemID}">
 
                 </td>
                 <td th:text="*{ItemtypeID.ItemTypeName}"></td>
@@ -132,12 +148,73 @@
         </table>
 
 
-        <div id="demo7" align="center"></div>
     </div>
 
+    </div>
+    <div id="demo7" align="center"></div>
 
-    <script th:src="@{/layui/layui.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#deletesheet").click(function () {
+                var itemid=$("input[name='ItemID']").val();
+                //console.log(itemid)
+                $.post("/item/XiangMuDelete",{itemID:itemid},function (result) {
+                    //console.log(result)
+                    if (result=="ok"){
+                       layer.confirm('确认删除吗?', {
+                            btn: ['确认','取消'] //按钮
+                        }, function(){
+                            layer.msg("删除成功",{icon:1,time:1000},function () {
+                                location.href="queryByItem_sheet";
+                            })
+                        }, function(){
+                            layer.msg('删除失败', {
+                                time: 1000, //20s后自动关闭
+                            });
+                        });
+                    }else{
+                        layer.msg("删除失败",{icon:1,time:1000},function () {
+                            window.history.back(-1);
+                        })
+                    }
+                })
+
+            });
+
+            $("#sheetsubmit").click(function () {
+                var data = $("#form").serialize();
+                location.href="queryByItem_sheet?"+data;
+                //$("#form").attr("action","/item/queryByItem_sheet?"+data).submit();
+            })
+            //查询ajax开始
+            /*$("button[name='sheetbutton']").click(function () {
+                var data = $("#form").serialize();
+                $.ajax({
+                    type:"get",
+                    url:"queryByItem_sheetAjax",
+                    data:data,
+                    success:function (result) {
+                        $("#tr2").remove();
+                        $.each(result.list,function (i,itemsheet) {
+                            $("#sheettable").append("<tr id='tr2'><td text='"+itemsheet.itemID+"'></td><td align='center'><a th:href='@{XiangMuUpdate(itemid="+itemsheet.itemID+")}'><i class='layui-icon'></i></a><a id='deletesheet'><i class='layui-icon'></i></a><input type='hidden' name='ItemID' value='"+itemsheet.itemID+"'></td><td text='"+itemsheet.itemtypeID.itemTypeName+"'></td> <td text='"+itemsheet.entryname+"'></td><td text='"+itemsheet.projectcode+"'></td><td text='"+itemsheet.projectsizelowercase+"'></td><td text='"+itemsheet.projectduration+"'></td><td text='"+itemsheet.termUnit+"'></td><td text='"+itemsheet.dateofestablishment+"'></td><td text='"+itemsheet.maturityDate+"'></td><td text='"+itemsheet.productclassificationID.productClassificationName+"'></td><td text='"+itemsheet.channeltableID.corporatename+"'></td><td text='"+itemsheet.channeltableID.channeltypeID.channelTypeName+"'></td> <td text='"+itemsheet.sourcedockerA+"'></td><td text='"+itemsheet.sourcedockerB+"'></td><td text='"+itemsheet.sourcedockerC+"'></td><td text='"+itemsheet.productManagerA+"'></td><td text='"+itemsheet.productManagerB+"'></td></tr>");
+                        })
+                    }
+                })
+                /!*$.get("queryByItem_sheet",data,function (result) {
+                    //console.log(result);
+                    $("#tr2").close();
+                    $.each(result,function (i,itemsheet) {
+                        $("#sheettable").append("<tr id='tr2'><td text='"+itemsheet.itemID+"'></td><td align='center'><a th:href='@{XiangMuUpdate(itemid="+itemsheet.itemID+")}'><i class='layui-icon'></i></a><a id='deletesheet'><i class='layui-icon'></i></a><input type='hidden' name='ItemID' value='"+itemsheet.itemID+"'></td><td text='"+itemsheet.itemtypeID.itemTypeName+"'></td> <td text='"+itemsheet.entryname+"'></td><td text='"+itemsheet.projectcode+"'></td><td text='"+itemsheet.projectsizelowercase+"'></td><td text='"+itemsheet.projectduration+"'></td><td text='"+itemsheet.termUnit+"'></td><td text='"+itemsheet.dateofestablishment+"'></td><td text='"+itemsheet.maturityDate+"'></td><td text='"+itemsheet.productclassificationID.productClassificationName+"'></td><td text='"+itemsheet.channeltableID.corporatename+"'></td><td text='"+itemsheet.channeltableID.channeltypeID.channelTypeName+"'></td> <td text='"+itemsheet.sourcedockerA+"'></td><td text='"+itemsheet.sourcedockerB+"'></td><td text='"+itemsheet.sourcedockerC+"'></td><td text='"+itemsheet.productManagerA+"'></td><td text='"+itemsheet.productManagerB+"'></td></tr>");
+                    })
+                })*!/
+            })*/
+        });
+    </script>
+
+
+
     <script>
+
         var total=0;
         var pageNum= 0;
         $(function(){
@@ -151,7 +228,7 @@
                     elem : 'demo7',
                     count : total
                     ,curr: pageNum,
-                    limit:1//每页几个,需要修改
+                    limit:2//每页几个,需要修改
                     ,
                     layout : [ 'count', 'prev', 'page', 'next',  'refresh',
                         'skip', ],
