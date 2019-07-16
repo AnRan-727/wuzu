@@ -23,6 +23,12 @@
                 $(".GongSi").css("display","none");
             }
         })
+        function XiuGai(){
+            var id = $("input[name='id']").val();
+
+            location.href = "toUpdateChannel?id="+id;
+
+        }
 
 
 
@@ -43,7 +49,7 @@
                                 <span th:text="${list.ChanneltypeID.ChannelTypeName}"></span>
                                 <input type="hidden" th:value="${list.ChanneltypeID.ChannelTypeName}" name="ChannelTypeName">
                             </td>
-                            <td>名称</td>
+                            <td>名称 <input type="hidden" name="id" th:value="${list.ChannelID}"></td>
                             <td th:text="${list.Corporatename}"></td>
                         </tr>
                         <tr class="JieShao">
@@ -85,7 +91,7 @@
                                 <td th:text="*{DepartmentalIntroduction}"></td>
                             </tr>
                         </table>
-                        <button type="button" class="layui-btn layui-btn-normal layui-btn-radius">修改</button>
+                        <button type="button" onclick="XiuGai()" class="layui-btn layui-btn-normal layui-btn-radius">修改</button>
                         <button type="button" onclick="window.history.go(-1)" class="layui-btn layui-btn-danger layui-btn-radius">返回</button>
                     </div>
                 </div>
