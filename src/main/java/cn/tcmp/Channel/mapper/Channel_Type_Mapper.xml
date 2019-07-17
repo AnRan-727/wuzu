@@ -36,10 +36,76 @@
     <select id="queryCompany" parameterType="int" resultType="cn.tcmp.entity.Company_departments_list">
         SELECT * FROM company_departments_list WHERE CompanyID = #{id}
     </select>
+    <!--查询单个部门信息-->
+    <select id="queryCompanyById" parameterType="int" resultType="cn.tcmp.entity.Company_departments_list">
+        SELECT * FROM company_departments_list WHERE DepartmentID = #{id}
+    </select>
     <!--新建渠道公司-->
-    <insert id="addChannel" parameterType="cn.tcmp.entity.Channel_list">
-        
+    <insert id="addChannel" parameterType="cn.tcmp.entity.Channel_list" useGeneratedKeys="true" keyProperty="ChannelID">
+        INSERT INTO `channel_list`(ChanneltypeID,CorporateName,introduce,ContactName,ContactTelephone,ContactEmail,DocumentType,IdentificationNumber,Enclosure,CreationDate)
+        VALUES(#{chaId},#{Corporatename},#{introduce},#{ContactName},#{Contacttelephone},#{ContactEmail},#{Documenttype},#{IdentificationNumber},#{Enclosure},NOW())
     </insert>
-
+    <!--新增部门信息-->
+    <insert id="addCompanyDepartmentsList" parameterType="cn.tcmp.entity.Company_departments_list">
+        INSERT INTO `company_departments_list`(CompanyID,DepartmentName,DepartmentalContacts,IntroductionOfDepartmentalContacts,DepartmentalIntroduction)
+        VALUES(#{comId},#{Departmentname},#{DepartmentalContacts},#{IntroductionofDepartmentalContacts},#{DepartmentalIntroduction})
+    </insert>
+    <!--修改渠道公司信息-->
+    <update id="updateChannel" parameterType="cn.tcmp.entity.Channel_list">
+        UPDATE `channel_list` set
+        <if test="chaId != null and chaId !=  ''">
+            ChanneltypeID = #{chaId} ,
+        </if>
+        <if test="Corporatename != null and Corporatename != ''">
+            CorporateName = #{Corporatename},
+        </if>
+        <if test="introduce != null and introduce != ''">
+            introduce = #{introduce},
+        </if>
+        <if test="ContactName != null and ContactName != ''">
+            ContactName = #{ContactName},
+        </if>
+        <if test="Contacttelephone != null and Contacttelephone != ''">
+            Contacttelephone = #{Contacttelephone},
+        </if>
+        <if test="ContactEmail != null and ContactEmail != ''">
+            ContactEmail = #{ContactEmail},
+        </if>
+        <if test="dt != null and dt != ''">
+            Documenttype = #{dt},
+        </if>
+        <if test="IdentificationNumber != null and IdentificationNumber != ''">
+            IdentificationNumber = #{IdentificationNumber},
+        </if>
+        <if test="Enclosure != null and Enclosure != ''">
+            Enclosure = #{Enclosure}
+        </if>
+        where ChannelID = #{ChannelID}
+    </update>
+    <!--修改部门信息-->
+    <update id="updateCompany" parameterType="cn.tcmp.entity.Company_departments_list">
+        UPDATE Company_departments_list set
+        <if test="Departmentname != null and Departmentname != ''">
+            Departmentname = #{Departmentname},
+        </if>
+        <if test="DepartmentalContacts != null and DepartmentalContacts != ''">
+            DepartmentalContacts = #{DepartmentalContacts},
+        </if>
+        <if test="IntroductionofDepartmentalContacts != null and IntroductionofDepartmentalContacts != ''">
+            IntroductionofDepartmentalContacts = #{IntroductionofDepartmentalContacts},
+        </if>
+        <if test="DepartmentalIntroduction != null and DepartmentalIntroduction != ''">
+            DepartmentalIntroduction = #{DepartmentalIntroduction}
+        </if>
+        where DepartmentID = #{DepartmentID}
+    </update>
+    <!--删除公司-->
+    <delete id="deleteChannel" parameterType="int">
+        delete from  channel_list where ChannelID = #{id}
+    </delete>
+    <!--删除部门-->
+    <delete id="deleteCompany" parameterType="int">
+        delete from  company_departments_list where DepartmentID = #{id}
+    </delete>
 
 </mapper>

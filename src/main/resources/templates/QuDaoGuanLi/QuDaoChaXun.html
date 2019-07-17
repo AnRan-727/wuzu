@@ -56,8 +56,8 @@
                                 </tr>
                                 <tr th:each="list:${channel.list}" th:object="${list}">
                                     <td>
-                                        <a href="">修改</a>
-                                        <a href="">删除</a>
+                                        <a th:href="@{toUpdateChannel(id=*{ChannelID})}">修改</a>
+                                        <a th:href="@{doDeleteChannel(id=*{ChannelID})}">删除</a>
                                     </td>
                                     <td th:text="*{ChanneltypeID.ChannelTypeName}"></td>
                                     <td>

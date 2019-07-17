@@ -19,7 +19,6 @@
                 $("input[name='DocumentTypeID']").val(result.documentTypeID);
                 $("#WDNoteDescription").val(result.noteDescription);
                 document.getElementById(result.necessaryToGoOnline).selected=true;
-                alert(result);
             });
 
         }
@@ -54,7 +53,6 @@
                         "NecessaryToGoOnline":NecessaryToGoOnline
                     },function(result){
                         console.log(result);
-                        alert("文档成功");
                     })
                 //修改材料时期
                 var MaterialPeriodName = $("input[name='MaterialPeriodName']").val();
@@ -67,7 +65,6 @@
                         "MaterialPeriodID":MaterialPeriodID
                     },function(result){
                         console.log(result);
-                        alert("材料成功");
                     })
             }
         }

@@ -9,6 +9,7 @@ import lombok.Data;
 public class Company_departments_list{
 	private Integer DepartmentID;
 	private Channel_list CompanyID;//公司ID||渠道ID
+	private Integer comId;
 	private String Departmentname;
 	private String DepartmentalContacts;
 	private String IntroductionofDepartmentalContacts;

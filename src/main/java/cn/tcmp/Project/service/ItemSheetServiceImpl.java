@@ -93,4 +93,9 @@ public class ItemSheetServiceImpl implements ItemSheetService {
         return itemSheetMapper.deleteItem_sheet(itemid);
     }
 
+    @Override
+    public List<Item_sheet> queryItemSheetByTypeId(Integer id) {
+        return itemSheetMapper.queryItemSheetByTypeId(id);
+    }
+
 }

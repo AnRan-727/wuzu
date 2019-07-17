@@ -111,13 +111,7 @@
                     <td align="center" width="200px">
                         <input type="text"  class="layui-input" name="structuretype">
                     </td>
-                    <td align="right">产品分类:</td>
-                    <td align="center" width="200px">
-                        <select name="ProductClassificationID.ProductClassificationID" lay-verify="" class="layui-select">
-                            <option value="">--请选择--</option>
-                            <option th:each="FenLei:${ChanPinXiaLaKuang}" th:value="${FenLei.ProductClassificationID}" th:text="${FenLei.ProductClassificationName}">
-                        </select>
-                    </td>
+
                     <td align="right">销售渠道:</td>
                     <td align="center" width="200px"><input type="text" name="title" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input"></td>
                 </tr>
@@ -172,14 +166,12 @@
                     <td align="center" width="200px">
                         <input type="text" class="layui-input" name="Isitredeemable">
                     </td>
-                    <td align="center" width="100px">产品投向
+                    <td align="center" width="100px">产品投向</td>
+                    <td align="center" width="200px">
                         <select name="ProductsToId.ProductsToId" class="layui-select">
                             <option value="">请选择:</option>
                             <option th:each="TouXiang:${touxiang}" th:value="${TouXiang.ProductsToId}" th:text="${TouXiang.ProductsToName}">
-
                             </option>
-
-
                         </select>
                     </td>
                 </tr>
