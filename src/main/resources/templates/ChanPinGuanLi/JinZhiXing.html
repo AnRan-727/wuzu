@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/Inquiry.css" />
+</head>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+
+</head>
+<body>
+<div align="center">
+    <span><h2>产品管理>净值列表(净值型)</h2></span>
+
+    <br/>
+    <br/>
+
+    </div>
+<div align="center">
+<form action="">
+    <div>
+    </div>
+</form>
+</div>
+    <div>
+    <table class="layui-table" border="1" align="center">
+        <tr>
+            <td>净值</td>
+            <td>累计净值</td>
+            <td>估值日期</td>
+            <td>操作人</td>
+            <td>操作日期</td>
+        </tr>
+        <tr th:each="NetValue:${list}" th:object="${NetValue}">
+            <td th:text="*{NetWorth}"></td>
+            <td th:text="*{CumulativeNetWorth}"></td>
+            <td th:text="*{ValuationDate}"></td>
+            <td th:text="*{OperatorID}"></td>
+            <td th:text="*{OperatingDate}"></td>
+        </tr>
+
+
+
+        <div id="demo7" align="center"></div>
+    </table>
+        <br/>
+        <br/>
+    </div>
+<script th:src="@{/layui/layui.js}"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+
+<script src="//res.layui.com/layui/dist/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#test6'
+            ,range: true
+        });
+    });
+</script>
+</body>
+
+</html>

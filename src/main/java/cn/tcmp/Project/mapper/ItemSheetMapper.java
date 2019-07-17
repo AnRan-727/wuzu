@@ -35,12 +35,15 @@ public interface ItemSheetMapper {
     //查询收益分配方式(下拉框)
     @Select("SELECT * FROM Distribution_of_income")
     List<Distribution_of_income> queryDistribution_of_income();
+    //根据项目类型查询项目
+    List<Item_sheet> queryItemSheetByTypeId(Integer id);
+
     //查询收益分配频度(下拉框)
     @Select("select * from Frequency_of_income_distribution")
     List<Frequency_of_income_distribution> queryFrequency_of_income_distribution();
     //查询资产管理报告频度(下拉框)
-    @Select("select * from Asset_management_report")
-    List<Asset_management_report> queryAsset_management_report();
+    //@Select("select * from Asset_management_report")
+    //List<Asset_management_report> queryAsset_management_report();
     //查询项目来源方部门(下拉框)
     List<Company_departments_list> queryCompany_departments_list();
     //新建项目

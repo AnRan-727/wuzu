@@ -24,7 +24,25 @@ public interface Channel_Type_Mapper {
     //查询该渠道(公司)下的部门
     List<Company_departments_list> queryCompany(Integer id);
 
+    //查询单个部门信息
+    Company_departments_list queryCompanyById(Integer id);
+
     //新建渠道&公司
     int addChannel(Channel_list channel_list);
+
+    //新增部门信息
+    int addCompanyDepartmentsList(Company_departments_list company_departments_list);
+
+    //修改渠道&公司
+    int updateChannel(Channel_list channel_list);
+
+    //修改部门信息
+    int updateCompany(Company_departments_list company_departments_list);
+
+    //删除渠道公司
+    int deleteChannel(Integer id);
+
+    //删除公司部门
+    int deleteCompany(Integer id);
 
 }

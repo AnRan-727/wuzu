@@ -3,13 +3,14 @@ package cn.tcmp.entity;
 import lombok.Data;
 
 /**
- * asset_management_report  generated at 2019-06-27 15:55:25 by: eric
+ * Created by IntelliJ IDEA.
+ * User: AnRan
+ * Date: 2019/7/12
  */
 @Data
-public class Asset_management_report{
-	private int amrID;
-	private String amrName;
+public class Asset_management_report {
 
-
+    private Integer amrID;
+    private String amrName;
 
 }

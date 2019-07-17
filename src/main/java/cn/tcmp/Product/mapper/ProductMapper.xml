@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcmp.Product.mapper.ProductMapper">
+    <resultMap id="productMap" type="Product_list" autoMapping="true">
+        <id property="ProductID" column="ProductID"></id>
+        <association property="ProductsToId" javaType="Product_investment" autoMapping="true">
+            <id property="ProductsToId" column="ProductsToId"></id>
+        </association>
+        <association  property="Incometype" javaType="Income_type_statement" autoMapping="true">
+            <id property="IncomeTypeID" column="IncomeTypeID"></id>
+        </association>
+        <association property="ItemID" javaType="Item_sheet" autoMapping="true">
+            <id property="ItemID" column="ItemID"></id>
+            <association property="ItemtypeID" javaType="Item_type_table" autoMapping="true">
+                <id property="ItemTypeID" column="ItemTypeID"></id>
+            </association>
+        </association>
+    </resultMap>
+    <resultMap id="paMap" type="cn.tcmp.entity.Product_Accessories" autoMapping="true">
+        <id property="productAccessoriesID" column="productAccessoriesID"></id>
+        <association property="product_list" resultMap="productMap"></association>
+    </resultMap>
+    <!--查询单个产品下的所有附件-->
+    <select id="queryAllProductAccessories" resultMap="paMap" parameterType="cn.tcmp.entity.Product_Accessories">
+        SELECT * FROM `product_accessories` pa , product_list pl
+        WHERE pa.`productID` = pl.`ProductID`
+        AND pa.`productID` = #{product_list.ProductID}
+        AND pa.`documentType` LIKE CONCAT('%',#{documentType},'%')
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            and pa.uploadDate BETWEEN #{startTime} and #{endTime}
+        </if>
+    </select>
+    <!--新建附件-->
+    <insert id="addProductAccessories" parameterType="cn.tcmp.entity.Product_Accessories">
+        INSERT INTO `product_accessories`(productAccessoriesName,documentType,productAccessoriesExplain,founder,uploadDate,documentSize,productID,productAccessoriesPath)
+        VALUES(#{productAccessoriesName},#{documentType},#{productAccessoriesExplain},'刘银龙',NOW(),'12KB',#{product_list.ProductID},#{productAccessoriesPath})
+    </insert>
+    <!--修改附件-->
+    <update id="updateProductAccessories" parameterType="cn.tcmp.entity.Product_Accessories">
+        UPDATE `product_accessories` SET productAccessoriesExplain = #{productAccessoriesExplain}
+        WHERE productAccessoriesID = #{productAccessoriesID}
+    </update>
+    <!--附件详情-->
+    <select id="detailProductAccessories" parameterType="int" resultMap="paMap">
+        SELECT * FROM `product_accessories` WHERE productAccessoriesID = #{id}
+    </select>
+    <!--删除附件-->
+    <delete id="deleteProductAccessories" parameterType="int">
+        delete from `product_accessories` WHERE productAccessoriesID = #{id}
+    </delete>
+    <select id="queryAll" parameterType="product_list" resultMap="productMap">
+
+        SELECT * FROM product_list pl ,item_sheet its,item_type_table itt,product_investment pin,income_type_statement itst
+        WHERE pl.`ItemID` = its.`ItemID`
+        AND its.`ItemTypeID` = itt.`ItemTypeID`
+        AND pl.`ProductsToId` = pin.`ProductsToId`
+        AND pl.`IncomeType` = itst.`IncomeTypeID`
+<if test="ProductCode!='' and ProductCode!=null">
+    and pl.ProductCode like concat('%',#{ProductCode},'%')
+</if>
+<if test="ProductName!='' and ProductName!=null">
+    and  pl.ProductName like concat('%',#{ProductName},'%')
+</if>
+    </select>
+    
+   <insert id="addProduct" parameterType="cn.tcmp.entity.Product_list">
+   INSERT INTO `product`.`product_list` (
+  `ItemID`,
+  `ProductCode`,
+  `ProductName`,
+  `ProductsToId`,
+  `Distributionchannel`,
+  `structuretype`,
+  `Contractprefix`,
+  `ProductRiskLevel`,
+  `SuitableforCustomerRiskLevel`,
+  `ProductDescription`,
+  `Remarks`,
+  `Incometype`,
+  `Incomedistributioncycle`,
+  `ProfitDistributionDescription`,
+  `Opencycle`,
+  `OpenPeriodDescription`,
+  `Closureperiod`,
+  `Closedperiodunit`,
+  `Isitredeemable`,
+  `RedemptionRate`,
+  `RedemptionRestriction`,
+  `IsAdditionPermissible`,
+  `OperationsManagerA`,
+  `OperationsManagerB`
+)
+VALUES
+  (
+    #{ItemID.ItemID},
+    #{ProductCode},
+    #{ProductName},
+    #{ProductsToId.ProductsToId},
+    #{Distributionchannel},
+    #{structuretype},
+    #{Contractprefix},
+    #{ProductRiskLevel},
+    #{SuitableforCustomerRiskLevel},
+    #{ProductDescription},
+    #{Remarks},
+    #{Incometype.IncomeTypeID},
+    #{Incomedistributioncycle},
+    #{ProfitDistributionDescription},
+    #{Opencycle},
+    #{OpenPeriodDescription},
+    #{Closureperiod},
+    #{Closedperiodunit},
+    #{Isitredeemable},
+    #{RedemptionRate},
+    #{RedemptionRestriction},
+    #{IsAdditionPermissible},
+    #{OperationsManagerA},
+    #{OperationsManagerB}
+  );
+   </insert>
+    <select id="queryXiaLaKuang" resultType="Item_type_table">
+        SELECT * FROM `item_type_table`
+    </select>
+    <select id="queryChanPinXiaLaKuang" resultType="Product_classification_table">
+        SELECT * FROM `product_classification_table`
+    </select>
+
+    <select id="ShouYiLeiXing" resultType="Income_type_statement">
+        SELECT * FROM `income_type_statement`
+    </select>
+    <select id="TouXiangXiaLaKuang" resultType="Product_investment">
+        SELECT * FROM `product_investment`
+    </select>
+
+    <update id="updateProduct" parameterType="Product_list">
+        UPDATE
+  `product`.`product_list`
+SET
+  `ProductCode` = #{ProductCode},
+  `ProductName` = #{ProductName},
+  `ProductsToId` = #{ProductsToId.ProductsToId},
+  `Distributionchannel` = #{Distributionchannel},
+  `structuretype` = #{structuretype},
+  `Contractprefix` = #{Contractprefix},
+  `ProductRiskLevel` = #{ProductRiskLevel},
+  `SuitableforCustomerRiskLevel` = #{SuitableforCustomerRiskLevel},
+  `ProductDescription` = #{ProductDescription},
+  `Remarks` = #{Remarks},
+  `Incometype` = #{Incometype.IncomeTypeID},
+  `Incomedistributioncycle` = #{Incomedistributioncycle},
+  `ProfitDistributionDescription` = #{ProfitDistributionDescription},
+  `Opencycle` = #{Opencycle},
+  `OpenPeriodDescription` = #{OpenPeriodDescription},
+  `Closureperiod` = #{Closureperiod},
+  `Closedperiodunit` = #{Closedperiodunit},
+  `Isitredeemable` = #{Isitredeemable},
+  `RedemptionRate` = #{RedemptionRate},
+  `RedemptionRestriction` = #{RedemptionRestriction},
+  `IsAdditionPermissible` = #{IsAdditionPermissible},
+  `OperationsManagerA` = #{OperationsManagerA},
+  `OperationsManagerB` = #{OperationsManagerB}
+WHERE `ProductID` = #{ProductID}
+    </update>
+
+
+    <select id="detailProduct" parameterType="integer" resultMap="productMap">
+       SELECT * FROM product_list pl ,item_sheet its,item_type_table itt,product_investment pin,income_type_statement itst
+        WHERE pl.`ItemID` = its.`ItemID`
+        AND its.`ItemTypeID` = itt.`ItemTypeID`
+        AND pl.`ProductsToId` = pin.`ProductsToId`
+        AND pl.`IncomeType` = itst.`IncomeTypeID`
+        AND pl.`ProductID` = #{ProductID}
+    </select>
+
+
+    <delete id="deleteProduct" parameterType="Integer">
+     DELETE FROM `product`.`product_list`
+WHERE `ProductID` = #{ProductID};
+    </delete>
+    <!--查询最大的产品代码-->
+    <select id="queryMaxProductCode" resultMap="productMap">
+        SELECT MAX(ProductCode) ProductCode FROM `product_list`
+    </select>
+</mapper>

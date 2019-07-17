@@ -10,8 +10,8 @@ import lombok.Data;
  * 产品表
  * */
 public class Product_list{
-	private int ProductID;
-	private Product_classification_table ProductClassificationID;//产品分类ID
+	private Integer ProductID;
+	//private Product_classification_table ProductClassificationID;//产品分类ID
 	private Item_sheet ItemID;//项目ID
 	private String ProductCode;
 	private String ProductName;
@@ -24,7 +24,7 @@ public class Product_list{
 	private String SuitableforCustomerRiskLevel;
 	private String ProductDescription;
 	private String Remarks;
-	private Income_type_statement Incometype;//收益类型ID
+	private Income_type_statement Incometype;
 	private String Incomedistributioncycle;
 	private String ProfitDistributionDescription;
 	private String Opencycle;
@@ -35,8 +35,8 @@ public class Product_list{
 	private String RedemptionRate;
 	private String RedemptionRestriction;
 	private String IsAdditionPermissible;
-	private int OperationsManagerA;
-	private int OperationsManagerB;
+	private String OperationsManagerA;
+	private String OperationsManagerB;
 
 
 

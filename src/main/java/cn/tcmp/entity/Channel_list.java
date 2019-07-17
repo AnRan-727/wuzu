@@ -24,6 +24,7 @@ public class Channel_list{
 	private String Contacttelephone;
 	private String ContactEmail;
 	private String Documenttype;
+	private String dt;
 	private String IdentificationNumber;
 	private String Enclosure;
 	private Date CreationDate;

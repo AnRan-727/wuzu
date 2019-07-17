@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <script th:src="@{/js/jquery-1.12.4.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
 <title>Title</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -102,14 +103,14 @@
             <tr th:each="sheet:${page.list}" th:object="${sheet}">
                 <td th:text="*{ItemID}"></td>
                 <td align="center">
-                    <!--<button onclick="window.location.href='XiangMuUpdate'" type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>
-                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon"></i></button>-->
-                    <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}">
+                    <a th:href="@{XiangMuUpdate(itemid=*{ItemID})}" >
                         <i class="layui-icon"></i>
                     </a>
-                    <a th:href="@{XiangMuDelete(itemID=*{ItemID})}">
+                    <a id="deletesheet">
                         <i class="layui-icon"></i>
                     </a>
+                    <input type="hidden" name="ItemID" th:value="*{ItemID}">
+
 
                 </td>
                 <td th:text="*{ItemtypeID.ItemTypeName}"></td>
@@ -134,9 +135,37 @@
 
         <div id="demo7" align="center"></div>
     </div>
+    
 
+   
+    <script type="text/javascript">
+        $(function () {
+            $("#deletesheet").click(function () {
+                var itemid=$("input[name='ItemID']").val();
+                //console.log(itemid)
+                $.post("/item/XiangMuDelete",{itemID:itemid},function (result) {
+                    //console.log(result)
+                    if (result=="ok"){
+                       layer.confirm('确认删除吗?', {
+                            btn: ['确认','取消'] //按钮
+                        }, function(){
+                            layer.msg("删除成功",{icon:1,time:1000},function () {
+                                location.href="queryByItem_sheet";
+                            })
+                        }, function(){
+                            layer.msg('删除失败', {
+                                time: 1000, //20s后自动关闭
+                            });
+                        });
+                    }else{
+                        layer.msg("删除失败",{icon:1,time:1000},function () {
+                            window.history.back(-1);
+                        })
+                    }
+                })
 
-    <script th:src="@{/layui/layui.js}"></script>
+            });
+    </script>
     <script>
         var total=0;
         var pageNum= 0;

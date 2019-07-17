@@ -32,7 +32,7 @@
                                     <td><input type="text" name="Corporatename" th:value="${chlist.Corporatename}" lay-verify="title" autocomplete="off" placeholder="输入文本" class="layui-input"></td>
                                     <td>渠道类型</td>
                                     <td>
-                                        <select name="chaId" class="layui-select">
+                                        <select name="chaId" class="layui-input">
                                             <option disabled selected id="QingXuanZe">---请选择---</option>
                                                 <option th:each="dict : ${type}" th:value="${dict.ChannelTypeID}" th:text="${dict.ChannelTypeName }">
                                         </select>
@@ -56,8 +56,8 @@
                                 </tr>
                                 <tr th:each="list:${channel.list}" th:object="${list}">
                                     <td>
-                                        <a href="">修改</a>
-                                        <a href="">删除</a>
+                                        <a th:href="@{toUpdateChannel(id=*{ChannelID})}">修改</a>
+                                        <a th:href="@{doDeleteChannel(id=*{ChannelID})}">删除</a>
                                     </td>
                                     <td th:text="*{ChanneltypeID.ChannelTypeName}"></td>
                                     <td>
