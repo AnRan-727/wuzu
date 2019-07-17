@@ -216,7 +216,7 @@
                     <td align="center" width="200px">
                         <select name="amrID.amrID" lay-verify="" class="layui-select">
                             <option value="">--请选择--</option>
-                            <option th:each="amr:${Asset_management_report}" th:selected="${islist.amrID} eq ${amr.amrID}" th:value="${amr.amrID}" th:text="${amr.amrName}"></option>
+                            <option th:each="amr:${Asset_management_report}" th:selected="${islist.amrID.amrID} eq ${amr.amrID}" th:value="${amr.amrID}" th:text="${amr.amrName}"></option>
                         </select>
                     </td>
                     <td align="right">融资方:</td>
@@ -327,7 +327,7 @@
                 <tr>
                     <!--<td>操作</td>-->
                     <td>项目类型</td>
-                    <td>产品分类</td>
+                    <!--<td>产品分类</td>-->
                     <td>产品代码</td>
                     <td>产品名称</td>
                     <td>销售渠道</td>
@@ -349,7 +349,7 @@
                         </a>
                     </td>-->
                     <td th:text="*{ItemID.ItemtypeID.ItemTypeName}"></td>
-                    <td th:text="*{ProductClassificationID.ProductClassificationName}"></td>
+                    <!--<td th:text="*{ProductClassificationID.ProductClassificationName}"></td>-->
                     <td th:text="*{ProductCode}"></td>
                     <td th:text="*{ProductName}"></td>
                     <td th:text="*{Distributionchannel}"></td>

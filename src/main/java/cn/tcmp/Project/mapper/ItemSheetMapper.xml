@@ -25,6 +25,9 @@
         <association property="IncomeDistributionFrequencyID" javaType="Frequency_of_income_distribution" autoMapping="true">
             <id property="IncomeDistributionFrequencyID" column="IncomeDistributionFrequencyID"></id>
         </association>
+        <association property="amrID" javaType="Asset_management_report" autoMapping="true">
+            <id property="amrID" column="amrID"></id>
+        </association>
         <collection property="ItemtypeID" resultMap="ItemttMap"></collection>
     </resultMap>
     <resultMap id="cdlMap" type="Company_departments_list" autoMapping="true">
