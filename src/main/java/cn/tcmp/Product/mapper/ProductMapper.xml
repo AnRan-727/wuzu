@@ -22,6 +22,8 @@
         <id property="productAccessoriesID" column="productAccessoriesID"></id>
         <association property="product_list" resultMap="productMap"></association>
     </resultMap>
+
+
     <!--附件表开始-->
     <resultMap id="fujianMap" type="Attached_table" autoMapping="true">
         <id property="AttachedID" column="AttachedID"></id>
@@ -53,6 +55,13 @@ WHERE AttachedID = #{AttachedID}
         DELETE FROM product.attached_table WHERE AttachedID = #{AttachedID}
     </delete>
     <!--附件表结束-->
+
+
+
+
+
+
+
     <!--查询单个产品下的所有附件-->
     <select id="queryAllProductAccessories" resultMap="paMap" parameterType="cn.tcmp.entity.Product_Accessories">
         SELECT * FROM `product_accessories` pa , product_list pl
@@ -95,7 +104,14 @@ WHERE AttachedID = #{AttachedID}
     and  pl.ProductName like concat('%',#{ProductName},'%')
 </if>
     </select>
-    
+
+
+
+
+
+
+
+
    <insert id="addProduct" parameterType="cn.tcmp.entity.Product_list">
    INSERT INTO `product`.`product_list` (
   `ItemID`,
