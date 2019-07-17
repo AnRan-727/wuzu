@@ -1,6 +1,7 @@
 package cn.tcmp.Product.controller;
 
 import cn.tcmp.Product.service.ProductService;
+import cn.tcmp.entity.Attached_table;
 import cn.tcmp.entity.Item_sheet;
 import cn.tcmp.entity.Item_type_table;
 import cn.tcmp.entity.Product_list;
@@ -8,14 +9,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("product")
 public class ProductController {
     @Resource
     private ProductService productService;
+    //ajax查询所有附件信息
+    @RequestMapping("queryFuJian")
+    @ResponseBody
+    public List<Attached_table> queryFuJian(String AttachmentName, Model model){
+        List<Attached_table> list=productService.queryAllFuJian(AttachmentName);
+        return list;
+    }
 
     @RequestMapping(value = "queryAll", method = RequestMethod.GET)
     public String queryAll(Product_list product_list, Integer pageNum, Integer pageSize, Model model) {
