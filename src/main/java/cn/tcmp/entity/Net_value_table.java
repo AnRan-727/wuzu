@@ -18,7 +18,7 @@ import java.sql.*;
 public class Net_value_table{
 	private int NetWorthID;//净值id
 	private Product_list ProductID = new Product_list();//产品ID
-	private Income_type_statement IncomeTypeID;//收益类型ID
+	private Income_type_statement IncomeTypeID = new Income_type_statement();//收益类型ID
 	private String SetUpBatch;//成立批次
 	private String NetWorth;//净值
 	private String CumulativeNetWorth;//累计净值

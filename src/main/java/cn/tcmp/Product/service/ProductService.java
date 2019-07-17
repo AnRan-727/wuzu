@@ -8,6 +8,20 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface ProductService {
+
+
+    //查询所有附件信息
+    List<Attached_table> queryAllFuJian(String AttachmentName);
+    //查询附件信息详情
+    Attached_table detailFuJian(Integer AttachedID);
+    //修改附件
+    Integer updateFuJian(Attached_table Attached_table);
+    //删除附件
+    Integer deleteFuJian(Integer AttachedID);
+
+
+
+
     //查询产品
     PageInfo<Product_list> queryAll(Product_list product_list, Integer pageNum,Integer pageSize);
 
